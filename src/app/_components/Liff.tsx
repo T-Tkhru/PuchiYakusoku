@@ -12,35 +12,13 @@ export const Liff: FC = () => {
     const getProfile = async () => {
       try {
         if (!liff) return;
-        const idToken = liff.getIDToken();
-        setIDToken(idToken ?? "IDTokenなし");
-        if (!idToken) {
-          console.error("ID Token is null");
-          return;
-        }
-
-        const response = await fetch("https://api.line.me/oauth2/v2.1/verify", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: JSON.stringify({
-            id_token: idToken,
-            client_id: "2006950774",
-          }),
-        });
-
-        if (!response.ok) {
-          console.error("Failed to fetch profile:", response.statusText);
-          return;
-        }
-
-        const data = await response.json();
-        console.log("Profile data:", data);
-        setName(data.name ?? "Unknown");
+        const profile = await liff.getProfile();
+        setName(profile.displayName);
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        alert(error);
+        console.error(error);
       }
+
     };
 
     getProfile();
