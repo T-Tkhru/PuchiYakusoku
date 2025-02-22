@@ -8,7 +8,7 @@ import { auth } from "../auth/[...nextauth]/auth";
 
 const app = new Hono().basePath("/api");
 
-const route = app.get("/userProfile", async (c) => {
+app.get("/userProfile", async (c) => {
   const session = await auth();
   // const name = session?.user?.name ?? "John Doe";
   console.log(session?.user);
@@ -23,4 +23,4 @@ app.use("*", verifyAuth());
 
 export const GET = handle(app);
 export const POST = handle(app);
-export type AppType = typeof route;
+// export type AppType = typeof route;

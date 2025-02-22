@@ -24,7 +24,7 @@ export const useUserData = () => {
     };
 
     getProfile();
-  }, []);
+  }, [setUser]);
 
   return { user };
 };

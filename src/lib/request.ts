@@ -1,8 +1,10 @@
 import { UserSimpleProfile, UserSimpleProfileSchema } from "./type";
 
+
 export const baseUri = (): string => {
   const isServer = typeof window === "undefined";
   if (isServer) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { headers } = require("next/headers");
     const host = headers().get("host");
     const protocol = process?.env.NODE_ENV === "development" ? "http" : "https";
