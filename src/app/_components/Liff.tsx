@@ -2,6 +2,7 @@
 
 import { useGlobalContext } from "@/hooks/useGlobalContext";
 import { FC, useEffect, useState } from "react";
+import { Button, VStack, Text } from "@yamada-ui/react";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
@@ -18,25 +19,23 @@ export const Liff: FC = () => {
         alert(error);
         console.error(error);
       }
-
     };
 
     getProfile();
   }, [liff]);
 
   return (
-    <div>
-      <h2>create-liff-app</h2>
-      {liff && <p>LIFF init succeeded.</p>}
+    <VStack>
+      {liff && <Text>LIFF init succeeded.</Text>}
       {liffError && (
         <>
-          <p>LIFF init failed.</p>
-          <p>
+          <Text>LIFF init failed.</Text>
+          <Text>
             <code>{liffError}</code>
-          </p>
+          </Text>
         </>
       )}
-      <button
+      <Button
         onClick={() => {
           if (!liff) return;
           liff.login();
@@ -47,8 +46,8 @@ export const Liff: FC = () => {
         }}
       >
         liffログイン
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           if (!liff) return;
           liff
@@ -68,8 +67,8 @@ export const Liff: FC = () => {
         }}
       >
         send messages
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           if (!liff) return;
           liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
@@ -105,16 +104,9 @@ export const Liff: FC = () => {
         }}
       >
         shareTargetPicker
-      </button>
-      <a
-        href="https://developers.line.biz/ja/docs/liff/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        LIFF Documentation
-      </a>
-      <p>{name}</p>
-      <p>{IDToken}</p>
-    </div>
+      </Button>
+      <Text>{name}</Text>
+      <Text>{IDToken}</Text>
+    </VStack>
   );
 };

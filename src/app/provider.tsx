@@ -1,5 +1,6 @@
 "use client";
 
+import { UIProvider } from "@yamada-ui/react";
 import { GlobalContext } from "@/contexts/GlobalContext";
 import { Liff } from "@line/liff";
 import { useEffect, useState } from "react";
@@ -33,8 +34,12 @@ export default function LIFFTemplate({
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ liff: liffObject, liffError: liffError }}>
-      <div>{children}</div>
-    </GlobalContext.Provider>
+    <UIProvider>
+      <GlobalContext.Provider
+        value={{ liff: liffObject, liffError: liffError }}
+      >
+        <div>{children}</div>
+      </GlobalContext.Provider>
+    </UIProvider>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import "./globals.css";
+
 import LIFFTemplate from "./provider";
 
 export default function RootLayout({
