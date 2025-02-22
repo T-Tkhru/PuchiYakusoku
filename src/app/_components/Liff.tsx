@@ -5,7 +5,7 @@ import { FC, useEffect, useState } from "react";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("ユーザーデータなし");
 
   useEffect(() => {
     const getProfile = async () => {
@@ -20,12 +20,11 @@ export const Liff: FC = () => {
         const response = await fetch("https://api.line.me/oauth2/v2.1/verify", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
+            "Content-Type": "application/x-www-form-urlencoded",
           },
           body: JSON.stringify({
             id_token: idToken,
-            client_id: "U07804dd37802a76aaacd85051d2f3780",
+            client_id: "2006950774",
           }),
         });
 
