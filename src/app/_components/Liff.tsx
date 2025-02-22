@@ -6,12 +6,14 @@ import { FC, useEffect, useState } from "react";
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
   const [name, setName] = useState<string>("ユーザーデータなし");
+  const [IDToken, setIDToken] = useState<string>("IDTokenなし");
 
   useEffect(() => {
     const getProfile = async () => {
       try {
         if (!liff) return;
         const idToken = liff.getIDToken();
+        setIDToken(idToken ?? "IDTokenなし");
         if (!idToken) {
           console.error("ID Token is null");
           return;
@@ -64,6 +66,7 @@ export const Liff: FC = () => {
         LIFF Documentation
       </a>
       <p>{name}</p>
+      <p>{IDToken}</p>
     </div>
   );
 };
