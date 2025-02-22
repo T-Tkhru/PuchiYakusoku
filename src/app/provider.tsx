@@ -4,6 +4,7 @@ import { UIProvider } from "@yamada-ui/react";
 import { GlobalContext } from "@/contexts/GlobalContext";
 import { Liff } from "@line/liff";
 import { useEffect, useState } from "react";
+import { theme } from "@/app/theme";
 
 export default function LIFFTemplate({
   children,
@@ -34,7 +35,7 @@ export default function LIFFTemplate({
   }, []);
 
   return (
-    <UIProvider>
+    <UIProvider theme={theme}>
       <GlobalContext.Provider
         value={{ liff: liffObject, liffError: liffError }}
       >
