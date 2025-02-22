@@ -44,6 +44,8 @@ const eslintConfig = [
           "import/no-default-export": "off",
           "import/prefer-default-export": "error",
           "@typescript-eslint/naming-convention": "off",
+          "@typescript-eslint/no-unused-vars": "off",
+          "@typescript-eslint/no-require-imports": "off",
         },
       },
     ],

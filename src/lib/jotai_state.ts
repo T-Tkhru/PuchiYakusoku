@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+
 import { UserProfile, UserSimpleProfile } from "./type";
 
 export const userState = atom<UserProfile | null>(null);

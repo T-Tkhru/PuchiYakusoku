@@ -1,7 +1,7 @@
 "use client";
 
 
-import LIFFTemplate from "./provider";
+import { LIFFTemplate } from "./provider";
 
 export default function RootLayout({
   children,

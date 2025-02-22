@@ -1,16 +1,12 @@
-import {
-  UserProfile,
-  UserSimpleProfile,
-  UserSimpleProfileSchema,
-} from "./type";
+import { UserSimpleProfile, UserSimpleProfileSchema } from "./type";
 
-export const baseURI = (): string => {
+export const baseUri = (): string => {
   const isServer = typeof window === "undefined";
   if (isServer) {
     const { headers } = require("next/headers");
     const host = headers().get("host");
-    const protocal = process?.env.NODE_ENV === "development" ? "http" : "https";
-    return `${protocal}://${host}`;
+    const protocol = process?.env.NODE_ENV === "development" ? "http" : "https";
+    return `${protocol}://${host}`;
   } else {
     return "";
   }
@@ -39,7 +35,7 @@ export const baseURI = (): string => {
 
 export const fetchUserSimple = async (): Promise<UserSimpleProfile | Error> => {
   try {
-    const response = await fetch(`${baseURI()}/api/userProfile`, {
+    const response = await fetch(`${baseUri()}/api/userProfile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

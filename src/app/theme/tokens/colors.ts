@@ -1,4 +1,4 @@
-import { ThemeTokens, generate } from "@yamada-ui/react";
+import { generate,ThemeTokens } from "@yamada-ui/react";
 
 export const colors: ThemeTokens = {
   teal: generate.tones("#6AC1B7"),

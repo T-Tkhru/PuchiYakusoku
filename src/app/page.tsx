@@ -1,21 +1,23 @@
 "use client";
 
-import { Liff } from "./_components/Liff";
 import {
   Box,
   Button,
   Container,
   Heading,
-  VStack,
   HStack,
   SegmentedControl,
   SegmentedControlButton,
+  VStack,
 } from "@yamada-ui/react";
-import { Header } from "./_components/Header";
 import { signIn } from "next-auth/react";
+
 import { useUserData } from "@/hooks/useUserData";
-import { UserCard } from "./_components/Card";
 import { exampleUser } from "@/lib/mockData";
+
+import { UserCard } from "./_components/Card";
+import { Header } from "./_components/Header";
+import { Liff } from "./_components/Liff";
 
 export default function Home() {
   const { user } = useUserData();

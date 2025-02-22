@@ -1,9 +1,10 @@
 "use client";
 
-import { fetchUserSimple } from "@/lib/request";
-import { useEffect, useState } from "react";
-import { userSimpleState } from "@/lib/jotai_state";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
+
+import { userSimpleState } from "@/lib/jotai_state";
+import { fetchUserSimple } from "@/lib/request";
 
 export const useUserData = () => {
   const [user, setUser] = useAtom(userSimpleState);

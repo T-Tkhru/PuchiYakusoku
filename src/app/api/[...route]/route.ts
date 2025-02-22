@@ -1,14 +1,10 @@
-import { Hono } from "hono";
-
-import { handle } from "hono/vercel";
-import { auth } from "../auth/[...nextauth]/auth";
-
 import { authHandler, verifyAuth } from "@hono/auth-js";
-import {
-  UserProfile,
-  UserSimpleProfile,
-  UserSimpleProfileSchema,
-} from "@/lib/type";
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
+
+import { UserSimpleProfile } from "@/lib/type";
+
+import { auth } from "../auth/[...nextauth]/auth";
 
 const app = new Hono().basePath("/api");
 

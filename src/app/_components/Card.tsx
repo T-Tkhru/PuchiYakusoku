@@ -1,5 +1,6 @@
-import { UserSimpleProfile } from "@/lib/type";
 import { Avatar, Card, CardBody, Text, VStack } from "@yamada-ui/react";
+
+import { UserSimpleProfile } from "@/lib/type";
 
 interface CardProps {
   user: UserSimpleProfile;

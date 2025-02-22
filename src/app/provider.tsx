@@ -1,16 +1,13 @@
 "use client";
 
-import { UIProvider } from "@yamada-ui/react";
-import { GlobalContext } from "@/contexts/GlobalContext";
 import { Liff } from "@line/liff";
+import { UIProvider } from "@yamada-ui/react";
 import { useEffect, useState } from "react";
-import { theme } from "@/app/theme";
 
-export default function LIFFTemplate({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { theme } from "@/app/theme";
+import { GlobalContext } from "@/contexts/GlobalContext";
+
+export const LIFFTemplate = ({ children }: { children: React.ReactNode }) => {
   const [liffObject, setLiffObject] = useState<Liff | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
 
@@ -43,4 +40,4 @@ export default function LIFFTemplate({
       </GlobalContext.Provider>
     </UIProvider>
   );
-}
+};

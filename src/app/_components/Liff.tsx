@@ -1,13 +1,14 @@
 "use client";
 
-import { useGlobalContext } from "@/hooks/useGlobalContext";
+import { Button, Text, VStack } from "@yamada-ui/react";
 import { FC, useEffect, useState } from "react";
-import { Button, VStack, Text } from "@yamada-ui/react";
+
+import { useGlobalContext } from "@/hooks/useGlobalContext";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
   const [name, setName] = useState<string>("ユーザーデータなし");
-  const [IDToken, setIDToken] = useState<string>("IDTokenなし");
+  const [IDToken] = useState<string>("IDTokenなし");
 
   useEffect(() => {
     const getProfile = async () => {
