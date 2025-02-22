@@ -48,6 +48,37 @@ export const Liff: FC = () => {
       >
         liffログイン
       </button>
+      <button
+        onClick={() => {
+          if (!liff) return;
+          liff
+            .shareTargetPicker(
+              [
+                {
+                  type: "text",
+                  text: "Hello, World!",
+                },
+              ],
+              {
+                isMultiple: true,
+              }
+            )
+            .then(function (res) {
+              if (res) {
+                // succeeded in sending a message through TargetPicker
+                console.log(`[${res.status}] Message sent!`);
+              } else {
+                // sending message canceled
+                console.log("TargetPicker was closed!");
+              }
+            })
+            .catch(function (error) {
+              console.log("something wrong happen");
+            });
+        }}
+      >
+        shareTargetPicker
+      </button>
       <a
         href="https://developers.line.biz/ja/docs/liff/"
         target="_blank"
