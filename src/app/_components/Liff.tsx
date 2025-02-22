@@ -44,7 +44,7 @@ export const Liff: FC = () => {
     };
 
     getProfile();
-  }, [liff]); // liff が変わるたびに実行
+  }, [liff]);
 
   return (
     <div>
@@ -58,6 +58,18 @@ export const Liff: FC = () => {
           </p>
         </>
       )}
+      <button
+        onClick={() => {
+          if (!liff) return;
+          liff.login();
+          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
+            liff.getIDToken();
+            console.log("liff login");
+          });
+        }}
+      >
+        liffログイン
+      </button>
       <a
         href="https://developers.line.biz/ja/docs/liff/"
         target="_blank"
