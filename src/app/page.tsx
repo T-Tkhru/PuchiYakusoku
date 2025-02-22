@@ -1,11 +1,13 @@
 "use client";
 
+import { BoneIcon } from "@yamada-ui/lucide";
 import {
   Box,
   Button,
   Container,
   Heading,
   HStack,
+  IconButton,
   SegmentedControl,
   SegmentedControlButton,
   VStack,
@@ -42,6 +44,11 @@ export default function Home() {
           >
             誰と約束する？
           </Container>
+          <IconButton
+            icon={<BoneIcon />}
+            aria-label="Search database"
+            colorScheme="primary"
+          />
           <VStack w="full">
             {user ? (
               <HStack>

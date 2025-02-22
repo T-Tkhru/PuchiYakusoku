@@ -11,6 +11,9 @@ dependencies:
   '@line/liff':
     specifier: 2.25.1
     version: 2.25.1
+  '@yamada-ui/lucide':
+    specifier: ^1.10.3
+    version: 1.10.3(@types/react@19.0.10)(react-dom@19.0.0)(react@19.0.0)
   '@yamada-ui/react':
     specifier: ^1.7.4
     version: 1.7.4(@emotion/react@11.14.0)(@emotion/styled@11.14.0)(@types/react@19.0.10)(motion@12.4.7)(react-dom@19.0.0)(react@19.0.0)
@@ -2209,6 +2212,22 @@ packages:
       react-remove-scroll: 2.6.3(@types/react@19.0.10)(react@19.0.0)
     transitivePeerDependencies:
       - '@emotion/is-prop-valid'
+      - '@types/react'
+      - react-dom
+      - supports-color
+    dev: false
+
+  /@yamada-ui/lucide@1.10.3(@types/react@19.0.10)(react-dom@19.0.0)(react@19.0.0):
+    resolution: {integrity: sha512-c/6hR7oBiIfhHj1hyfaRKs+u2d+aiB4atOOyo6Ow/j1Eet4jXPNDTIot/sjiBYUy9aylcZquC2Cb8OxROsPMuw==}
+    peerDependencies:
+      react: '>=18'
+    dependencies:
+      '@yamada-ui/core': 1.17.1(@types/react@19.0.10)(react-dom@19.0.0)(react@19.0.0)
+      '@yamada-ui/icon': 1.1.19(@types/react@19.0.10)(react-dom@19.0.0)(react@19.0.0)
+      '@yamada-ui/utils': 1.7.0(react@19.0.0)
+      lucide-react: 0.464.0(react@19.0.0)
+      react: 19.0.0
+    transitivePeerDependencies:
       - '@types/react'
       - react-dom
       - supports-color
@@ -5064,6 +5083,14 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+
+  /lucide-react@0.464.0(react@19.0.0):
+    resolution: {integrity: sha512-eCx1qClbnw5qRqB2Z1AFFp71wdJXEwhPp5ii8LviyvHb7o/7eMXFiTyDHh7JpjM9BO9pC6ZUp/c7mCwwxbPIcg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
+    dependencies:
+      react: 19.0.0
+    dev: false
 
   /math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
