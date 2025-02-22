@@ -2,9 +2,11 @@ import { ThemeSemantics } from "@yamada-ui/react";
 
 export const semantics: ThemeSemantics = {
   colors: {
-    primary: "makino",
+    primary: "teal.500",
+    secondary: "orange.500",
   },
   colorSchemes: {
     primary: "teal",
+    secondary: "orange",
   },
 };

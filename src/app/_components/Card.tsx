@@ -10,7 +10,12 @@ export const UserCard = ({ user }: CardProps) => {
     <Card w="sm">
       <CardBody>
         <VStack alignItems="center">
-          <Avatar src={user.image} size={"xl"} />
+          <Avatar
+            src={user.image}
+            size={"xl"}
+            border="2px solid"
+            borderColor="orange.400"
+          />
           <Text>{user.name}さん</Text>
         </VStack>
       </CardBody>

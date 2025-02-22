@@ -4,16 +4,10 @@ import { Liff } from "./_components/Liff";
 import {
   Box,
   Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Text,
   Container,
   Heading,
   VStack,
-  Avatar,
   HStack,
-  Tag,
   SegmentedControl,
   SegmentedControlButton,
 } from "@yamada-ui/react";
@@ -63,10 +57,11 @@ export default function Home() {
               color="white"
               rounded="md"
               alignItems="center"
+              fontWeight={600}
             >
               約束の内容は？
             </Container>
-            <SegmentedControl>
+            <SegmentedControl backgroundColor="teal.200">
               <SegmentedControlButton value="重要度">
                 重要度
               </SegmentedControlButton>
@@ -79,7 +74,7 @@ export default function Home() {
             </SegmentedControl>
             <Liff />
             <Button
-              colorScheme="primary"
+              colorScheme="secondary"
               onClick={async () => {
                 await signIn("line", { redirectTo: "/" });
               }}
