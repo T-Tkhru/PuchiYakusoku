@@ -62,6 +62,7 @@ export const Liff: FC = () => {
               console.log("message sent");
             })
             .catch((err) => {
+              alert(err);
               console.log("error", err);
             });
         }}
