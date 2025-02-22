@@ -49,9 +49,9 @@ export const Liff: FC = () => {
         liffログイン
       </button>
       <button
-        onClick={async () => {
+        onClick={() => {
           if (!liff) return;
-          await liff
+          liff
             .shareTargetPicker(
               [
                 {
@@ -73,6 +73,7 @@ export const Liff: FC = () => {
               }
             })
             .catch(function (error) {
+              alert(error);
               console.log("something wrong happen");
             });
         }}
