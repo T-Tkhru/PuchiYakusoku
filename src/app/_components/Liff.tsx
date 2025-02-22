@@ -1,10 +1,49 @@
 "use client";
 
 import { useGlobalContext } from "@/hooks/useGlobalContext";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
+  const [name, setName] = useState<string>("");
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        if (!liff) return;
+        const idToken = liff.getIDToken();
+        if (!idToken) {
+          console.error("ID Token is null");
+          return;
+        }
+
+        const response = await fetch("https://api.line.me/oauth2/v2.1/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({
+            id_token: idToken,
+            client_id: "U07804dd37802a76aaacd85051d2f3780",
+          }),
+        });
+
+        if (!response.ok) {
+          console.error("Failed to fetch profile:", response.statusText);
+          return;
+        }
+
+        const data = await response.json();
+        console.log("Profile data:", data);
+        setName(data.name ?? "Unknown");
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    getProfile();
+  }, [liff]); // liff が変わるたびに実行
 
   return (
     <div>
@@ -25,6 +64,7 @@ export const Liff: FC = () => {
       >
         LIFF Documentation
       </a>
+      <p>{name}</p>
     </div>
   );
 };
