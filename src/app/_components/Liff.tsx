@@ -52,6 +52,26 @@ export const Liff: FC = () => {
         onClick={() => {
           if (!liff) return;
           liff
+            .sendMessages([
+              {
+                type: "text",
+                text: "Hello, World!",
+              },
+            ])
+            .then(() => {
+              console.log("message sent");
+            })
+            .catch((err) => {
+              console.log("error", err);
+            });
+        }}
+      >
+        send messages
+      </button>
+      <button
+        onClick={() => {
+          if (!liff) return;
+          liff
             .shareTargetPicker(
               [
                 {
