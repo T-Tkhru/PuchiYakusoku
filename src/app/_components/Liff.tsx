@@ -72,31 +72,36 @@ export const Liff: FC = () => {
       <button
         onClick={() => {
           if (!liff) return;
-          liff
-            .shareTargetPicker(
-              [
+          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
+            if (!liff.isLoggedIn()) {
+              liff.login();
+            }
+            liff
+              .shareTargetPicker(
+                [
+                  {
+                    type: "text",
+                    text: "Hello, World!",
+                  },
+                ],
                 {
-                  type: "text",
-                  text: "Hello, World!",
-                },
-              ],
-              {
-                isMultiple: true,
-              }
-            )
-            .then(function (res) {
-              if (res) {
-                // succeeded in sending a message through TargetPicker
-                console.log(`[${res.status}] Message sent!`);
-              } else {
-                // sending message canceled
-                console.log("TargetPicker was closed!");
-              }
-            })
-            .catch(function (error) {
-              alert(error);
-              console.log("something wrong happen");
-            });
+                  isMultiple: true,
+                }
+              )
+              .then(function (res) {
+                if (res) {
+                  // succeeded in sending a message through TargetPicker
+                  console.log(`[${res.status}] Message sent!`);
+                } else {
+                  // sending message canceled
+                  console.log("TargetPicker was closed!");
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+                console.log("something wrong happen");
+              });
+          });
         }}
       >
         shareTargetPicker
