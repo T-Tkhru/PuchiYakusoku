@@ -20,11 +20,11 @@ import { useState } from "react";
 
 import { useGetPromisesQuery } from "@/generated/graphql";
 import { exampleUser } from "@/lib/mockData";
-import { useLiff } from "./providers/LiffProvider";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
+import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },
