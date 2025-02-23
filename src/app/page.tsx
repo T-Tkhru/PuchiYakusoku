@@ -13,16 +13,24 @@ import {
   NativeSelect,
   SegmentedControl,
   SegmentedControlButton,
+  Select,
+  Option,
+  Textarea,
   VStack,
+  SelectItem,
+  SegmentedControlItem,
 } from "@yamada-ui/react";
 import { signIn } from "next-auth/react";
 
 import { useUserData } from "@/hooks/useUserData";
-import { exampleUser } from "@/lib/mockData";
-
-import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
+
+const importanceItems: SegmentedControlItem[] = [
+  { label: "軽い約束", value: "low" },
+  { label: "少し重要", value: "medium" },
+  { label: "お金が絡む", value: "high" },
+];
 
 export default function Home() {
   const { user } = useUserData();
@@ -49,25 +57,28 @@ export default function Home() {
             >
               約束の内容は？
             </Container>
-            <Input variant="outline" placeholder="outline" />
-            <SegmentedControl backgroundColor="teal.200">
-              <SegmentedControlButton value="重要度">
-                重要度
-              </SegmentedControlButton>
-              <SegmentedControlButton value="軽い約束">
-                軽い約束
-              </SegmentedControlButton>
-              <SegmentedControlButton value="少し重要">
-                少し重要
-              </SegmentedControlButton>
-            </SegmentedControl>
-            <NativeSelect placeholder="期限を選択">
-              <NativeOption value="期限なし">期限なし</NativeOption>
-              <NativeOption value="1日">1日</NativeOption>
-              <NativeOption value="1週間">1週間</NativeOption>
-              <NativeOption value="1か月">1か月</NativeOption>
-              <NativeOption value="その他">その他</NativeOption>
-            </NativeSelect>
+            <Textarea
+              variant="filled"
+              placeholder="約束の内容を書き込んでね"
+              colorScheme="teal"
+              borderColor="teal.500"
+              focusBorderColor="teal.600"
+            />
+            <SegmentedControl
+              backgroundColor="teal.200"
+              items={importanceItems}
+            />
+            <Select
+              placeholder="期限を選択"
+              colorScheme="teal"
+              focusBorderColor="teal.600"
+            >
+              <Option value="期限なし">期限なし</Option>
+              <Option value="1日">1日</Option>
+              <Option value="1週間">1週間</Option>
+              <Option value="1か月">1か月</Option>
+              <Option value="その他">その他</Option>
+            </Select>
             <Liff />
             <Button
               colorScheme="secondary"
