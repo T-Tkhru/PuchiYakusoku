@@ -14,6 +14,9 @@ export const UserCard = ({ user }: CardProps) => {
         isOpen
         boxShadow={"none"}
         border={"none"}
+        placement={"top"}
+        backgroundColor="black"
+        color="white"
       >
         <Avatar
           src={user.pictureUrl}

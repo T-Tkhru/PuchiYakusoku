@@ -69,18 +69,25 @@ export default function Home() {
                 約束の内容は？
               </Container>
               <HStack>
-                <UserCard user={user} />
-                <Text fontSize="6xl">が</Text>
-                <UserCard user={exampleUser} />
-                <Text fontSize="6xl">に</Text>
+                <HStack>
+                  <UserCard user={user} />
+                  <VStack pt={16}>
+                    <Text fontSize="6xl">が</Text>
+                    <IconButton
+                      icon={<ArrowRightLeft />}
+                      aria-label="left-right"
+                      colorScheme="primary"
+                      w="12"
+                      h="12"
+                      rounded="full"
+                      onClick={handleLeftRight}
+                    />
+                  </VStack>
+                  <UserCard user={exampleUser} />
+                  <Text fontSize="6xl">に</Text>
+                </HStack>
               </HStack>
 
-              <IconButton
-                icon={<ArrowRightLeft />}
-                aria-label="left-right"
-                colorScheme="primary"
-                onClick={handleLeftRight}
-              />
               <Textarea
                 variant="filled"
                 placeholder="○○を△△する"
