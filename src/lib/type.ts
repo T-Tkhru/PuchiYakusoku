@@ -10,7 +10,7 @@ export type UserSimpleProfile = z.infer<typeof UserSimpleProfileSchema>;
 export const UserProfileSchema = z.object({
   userId: z.string(),
   displayName: z.string(),
-  pictureUrl: z.string(),
+  pictureUrl: z.string().optional(),
 });
 
 export type UserProfile = z.infer<typeof UserProfileSchema>;

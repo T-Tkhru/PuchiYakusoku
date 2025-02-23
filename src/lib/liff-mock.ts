@@ -1,4 +1,5 @@
 import type { Profile } from "@liff/get-profile";
+
 import mockData from "./liff-mock-data.json" assert { type: "json" };
 
 /**

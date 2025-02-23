@@ -23,12 +23,12 @@ import {
   useCreatePromiseMutation,
   useGetPromisesQuery,
 } from "@/generated/graphql";
-import { useLiff } from "@/hooks/useLiff";
 import { exampleUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
+import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },
@@ -37,7 +37,7 @@ const importanceItems: SegmentedControlItem[] = [
 ];
 
 export default function Home() {
-  const { user, loginLiff } = useLiff();
+  const { user } = useLiff();
   const [createPromise] = useCreatePromiseMutation();
   const [leftright, setLeftRight] = useState(false);
 
@@ -45,7 +45,9 @@ export default function Home() {
     setLeftRight(!leftright);
   };
   console.log(user);
-
+  if (!user) {
+    return null;
+  }
   return (
     <Container
       w="full"
@@ -136,7 +138,6 @@ export default function Home() {
                         level: Level.Low,
                         dueDate: "2022-12-31",
                         senderId: "test",
-                        receiverId: "test",
                       },
                     },
                   });
@@ -147,22 +148,9 @@ export default function Home() {
             </VStack>
           </VStack>
         ) : (
-          <VStack>
-            <Heading size="md" p={4}>
-              ようこそ、ゲストさん
-            </Heading>
-            <Button
-              colorScheme="secondary"
-              onClick={() => {
-                loginLiff();
-              }}
-            >
-              ログイン
-            </Button>
-          </VStack>
+          <Liff />
         )}
       </Box>
-      <Liff />
     </Container>
   );
 }
