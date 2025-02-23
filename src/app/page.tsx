@@ -23,7 +23,6 @@ import { exampleUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
-import { Liff } from "./_components/Liff";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -33,7 +32,7 @@ const importanceItems: SegmentedControlItem[] = [
 ];
 
 export default function Home() {
-  const { user } = useLiff();
+  const { user, liff } = useLiff();
   const { data, loading, error } = useGetPromisesQuery();
   console.log(data);
   console.log(loading);
@@ -120,9 +119,38 @@ export default function Home() {
               </Select>
             </HStack>
           </VStack>
+          <Button
+            colorScheme="secondary"
+            onClick={() => {
+              if (!liff) return;
+              liff
+                .shareTargetPicker(
+                  [
+                    {
+                      type: "text",
+                      text: "お疲れ様です",
+                    },
+                  ],
+                  {
+                    isMultiple: true,
+                  }
+                )
+                .then(function (res) {
+                  if (res) {
+                    console.log(`[${res.status}] Message sent!`);
+                  } else {
+                    console.log("TargetPicker was closed!");
+                  }
+                })
+                .catch(function (error) {
+                  alert(error);
+                });
+            }}
+          >
+            約束する
+          </Button>
         </VStack>
       </Box>
-      <Liff />
     </Container>
   );
 }
