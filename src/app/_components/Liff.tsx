@@ -8,7 +8,7 @@ import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
-  const { loginLiff, user, sendShareText } = useLiff();
+  const { user, sendShareText, setCurrentLiff } = useLiff();
 
   return (
     <VStack>
@@ -23,13 +23,14 @@ export const Liff: FC = () => {
       )}
       <Button
         onClick={() => {
-          // if (!liff) return;
-          // liff.login();
-          // liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-          //   liff.getIDToken();
-          //   console.log("liff login");
-          // });
-          loginLiff();
+          if (!liff) return;
+          liff.login();
+          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
+            liff.getIDToken();
+            console.log("liff login");
+          });
+          setCurrentLiff(liff);
+          // loginLiff();
         }}
       >
         liffログイン
@@ -57,7 +58,7 @@ export const Liff: FC = () => {
       </Button>
       <Button
         onClick={() => {
-          sendShareText("お疲れ様です!");
+          sendShareText("お疲れ様です");
         }}
       >
         shareTargetPicker
