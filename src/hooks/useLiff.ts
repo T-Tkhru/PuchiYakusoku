@@ -21,6 +21,7 @@ export const useLiff = () => {
       setUser(validatedData);
       console.log(user);
     } catch (error) {
+      alert(error);
       console.error(error);
     }
   }, [currentLiff, setUser, user]);
@@ -37,6 +38,7 @@ export const useLiff = () => {
       liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
         setCurrentLiff(liff);
       });
+      setCurrentLiff(liff);
     } catch (error) {
       alert(error);
       console.error(error, liffError);
@@ -75,5 +77,5 @@ export const useLiff = () => {
     });
   };
 
-  return { currentLiff, loginLiff, user, sendShareText };
+  return { currentLiff, loginLiff, user, sendShareText, setCurrentLiff };
 };
