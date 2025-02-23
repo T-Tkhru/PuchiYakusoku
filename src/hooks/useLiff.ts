@@ -28,7 +28,7 @@ export const useLiff = () => {
 
   useEffect(() => {
     getProfile();
-  }, [currentLiff, getProfile, setUser, user]);
+  }, [currentLiff]);
 
   const loginLiff = () => {
     try {
