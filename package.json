@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate && tsx src/graphql/schema.ts && pnpm codegen",
     "codegen": "graphql-codegen --config codegen.ts",
     "seed": "tsx src/prisma/seed.ts",
     "seed-reset": "prisma migrate reset --force && pnpm seed",
