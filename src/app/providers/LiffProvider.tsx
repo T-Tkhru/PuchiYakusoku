@@ -3,8 +3,9 @@
 import type liff from "@line/liff";
 import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
-import { exampleUser2 } from "@/lib/mockData";
 import { createContext, useContext, useEffect, useState } from "react";
+
+import { exampleUser2 } from "@/lib/mockData";
 
 interface UserProfile {
   userId: string;
