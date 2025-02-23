@@ -1,6 +1,12 @@
 "use client";
 
-import { BoneIcon, Calendar, MailIcon } from "@yamada-ui/lucide";
+import {
+  ArrowRightLeft,
+  BoneIcon,
+  Calendar,
+  MailIcon,
+  RefreshCcw,
+} from "@yamada-ui/lucide";
 import {
   Box,
   Button,
@@ -86,8 +92,8 @@ export default function Home() {
               </Heading>
             )}
             <IconButton
-              icon={<BoneIcon />}
-              aria-label="Search database"
+              icon={<ArrowRightLeft />}
+              aria-label="left-right"
               colorScheme="primary"
               onClick={handleLeftRight}
             />
