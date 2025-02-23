@@ -1,8 +1,9 @@
+import { writeFileSync } from "fs";
+import { lexicographicSortSchema, printSchema } from "graphql";
+import path from "path";
+
 import { builder } from "@/lib/builder";
 import { prisma } from "@/lib/prisma";
-import { lexicographicSortSchema, printSchema } from "graphql";
-import { writeFileSync } from "fs";
-import path from "path";
 
 const LevelEnum = builder.enumType("Level", {
   values: {

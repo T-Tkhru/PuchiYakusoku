@@ -1,0 +1,74 @@
+"use client";
+
+import type liff from "@line/liff";
+import { useLoading } from "@yamada-ui/react";
+import { createContext, useContext, useEffect, useState } from "react";
+
+interface UserProfile {
+  userId: string;
+  displayName: string;
+  pictureUrl?: string;
+}
+
+interface LiffContextType {
+  liff: typeof liff | null;
+  user: UserProfile | null;
+  error: string | null;
+}
+
+const LiffContext = createContext<LiffContextType | undefined>(undefined);
+
+export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
+  const [liffObject, setLiffObject] = useState<typeof liff | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [liffError, setLiffError] = useState<string | null>(null);
+  const { screen } = useLoading();
+
+  useEffect(() => {
+    async function initLiff() {
+      screen.start();
+      try {
+        const liffModule = await import("@line/liff");
+        console.log("start liff.init()...");
+        await liffModule.default.init({
+          liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+        });
+        console.log("liff.init() done");
+        setLiffObject(liffModule.default);
+
+        // ユーザーがログインしている場合にプロフィール情報を取得
+        if (liffModule.default.isLoggedIn()) {
+          const profile = await liffModule.default.getProfile();
+          setUser({
+            userId: profile.userId,
+            displayName: profile.displayName,
+            pictureUrl: profile.pictureUrl,
+          });
+        }
+      } catch (error) {
+        console.error(`liff.init() failed: ${error}`);
+        setLiffError(error instanceof Error ? error.message : String(error));
+      } finally {
+        screen.finish();
+      }
+    }
+
+    if (typeof window !== "undefined") {
+      initLiff();
+    }
+  }, []);
+
+  return (
+    <LiffContext.Provider value={{ liff: liffObject, user, error: liffError }}>
+      {children}
+    </LiffContext.Provider>
+  );
+};
+
+export const useLiff = () => {
+  const context = useContext(LiffContext);
+  if (!context) {
+    throw new Error("useLiff must be used within a LiffProvider");
+  }
+  return context;
+};
