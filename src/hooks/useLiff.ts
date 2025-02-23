@@ -12,7 +12,7 @@ export const useLiff = () => {
   const [user, setUser] = useAtom(userState);
   // const { liff, liffError } = useGlobalContext();
 
-  const setupLiff = async (): Promise<void> => {
+  const setupLiff = useCallback(async () => {
     await liff
       .init({
         liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
@@ -32,18 +32,18 @@ export const useLiff = () => {
       });
     setCurrentLiff(liff);
     console.log(liff);
-  };
+  }, [setCurrentLiff]);
 
   const getProfile = useCallback(async () => {
     if (!liff) return;
 
     liff
       .init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
-      .then(() => {
+      .then(async () => {
         if (!liff.isLoggedIn()) {
           liff.login();
         }
-        const result = liff.getProfile();
+        const result = await liff.getProfile();
         const validatedData = UserProfileSchema.parse(result);
         alert(validatedData);
         setUser(validatedData);
