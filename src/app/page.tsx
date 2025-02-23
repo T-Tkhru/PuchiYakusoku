@@ -1,6 +1,6 @@
 "use client";
 
-import { BoneIcon, MailIcon } from "@yamada-ui/lucide";
+import { BoneIcon, Calendar, MailIcon } from "@yamada-ui/lucide";
 import {
   Box,
   Button,
@@ -8,6 +8,9 @@ import {
   Heading,
   HStack,
   IconButton,
+  Input,
+  NativeOption,
+  NativeSelect,
   SegmentedControl,
   SegmentedControlButton,
   VStack,
@@ -70,6 +73,7 @@ export default function Home() {
             >
               約束の内容は？
             </Container>
+            <Input variant="outline" placeholder="outline" />
             <SegmentedControl backgroundColor="teal.200">
               <SegmentedControlButton value="重要度">
                 重要度
@@ -81,6 +85,13 @@ export default function Home() {
                 少し重要
               </SegmentedControlButton>
             </SegmentedControl>
+            <NativeSelect placeholder="期限を選択">
+              <NativeOption value="期限なし">期限なし</NativeOption>
+              <NativeOption value="1日">1日</NativeOption>
+              <NativeOption value="1週間">1週間</NativeOption>
+              <NativeOption value="1か月">1か月</NativeOption>
+              <NativeOption value="その他">その他</NativeOption>
+            </NativeSelect>
             <Liff />
             <Button
               colorScheme="secondary"
@@ -89,13 +100,6 @@ export default function Home() {
               }}
             >
               ログイン
-            </Button>
-            <Button
-              colorScheme="warning"
-              variant="ghost"
-              leftIcon={<MailIcon />}
-            >
-              Button
             </Button>
           </VStack>
         </VStack>
