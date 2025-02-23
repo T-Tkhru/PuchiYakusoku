@@ -14,9 +14,9 @@ export const useLiff = () => {
   const { liff, liffError } = useGlobalContext();
 
   const getProfile = useCallback(async () => {
-    if (!currentLiff) return;
+    if (!liff) return;
     try {
-      const result = await currentLiff.getProfile();
+      const result = await liff.getProfile();
       const validatedData = UserProfileSchema.parse(result);
       setUser(validatedData);
       console.log(user);
@@ -24,11 +24,11 @@ export const useLiff = () => {
       alert(error);
       console.error(error);
     }
-  }, [currentLiff, setUser, user]);
+  }, [setUser, user]);
 
   useEffect(() => {
     getProfile();
-  }, [currentLiff]);
+  }, []);
 
   const loginLiff = () => {
     try {
