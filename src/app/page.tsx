@@ -15,16 +15,21 @@ import {
   SegmentedControlButton,
   Text,
   VStack,
+  SelectItem,
+  SegmentedControlItem,
 } from "@yamada-ui/react";
 import { signIn } from "next-auth/react";
 
 import { useUserData } from "@/hooks/useUserData";
-import { exampleUser } from "@/lib/mockData";
-
-import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
 import { useState } from "react";
+
+const importanceItems: SegmentedControlItem[] = [
+  { label: "軽い約束", value: "low" },
+  { label: "少し重要", value: "medium" },
+  { label: "お金が絡む", value: "high" },
+];
 
 export default function Home() {
   const { user } = useUserData();

@@ -38,6 +38,7 @@ export const useLiff = () => {
       liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
         setCurrentLiff(liff);
       });
+      setCurrentLiff(liff);
     } catch (error) {
       alert(error);
       console.error(error, liffError);
