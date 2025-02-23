@@ -21,6 +21,7 @@ export const useLiff = () => {
       setUser(validatedData);
       console.log(user);
     } catch (error) {
+      alert(error);
       console.error(error);
     }
   }, [currentLiff, setUser, user]);
@@ -75,5 +76,5 @@ export const useLiff = () => {
     });
   };
 
-  return { currentLiff, loginLiff, user, sendShareText };
+  return { currentLiff, loginLiff, user, sendShareText, setCurrentLiff };
 };
