@@ -27,8 +27,8 @@ model Promise {
   dueDate     DateTime
   senderId    String
   sender      User   @relation(fields: [senderId], references: [id], name: "sender")
-  receiverId  String
-  receiver    User   @relation(fields: [receiverId], references: [id], name: "receiver")
+  receiverId  String?
+  receiver    User?   @relation(fields: [receiverId], references: [id], name: "receiver")
   acceptedAt  DateTime?
   completedAt DateTime?
   createdAt   DateTime @default(now())
@@ -37,7 +37,7 @@ model Promise {
 
 model User {
   id        String   @id @default(cuid())
-  lineId    String   @unique
+  userId    String   @unique
   displayName String
   pictureUrl  String
   sentPromises     Promise[] @relation("sender")

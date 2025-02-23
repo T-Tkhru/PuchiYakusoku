@@ -6,7 +6,7 @@ async function main() {
   // ユーザーの作成
   const user1 = await prisma.user.create({
     data: {
-      lineId: "user1-line-id",
+      userId: "user1-line-id",
       displayName: "User One",
       pictureUrl: "https://example.com/user1.jpg",
     },
@@ -14,7 +14,7 @@ async function main() {
 
   const user2 = await prisma.user.create({
     data: {
-      lineId: "user2-line-id",
+      userId: "user2-line-id",
       displayName: "User Two",
       pictureUrl: "https://example.com/user2.jpg",
     },
@@ -27,7 +27,6 @@ async function main() {
       level: Level.HIGH,
       dueDate: new Date("2025-02-28T23:59:59Z"),
       senderId: user1.id,
-      receiverId: user2.id,
     },
   });
 
@@ -37,7 +36,6 @@ async function main() {
       level: Level.MEDIUM,
       dueDate: new Date("2025-03-15T23:59:59Z"),
       senderId: user2.id,
-      receiverId: user1.id,
     },
   });
 

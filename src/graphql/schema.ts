@@ -1,11 +1,8 @@
-import { writeFileSync } from "fs";
-import { lexicographicSortSchema, printSchema } from "graphql";
-import path from "path";
-
 import { builder } from "@/lib/builder";
 import { prisma } from "@/lib/prisma";
-// import { userAgent } from "next/server";
-// import { create } from "domain";
+import { lexicographicSortSchema, printSchema } from "graphql";
+import { writeFileSync } from "fs";
+import path from "path";
 
 const LevelEnum = builder.enumType("Level", {
   values: {
@@ -21,7 +18,6 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
     level: t.field({ type: LevelEnum, required: true }),
     dueDate: t.string({ required: true }),
     senderId: t.string({ required: true }),
-    receiverId: t.string({ required: true }),
   }),
 });
 
@@ -43,7 +39,7 @@ const promise = builder.prismaObject("Promise", {
 export const user = builder.prismaObject("User", {
   fields: (t) => ({
     id: t.exposeID("id"),
-    lineId: t.exposeString("lineId"),
+    userId: t.exposeString("userId"),
     displayName: t.exposeString("displayName"),
     pictureUrl: t.exposeString("pictureUrl"),
     sentPromises: t.relation("sentPromises"),
@@ -88,7 +84,6 @@ builder.mutationType({
             level: args.input.level,
             dueDate: new Date(args.input.dueDate),
             senderId: args.input.senderId,
-            receiverId: args.input.receiverId,
           },
         }),
     }),

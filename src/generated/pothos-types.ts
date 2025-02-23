@@ -20,9 +20,9 @@ export default interface PrismaTypes {
                 Nullable: false;
             };
             receiver: {
-                Shape: User;
+                Shape: User | null;
                 Name: "User";
-                Nullable: false;
+                Nullable: true;
             };
         };
     };
