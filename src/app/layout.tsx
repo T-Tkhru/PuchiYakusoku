@@ -1,7 +1,9 @@
 "use client";
-
-
-import { LIFFTemplate } from "./provider";
+import { ApolloProvider } from "@apollo/client";
+import { UIProvider } from "@yamada-ui/react";
+import { LiffProvider } from "./providers/LiffProvider";
+import { theme } from "@/app/theme";
+import { client } from "@/lib/apollo-client";
 
 export default function RootLayout({
   children,
@@ -11,7 +13,11 @@ export default function RootLayout({
   return (
     <html lang="jp">
       <body>
-        <LIFFTemplate>{children}</LIFFTemplate>
+        <ApolloProvider client={client}>
+          <UIProvider theme={theme}>
+            <LiffProvider>{children}</LiffProvider>
+          </UIProvider>
+        </ApolloProvider>
       </body>
     </html>
   );
