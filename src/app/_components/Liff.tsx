@@ -3,42 +3,19 @@
 import { Button, Text, VStack } from "@yamada-ui/react";
 import { FC } from "react";
 
-import { useGlobalContext } from "@/hooks/useGlobalContext";
+// import { useGlobalContext } from "@/hooks/useGlobalContext";
 import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
-  const { liff, liffError } = useGlobalContext();
-  const { user, sendShareText, setCurrentLiff } = useLiff();
+  // const { liff, liffError } = useGlobalContext();
+  const { currentLiff, user, sendShareText, getProfile } = useLiff();
 
   return (
     <VStack>
-      {liff && <Text>LIFF init succeeded.</Text>}
-      {liffError && (
-        <>
-          <Text>LIFF init failed.</Text>
-          <Text>
-            <code>{liffError}</code>
-          </Text>
-        </>
-      )}
       <Button
         onClick={() => {
-          if (!liff) return;
-          liff.login();
-          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-            liff.getIDToken();
-            console.log("liff login");
-          });
-          setCurrentLiff(liff);
-          // loginLiff();
-        }}
-      >
-        liffログイン
-      </Button>
-      <Button
-        onClick={() => {
-          if (!liff) return;
-          liff
+          if (!currentLiff) return;
+          currentLiff
             .sendMessages([
               {
                 type: "text",
@@ -62,6 +39,13 @@ export const Liff: FC = () => {
         }}
       >
         shareTargetPicker
+      </Button>
+      <Button
+        onClick={() => {
+          getProfile();
+        }}
+      >
+        getProfile
       </Button>
       <Text>{user?.displayName}</Text>
       <Text>{user?.pictureUrl}</Text>

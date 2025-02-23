@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -23,7 +23,7 @@ export type CreatePromiseInput = {
   content: Scalars['String']['input'];
   dueDate: Scalars['String']['input'];
   level: Level;
-  senderId: Scalars["String"]["input"];
+  senderId: Scalars['String']['input'];
 };
 
 export enum Level {
@@ -74,13 +74,13 @@ export type QuerySentPromisesArgs = {
 };
 
 export type User = {
-  __typename?: "User";
-  displayName?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["ID"]["output"]>;
-  pictureUrl?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'User';
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  pictureUrl?: Maybe<Scalars['String']['output']>;
   receivedPromises?: Maybe<Array<Promise>>;
   sentPromises?: Maybe<Array<Promise>>;
-  userId?: Maybe<Scalars["String"]["output"]>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
