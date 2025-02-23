@@ -28,7 +28,7 @@ export const useLiff = () => {
     };
 
     getProfile();
-  }, [currentLiff]);
+  }, [currentLiff, setUser, user]);
 
   const loginLiff = () => {
     try {

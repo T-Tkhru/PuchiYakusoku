@@ -13,7 +13,6 @@ export const LIFFTemplate = ({ children }: { children: React.ReactNode }) => {
 
   // Execute liff.init() when the app is initialized
   useEffect(() => {
-    // to avoid `window is not defined` error
     import("@line/liff")
       .then((liff) => liff.default)
       .then((liff) => {
