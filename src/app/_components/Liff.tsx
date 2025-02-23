@@ -57,7 +57,7 @@ export const Liff: FC = () => {
       </Button>
       <Button
         onClick={() => {
-          sendShareText("お疲れ様です!");
+          sendShareText("お疲れ様です");
         }}
       >
         shareTargetPicker
