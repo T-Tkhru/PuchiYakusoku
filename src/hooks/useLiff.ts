@@ -44,6 +44,7 @@ export const useLiff = () => {
         }
         const result = liff.getProfile();
         const validatedData = UserProfileSchema.parse(result);
+        alert(validatedData);
         setUser(validatedData);
         console.log(user);
       }).then;

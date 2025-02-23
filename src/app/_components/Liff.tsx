@@ -8,7 +8,7 @@ import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
   // const { liff, liffError } = useGlobalContext();
-  const { currentLiff, user, sendShareText } = useLiff();
+  const { currentLiff, user, sendShareText, getProfile } = useLiff();
 
   return (
     <VStack>
@@ -36,6 +36,13 @@ export const Liff: FC = () => {
       <Button
         onClick={() => {
           sendShareText("お疲れ様です");
+        }}
+      >
+        shareTargetPicker
+      </Button>
+      <Button
+        onClick={() => {
+          getProfile();
         }}
       >
         shareTargetPicker
