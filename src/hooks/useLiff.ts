@@ -1,10 +1,12 @@
 "use client";
 
 import liff from "@line/liff";
+import { LiffMockPlugin } from "@line/liff-mock";
 import { useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
 import { liffState, userState } from "@/lib/jotai_state";
+import { exampleUser2 } from "@/lib/mockData";
 import { UserProfileSchema } from "@/lib/type";
 
 export const useLiff = () => {
@@ -12,10 +14,20 @@ export const useLiff = () => {
   const [user, setUser] = useAtom(userState);
 
   const setupLiff = useCallback(async () => {
+    if (process.env.NODE_ENV === "development") {
+      liff.use(new LiffMockPlugin());
+      await liff.init({
+        liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+        // @ts-expect-error: mock property is provided by LiffMockPlugin
+        mock: true,
+      });
+      setCurrentLiff(liff);
+      return;
+    }
     await liff
       .init({
         liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
-        withLoginOnExternalBrowser: true,
+        // withLoginOnExternalBrowser: true,
       })
       .catch((error: Error) => {
         console.log("LIFF init failed.");
@@ -26,6 +38,9 @@ export const useLiff = () => {
   }, [setCurrentLiff]);
 
   const getProfile = useCallback(async () => {
+    if (process.env.NODE_ENV === "development") {
+      return setUser(exampleUser2);
+    }
     if (!liff) return;
 
     liff
@@ -47,7 +62,6 @@ export const useLiff = () => {
         console.error(error);
       });
   }, [setUser, user]);
-
 
   useEffect(() => {
     if (!currentLiff) {
