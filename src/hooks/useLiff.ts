@@ -25,43 +25,29 @@ export const useLiff = () => {
     console.log(liff);
   }, [setCurrentLiff]);
 
-  // const getProfile = useCallback(async () => {
-  //   if (!liff) return;
-
-  //   liff
-  //     .init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
-  //     .then(async () => {
-  //       if (!liff.isLoggedIn()) {
-  //         liff.login();
-  //       }
-  //       const result = await liff.getProfile();
-  //       const validatedData = UserProfileSchema.parse(result);
-  //       setUser(validatedData);
-  //       console.log(user);
-  //     })
-  //     .then(() => {
-  //       console.log("success");
-  //     })
-  //     .catch((error) => {
-  //       alert(error);
-  //       console.error(error);
-  //     });
-  // }, [setUser, user]);
-
   const getProfile = useCallback(async () => {
-    if (!currentLiff) return;
-    currentLiff
-      .getProfile()
-      .then((result) => {
+    if (!liff) return;
+
+    liff
+      .init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
+      .then(async () => {
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        }
+        const result = await liff.getProfile();
         const validatedData = UserProfileSchema.parse(result);
         setUser(validatedData);
         console.log(user);
+      })
+      .then(() => {
+        console.log("success");
       })
       .catch((error) => {
         alert(error);
         console.error(error);
       });
-  }, []);
+  }, [setUser, user]);
+
 
   useEffect(() => {
     if (!currentLiff) {
