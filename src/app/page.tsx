@@ -23,6 +23,7 @@ import {
   VStack,
   SelectItem,
   SegmentedControlItem,
+  Tooltip,
 } from "@yamada-ui/react";
 import { signIn } from "next-auth/react";
 
@@ -104,12 +105,11 @@ export default function Home() {
               alignItems="center"
               p={2}
             >
-              <Text>重要度</Text>
-              <SegmentedControl
-                colorScheme="primary"
-                backgroundColor="white"
-                defaultValue="軽い約束"
-              >
+              <Text as="b">重要度</Text>
+              <Tooltip label="へっ！きたねぇ花火だ">
+                <Text w="fit-content">i</Text>
+              </Tooltip>
+              <SegmentedControl colorScheme="primary" defaultValue="軽い約束">
                 <SegmentedControlButton value="軽い約束">
                   軽い約束
                 </SegmentedControlButton>
@@ -128,7 +128,9 @@ export default function Home() {
               alignItems="center"
               p={2}
             >
-              <Text minW="60px">期限</Text>
+              <Text minW="40px" as="b">
+                期限
+              </Text>
               <NativeSelect placeholder="期限を選択">
                 <NativeOption value="期限なし">期限なし</NativeOption>
                 <NativeOption value="1日">1日</NativeOption>
@@ -136,6 +138,7 @@ export default function Home() {
                 <NativeOption value="1か月">1か月</NativeOption>
                 <NativeOption value="その他">その他</NativeOption>
               </NativeSelect>
+              <Text minW="40px">まで</Text>
             </HStack>
 
             <Liff />
