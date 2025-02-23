@@ -8,22 +8,7 @@ import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
-  const { loginLiff, user } = useLiff();
-
-  // useEffect(() => {
-  //   const getProfile = async () => {
-  //     try {
-  //       if (!liff) return;
-  //       const profile = await liff.getProfile();
-  //       setName(profile.displayName);
-  //     } catch (error) {
-  //       alert(error);
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   getProfile();
-  // }, [liff]);
+  const { loginLiff, user, sendShareText } = useLiff();
 
   return (
     <VStack>
@@ -72,37 +57,7 @@ export const Liff: FC = () => {
       </Button>
       <Button
         onClick={() => {
-          if (!liff) return;
-          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-            if (!liff.isLoggedIn()) {
-              liff.login();
-            }
-            liff
-              .shareTargetPicker(
-                [
-                  {
-                    type: "text",
-                    text: "Hello, World!",
-                  },
-                ],
-                {
-                  isMultiple: true,
-                }
-              )
-              .then(function (res) {
-                if (res) {
-                  // succeeded in sending a message through TargetPicker
-                  console.log(`[${res.status}] Message sent!`);
-                } else {
-                  // sending message canceled
-                  console.log("TargetPicker was closed!");
-                }
-              })
-              .catch(function (error) {
-                alert(error);
-                console.log("something wrong happen");
-              });
-          });
+          sendShareText("お疲れ様です!");
         }}
       >
         shareTargetPicker
