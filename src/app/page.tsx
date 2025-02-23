@@ -27,7 +27,6 @@ import { exampleUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
-import { Liff } from "./_components/Liff";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -37,8 +36,11 @@ const importanceItems: SegmentedControlItem[] = [
 ];
 
 export default function Home() {
-  const { user } = useLiff();
-  const [createPromise] = useCreatePromiseMutation();
+  const { user, liff } = useLiff();
+  const { data, loading, error } = useGetPromisesQuery();
+  console.log(data);
+  console.log(loading);
+  console.log(error);
   const [leftright, setLeftRight] = useState(false);
 
   const handleLeftRight = () => {
@@ -58,98 +60,107 @@ export default function Home() {
     >
       <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
         <Header />
-        {user ? (
-          <VStack w="full" p={4} gap={4}>
-            <VStack w="full">
-              <Container
-                p={2}
-                bgColor="primary"
-                color="white"
-                rounded="md"
-                alignItems="center"
-                fontWeight={600}
-              >
-                約束の内容は？
-              </Container>
+        <VStack w="full" p={4} gap={4}>
+          <VStack w="full">
+            <Container
+              p={2}
+              bgColor="primary"
+              color="white"
+              rounded="md"
+              alignItems="center"
+              fontWeight={600}
+            >
+              約束の内容は？
+            </Container>
+            <HStack>
               <HStack>
-                <HStack>
-                  <UserCard user={user} />
-                  <VStack pt={16}>
-                    <Text fontSize="6xl">が</Text>
-                    <IconButton
-                      icon={<ArrowRightLeft />}
-                      aria-label="left-right"
-                      colorScheme="primary"
-                      w="12"
-                      h="12"
-                      rounded="full"
-                      onClick={handleLeftRight}
-                    />
-                  </VStack>
-                  <UserCard user={exampleUser} />
-                  <Text fontSize="6xl">に</Text>
-                </HStack>
+                <UserCard user={user} />
+                <VStack pt={16}>
+                  <Text fontSize="6xl">が</Text>
+                  <IconButton
+                    icon={<ArrowRightLeft />}
+                    aria-label="left-right"
+                    colorScheme="primary"
+                    w="12"
+                    h="12"
+                    rounded="full"
+                    onClick={handleLeftRight}
+                  />
+                </VStack>
+                <UserCard user={exampleUser} />
+                <Text fontSize="6xl">に</Text>
               </HStack>
+            </HStack>
 
-              <Textarea
-                variant="filled"
-                placeholder="○○を△△する"
-                h="32"
-                focusBorderColor="teal.500"
-              />
-              <HStack
-                w="full"
-                justifyContent="space-between"
-                alignItems="center"
-                p={2}
-              >
-                <Text>重要度</Text>
-                <SegmentedControl
-                  colorScheme="primary"
-                  backgroundColor="gray.50"
-                  defaultValue="low"
-                  size="sm"
-                  items={importanceItems}
-                ></SegmentedControl>
-              </HStack>
+            <Textarea
+              variant="filled"
+              placeholder="○○を△△する"
+              h="32"
+              focusBorderColor="teal.500"
+            />
+            <HStack
+              w="full"
+              justifyContent="space-between"
+              alignItems="center"
+              p={2}
+            >
+              <Text>重要度</Text>
+              <SegmentedControl
+                colorScheme="primary"
+                backgroundColor="gray.50"
+                defaultValue="low"
+                size="sm"
+                items={importanceItems}
+              ></SegmentedControl>
+            </HStack>
 
-              <HStack
-                w="full"
-                justifyContent="space-between"
-                alignItems="center"
-                p={2}
-              >
-                <Text minW="60px">期限</Text>
-                <Select placeholder="期限を選択" focusBorderColor="teal.500">
-                  <Option value="期限なし">期限なし</Option>
-                  <Option value="1日">1日</Option>
-                  <Option value="1週間">1週間</Option>
-                  <Option value="1か月">1か月</Option>
-                  <Option value="その他">その他</Option>
-                </Select>
-              </HStack>
-              <Button
-                colorScheme="secondary"
-                onClick={async () => {
-                  createPromise({
-                    variables: {
-                      input: {
-                        content: "test",
-                        level: Level.Low,
-                        dueDate: "2022-12-31",
-                        senderId: "test",
-                      },
-                    },
-                  });
-                }}
-              >
-                送信！
-              </Button>
-            </VStack>
+            <HStack
+              w="full"
+              justifyContent="space-between"
+              alignItems="center"
+              p={2}
+            >
+              <Text minW="60px">期限</Text>
+              <Select placeholder="期限を選択" focusBorderColor="teal.500">
+                <Option value="期限なし">期限なし</Option>
+                <Option value="1日">1日</Option>
+                <Option value="1週間">1週間</Option>
+                <Option value="1か月">1か月</Option>
+                <Option value="その他">その他</Option>
+              </Select>
+            </HStack>
           </VStack>
-        ) : (
-          <Liff />
-        )}
+          <Button
+            colorScheme="secondary"
+            onClick={() => {
+              if (!liff) return;
+              liff
+                .shareTargetPicker(
+                  [
+                    {
+                      type: "text",
+                      text: "お疲れ様です",
+                    },
+                  ],
+                  {
+                    isMultiple: true,
+                  }
+                )
+                .then(function (res) {
+                  if (res) {
+                    console.log(`[${res.status}] Message sent!`);
+                  } else {
+                    console.log("TargetPicker was closed!");
+                  }
+                })
+                .catch(function (error) {
+                  alert(error);
+                });
+            }}
+          >
+            約束する
+          </Button>
+        </VStack>
       </Box>
     </Container>
   );

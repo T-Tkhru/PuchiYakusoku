@@ -1,8 +1,11 @@
 "use client";
 
 import type liff from "@line/liff";
+import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
 import { createContext, useContext, useEffect, useState } from "react";
+
+import { exampleUser2 } from "@/lib/mockData";
 
 interface UserProfile {
   userId: string;
@@ -27,11 +30,25 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     async function initLiff() {
       screen.start();
+      if (process.env.NODE_ENV === "development") {
+        const liffModule = await import("@line/liff");
+        liffModule.default.use(new LiffMockPlugin());
+        await liffModule.default.init({
+          liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+          // @ts-expect-error: mock property is provided by LiffMockPlugin
+          mock: true,
+        });
+        setLiffObject(liffModule.default);
+        setUser(exampleUser2);
+        screen.finish();
+        return;
+      }
       try {
         const liffModule = await import("@line/liff");
         console.log("start liff.init()...");
         await liffModule.default.init({
           liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+          withLoginOnExternalBrowser: true,
         });
         console.log("liff.init() done");
         setLiffObject(liffModule.default);
