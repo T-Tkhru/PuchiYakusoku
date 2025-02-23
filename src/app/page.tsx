@@ -17,16 +17,13 @@ import {
   Textarea,
   VStack,
 } from "@yamada-ui/react";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 import { useGetPromisesQuery } from "@/generated/graphql";
-import { useUserData } from "@/hooks/useUserData";
 import { exampleUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
-import { Liff } from "./_components/Liff";
 import { useLiff } from "@/hooks/useLiff";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -36,7 +33,7 @@ const importanceItems: SegmentedControlItem[] = [
 ];
 
 export default function Home() {
-  const { user, sendShareText, setCurrentLiff } = useLiff();
+  const { user, loginLiff } = useLiff();
   const { data, loading, error } = useGetPromisesQuery();
   console.log(data);
   console.log(loading);
@@ -135,11 +132,10 @@ export default function Home() {
               </Select>
             </HStack>
 
-            <Liff />
             <Button
               colorScheme="secondary"
-              onClick={async () => {
-                await signIn("line", { redirectTo: "/" });
+              onClick={() => {
+                loginLiff();
               }}
             >
               ログイン（本番では消す）
