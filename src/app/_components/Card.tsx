@@ -10,13 +10,10 @@ export const UserCard = ({ user }: CardProps) => {
   return (
     <VStack alignItems="center" gap={1}>
       <Tooltip
-        label={`${user.displayName}さん`}
+        label={`${user.displayName}`}
         isOpen
         boxShadow={"none"}
         border={"none"}
-        placement={"top"}
-        backgroundColor="black"
-        color="white"
       >
         <Avatar
           src={user.pictureUrl}

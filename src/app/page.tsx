@@ -63,7 +63,6 @@ export default function Home() {
         <VStack w="full" p={4} gap={4}>
           <VStack w="full">
             <Container
-              p={2}
               bgColor="primary"
               color="white"
               rounded="md"
@@ -72,24 +71,24 @@ export default function Home() {
             >
               約束の内容は？
             </Container>
-            <HStack>
-              <HStack>
-                <UserCard user={user} />
-                <VStack pt={16}>
-                  <Text fontSize="6xl">が</Text>
-                  <IconButton
-                    icon={<ArrowRightLeft />}
-                    aria-label="left-right"
-                    colorScheme="primary"
-                    w="12"
-                    h="12"
-                    rounded="full"
-                    onClick={handleLeftRight}
-                  />
-                </VStack>
-                <UserCard user={exampleUser} />
-                <Text fontSize="6xl">に</Text>
-              </HStack>
+            <HStack pb={16}>
+              <UserCard user={user} />
+              <VStack pt={0} gap={4} position="relative">
+                <Text fontSize="6xl">が</Text>
+                <IconButton
+                  position="absolute"
+                  icon={<ArrowRightLeft />}
+                  aria-label="left-right"
+                  colorScheme="primary"
+                  top="24"
+                  h="12"
+                  w="12"
+                  rounded="full"
+                  onClick={handleLeftRight}
+                />
+              </VStack>
+              <UserCard user={exampleUser} />
+              <Text fontSize="6xl">に</Text>
             </HStack>
 
             <Textarea
