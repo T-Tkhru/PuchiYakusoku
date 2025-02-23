@@ -27,6 +27,7 @@ import { exampleUser } from "@/lib/mockData";
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
+import { useLiff } from "@/hooks/useLiff";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },
@@ -35,7 +36,7 @@ const importanceItems: SegmentedControlItem[] = [
 ];
 
 export default function Home() {
-  const { user } = useUserData();
+  const { user, sendShareText, setCurrentLiff } = useLiff();
   const { data, loading, error } = useGetPromisesQuery();
   console.log(data);
   console.log(loading);

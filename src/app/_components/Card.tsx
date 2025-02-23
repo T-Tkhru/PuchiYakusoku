@@ -1,41 +1,27 @@
-import {
-  Avatar,
-  Card,
-  CardBody,
-  Text,
-  Tooltip,
-  VStack,
-} from "@yamada-ui/react";
+import { Avatar, Tooltip, VStack } from "@yamada-ui/react";
 
-import { UserSimpleProfile } from "@/lib/type";
+import { UserProfile } from "@/lib/type";
 
 interface CardProps {
-  user: UserSimpleProfile;
+  user: UserProfile;
 }
 
 export const UserCard = ({ user }: CardProps) => {
   return (
     <VStack alignItems="center" gap={1}>
       <Tooltip
-        label={`${user.name}さん`}
+        label={`${user.displayName}さん`}
         isOpen
         boxShadow={"none"}
         border={"none"}
       >
         <Avatar
-          src={user.image}
+          src={user.pictureUrl}
           size={"xl"}
           border="2px solid"
           borderColor="orange.400"
         />
       </Tooltip>
-      {/* <Avatar
-        src={user.image}
-        size={"xl"}
-        border="2px solid"
-        borderColor="orange.400"
-      />
-      <Text>{user.name}さん</Text> */}
     </VStack>
   );
 };

@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Container, Heading, HStack, Text } from "@yamada-ui/react";
-import { UserSimpleProfile } from "@/lib/type";
+import { UserProfile } from "@/lib/type";
 import { UserCard } from "./Card";
 
 interface PromiseContentsProps {
-  sender: UserSimpleProfile;
-  receiver: UserSimpleProfile;
+  sender: UserProfile;
+  receiver: UserProfile;
   content: string;
   deadline: string;
 }
