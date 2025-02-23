@@ -32,6 +32,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         console.log("start liff.init()...");
         await liffModule.default.init({
           liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+          withLoginOnExternalBrowser: true,
         });
         console.log("liff.init() done");
         setLiffObject(liffModule.default);
