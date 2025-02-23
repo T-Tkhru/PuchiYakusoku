@@ -1,6 +1,6 @@
 "use client";
 
-import { BoneIcon } from "@yamada-ui/lucide";
+import { BoneIcon, MailIcon } from "@yamada-ui/lucide";
 import {
   Box,
   Button,
@@ -89,6 +89,13 @@ export default function Home() {
               }}
             >
               ログイン
+            </Button>
+            <Button
+              colorScheme="warning"
+              variant="ghost"
+              leftIcon={<MailIcon />}
+            >
+              Button
             </Button>
           </VStack>
         </VStack>
