@@ -42,5 +42,38 @@ export const useLiff = () => {
       console.error(error, liffError);
     }
   };
-  return { currentLiff, loginLiff, user };
+
+  const sendShareText = (message: string) => {
+    if (!liff) return;
+    liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
+      if (!liff.isLoggedIn()) {
+        liff.login();
+      }
+      liff
+        .shareTargetPicker(
+          [
+            {
+              type: "text",
+              text: message,
+            },
+          ],
+          {
+            isMultiple: true,
+          }
+        )
+        .then(function (res) {
+          if (res) {
+            console.log(`[${res.status}] Message sent!`);
+          } else {
+            console.log("TargetPicker was closed!");
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+          console.log("something wrong happen");
+        });
+    });
+  };
+
+  return { currentLiff, loginLiff, user, sendShareText };
 };
