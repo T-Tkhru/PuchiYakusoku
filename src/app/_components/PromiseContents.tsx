@@ -1,6 +1,8 @@
-import React from "react";
 import { Box, Container, Heading, HStack, Text } from "@yamada-ui/react";
+import React from "react";
+
 import { UserProfile } from "@/lib/type";
+
 import { UserCard } from "./Card";
 
 interface PromiseContentsProps {
