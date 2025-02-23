@@ -11,9 +11,7 @@ const app = new Hono().basePath("/api");
 app.get("/userProfile", async (c) => {
   const session = await auth();
   // const name = session?.user?.name ?? "John Doe";
-  console.log(session?.user);
   const user = session?.user as UserSimpleProfile;
-
   return c.json({ name: user.name, image: user.image });
 });
 

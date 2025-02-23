@@ -1,29 +1,29 @@
 "use client";
 
 import { Button, Text, VStack } from "@yamada-ui/react";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 import { useGlobalContext } from "@/hooks/useGlobalContext";
+import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
-  const [name, setName] = useState<string>("ユーザーデータなし");
-  const [IDToken] = useState<string>("IDTokenなし");
+  const { loginLiff, user } = useLiff();
 
-  useEffect(() => {
-    const getProfile = async () => {
-      try {
-        if (!liff) return;
-        const profile = await liff.getProfile();
-        setName(profile.displayName);
-      } catch (error) {
-        alert(error);
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   const getProfile = async () => {
+  //     try {
+  //       if (!liff) return;
+  //       const profile = await liff.getProfile();
+  //       setName(profile.displayName);
+  //     } catch (error) {
+  //       alert(error);
+  //       console.error(error);
+  //     }
+  //   };
 
-    getProfile();
-  }, [liff]);
+  //   getProfile();
+  // }, [liff]);
 
   return (
     <VStack>
@@ -38,12 +38,13 @@ export const Liff: FC = () => {
       )}
       <Button
         onClick={() => {
-          if (!liff) return;
-          liff.login();
-          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-            liff.getIDToken();
-            console.log("liff login");
-          });
+          // if (!liff) return;
+          // liff.login();
+          // liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
+          //   liff.getIDToken();
+          //   console.log("liff login");
+          // });
+          loginLiff();
         }}
       >
         liffログイン
@@ -106,8 +107,8 @@ export const Liff: FC = () => {
       >
         shareTargetPicker
       </Button>
-      <Text>{name}</Text>
-      <Text>{IDToken}</Text>
+      <Text>{user?.displayName}</Text>
+      <Text>{user?.pictureUrl}</Text>
     </VStack>
   );
 };
