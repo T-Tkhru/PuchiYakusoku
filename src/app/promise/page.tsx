@@ -20,9 +20,9 @@ import { signIn } from "next-auth/react";
 import { useUserData } from "@/hooks/useUserData";
 import { exampleUser } from "@/lib/mockData";
 
-import { UserCard } from "./_components/Card";
-import { Header } from "./_components/Header";
-import { Liff } from "./_components/Liff";
+import { UserCard } from "./../_components/Card";
+import { Header } from "./../_components/Header";
+import { Liff } from "./../_components/Liff";
 
 export default function Home() {
   const { user } = useUserData();
@@ -38,7 +38,31 @@ export default function Home() {
       <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
         <Header />
         <VStack w="full" p={4} gap={4}>
+          <Container
+            p={2}
+            bgColor="primary"
+            color="white"
+            rounded="md"
+            alignItems="center"
+          >
+            誰と約束する？
+          </Container>
+          <IconButton
+            icon={<BoneIcon />}
+            aria-label="Search database"
+            colorScheme="primary"
+          />
           <VStack w="full">
+            {user ? (
+              <HStack>
+                <UserCard user={user} />
+                <UserCard user={exampleUser} />
+              </HStack>
+            ) : (
+              <Heading size="md" p={4}>
+                ようこそ、ゲストさん
+              </Heading>
+            )}
             <Container
               p={2}
               bgColor="primary"
@@ -75,7 +99,7 @@ export default function Home() {
                 await signIn("line", { redirectTo: "/" });
               }}
             >
-              ログイン（本番では消す）
+              ログイン
             </Button>
           </VStack>
         </VStack>
