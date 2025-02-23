@@ -10,7 +10,6 @@ import {
   IconButton,
   Option,
   SegmentedControl,
-  SegmentedControlButton,
   SegmentedControlItem,
   Select,
   Text,
@@ -20,11 +19,11 @@ import {
 import { useState } from "react";
 
 import { useGetPromisesQuery } from "@/generated/graphql";
+import { useLiff } from "@/hooks/useLiff";
 import { exampleUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
-import { useLiff } from "@/hooks/useLiff";
 import { Liff } from "./_components/Liff";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -34,7 +33,7 @@ const importanceItems: SegmentedControlItem[] = [
 ];
 
 export default function Home() {
-  const { user, loginLiff, getProfile } = useLiff();
+  const { user, loginLiff } = useLiff();
   const { data, loading, error } = useGetPromisesQuery();
   console.log(data);
   console.log(loading);

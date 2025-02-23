@@ -18,14 +18,6 @@ export const useLiff = () => {
         liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
         withLoginOnExternalBrowser: true,
       })
-      .then(async () => {
-        // if (!liff.isLoggedIn()) {
-        //   await liff.login();
-        //   console.log("call login");
-        // } else {
-        //   console.log("already login");
-        // }
-      })
       .catch((error: Error) => {
         console.log("LIFF init failed.");
         console.error(error.toString());
@@ -45,7 +37,6 @@ export const useLiff = () => {
         }
         const result = await liff.getProfile();
         const validatedData = UserProfileSchema.parse(result);
-        alert(validatedData);
         setUser(validatedData);
         console.log(user);
       })
@@ -72,8 +63,6 @@ export const useLiff = () => {
       if (!currentLiff) return;
       if (currentLiff.isLoggedIn()) return;
       currentLiff.login();
-      // currentLiff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! });
-      // setCurrentLiff(liff);
     } catch (error) {
       alert(error);
       console.error(error);
@@ -81,35 +70,30 @@ export const useLiff = () => {
   };
 
   const sendShareText = (message: string) => {
-    if (!liff) return;
-    liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-      if (!liff.isLoggedIn()) {
-        liff.login();
-      }
-      liff
-        .shareTargetPicker(
-          [
-            {
-              type: "text",
-              text: message,
-            },
-          ],
+    if (!currentLiff) return;
+    currentLiff
+      .shareTargetPicker(
+        [
           {
-            isMultiple: true,
-          }
-        )
-        .then(function (res) {
-          if (res) {
-            console.log(`[${res.status}] Message sent!`);
-          } else {
-            console.log("TargetPicker was closed!");
-          }
-        })
-        .catch(function (error) {
-          alert(error);
-          console.log("something wrong happen");
-        });
-    });
+            type: "text",
+            text: message,
+          },
+        ],
+        {
+          isMultiple: true,
+        }
+      )
+      .then(function (res) {
+        if (res) {
+          console.log(`[${res.status}] Message sent!`);
+        } else {
+          console.log("TargetPicker was closed!");
+        }
+      })
+      .catch(function (error) {
+        alert(error);
+        console.log("something wrong happen");
+      });
   };
 
   return {
