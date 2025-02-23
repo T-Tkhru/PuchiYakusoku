@@ -8,7 +8,7 @@ interface CardProps {
 
 export const UserCard = ({ user }: CardProps) => {
   return (
-    <VStack alignItems="center">
+    <VStack alignItems="center" gap={1}>
       <Avatar
         src={user.image}
         size={"xl"}
