@@ -1,9 +1,9 @@
 import { authHandler, verifyAuth } from "@hono/auth-js";
-import { Hono } from "hono";
 import { graphqlServer } from "@hono/graphql-server";
+import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { schema } from "@/graphql/schema";
 
+import { schema } from "@/graphql/schema";
 import { UserSimpleProfile } from "@/lib/type";
 
 import { auth } from "../auth/[...nextauth]/auth";

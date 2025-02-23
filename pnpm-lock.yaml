@@ -111,9 +111,6 @@ importers:
       prettier:
         specifier: ^3.4.2
         version: 3.5.2
-      prisma:
-        specifier: ^6.4.1
-        version: 6.4.1(typescript@5.7.3)
       typescript:
         specifier: ^5
         version: 5.7.3
@@ -6271,7 +6268,8 @@ snapshots:
 
   '@prisma/debug@6.4.1': {}
 
-  '@prisma/engines-version@6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d': {}
+  '@prisma/engines-version@6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d':
+    optional: true
 
   '@prisma/engines@6.4.1':
     dependencies:
@@ -6279,12 +6277,14 @@ snapshots:
       '@prisma/engines-version': 6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d
       '@prisma/fetch-engine': 6.4.1
       '@prisma/get-platform': 6.4.1
+    optional: true
 
   '@prisma/fetch-engine@6.4.1':
     dependencies:
       '@prisma/debug': 6.4.1
       '@prisma/engines-version': 6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d
       '@prisma/get-platform': 6.4.1
+    optional: true
 
   '@prisma/generator-helper@6.4.1':
     dependencies:
@@ -6293,6 +6293,7 @@ snapshots:
   '@prisma/get-platform@6.4.1':
     dependencies:
       '@prisma/debug': 6.4.1
+    optional: true
 
   '@repeaterjs/repeater@3.0.6': {}
 
@@ -8396,6 +8397,7 @@ snapshots:
       esbuild: 0.25.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   esbuild@0.25.0:
     optionalDependencies:
@@ -9621,6 +9623,7 @@ snapshots:
       typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   process@0.11.10: {}
 

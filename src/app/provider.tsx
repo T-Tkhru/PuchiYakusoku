@@ -1,12 +1,12 @@
 "use client";
 
+import { ApolloProvider } from "@apollo/client";
 import { Liff } from "@line/liff";
 import { UIProvider } from "@yamada-ui/react";
 import { useEffect, useState } from "react";
 
 import { theme } from "@/app/theme";
 import { GlobalContext } from "@/contexts/GlobalContext";
-import { ApolloProvider } from "@apollo/client";
 import { client } from "@/lib/apollo-client";
 
 export const LIFFTemplate = ({ children }: { children: React.ReactNode }) => {

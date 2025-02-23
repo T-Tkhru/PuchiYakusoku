@@ -11,21 +11,22 @@ import {
   Input,
   NativeOption,
   NativeSelect,
+  Option,
   SegmentedControl,
   SegmentedControlButton,
+  SegmentedControlItem,
   Select,
-  Option,
+  SelectItem,
   Textarea,
   VStack,
-  SelectItem,
-  SegmentedControlItem,
 } from "@yamada-ui/react";
 import { signIn } from "next-auth/react";
 
+import { useGetPromisesQuery } from "@/generated/graphql";
 import { useUserData } from "@/hooks/useUserData";
+
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
-import { useGetPromisesQuery } from "@/generated/graphql";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },

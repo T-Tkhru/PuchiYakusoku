@@ -1,5 +1,5 @@
-import React from "react";
 import { Box, Container } from "@yamada-ui/react";
+import React from "react";
 
 interface PromiseContentsProps {
   sender: string;
@@ -8,7 +8,7 @@ interface PromiseContentsProps {
   deadline: string;
 }
 
-const PromiseContents: React.FC<PromiseContentsProps> = ({
+export const PromiseContents: React.FC<PromiseContentsProps> = ({
   sender,
   receiver,
   content,
@@ -24,5 +24,3 @@ const PromiseContents: React.FC<PromiseContentsProps> = ({
     </Box>
   );
 };
-
-export default PromiseContents;

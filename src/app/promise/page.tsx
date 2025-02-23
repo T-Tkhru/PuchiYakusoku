@@ -1,30 +1,21 @@
 "use client";
 
-import { BoneIcon, Calendar, MailIcon } from "@yamada-ui/lucide";
 import {
   Box,
   Button,
   Container,
   Heading,
   HStack,
-  IconButton,
-  Input,
-  NativeOption,
-  NativeSelect,
-  SegmentedControl,
-  SegmentedControlButton,
   VStack,
 } from "@yamada-ui/react";
-import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 import { useUserData } from "@/hooks/useUserData";
 import { exampleUser } from "@/lib/mockData";
 
+import { PromiseContents } from "../_components/PromiseContents";
 import { UserCard } from "./../_components/Card";
 import { Header } from "./../_components/Header";
-import { Liff } from "./../_components/Liff";
-import PromiseContents from "../_components/PromiseContents";
-import { useState } from "react";
 
 export default function Home() {
   const { user } = useUserData(); //このページにアクセスした人を表す

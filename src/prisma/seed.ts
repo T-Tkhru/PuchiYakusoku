@@ -1,4 +1,4 @@
-import { PrismaClient, Level } from "@prisma/client";
+import { Level,PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
