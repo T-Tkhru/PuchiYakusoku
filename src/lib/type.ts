@@ -11,7 +11,6 @@ export const UserProfileSchema = z.object({
   userId: z.string(),
   displayName: z.string(),
   pictureUrl: z.string(),
-  statusMessage: z.string(),
 });
 
 export type UserProfile = z.infer<typeof UserProfileSchema>;
