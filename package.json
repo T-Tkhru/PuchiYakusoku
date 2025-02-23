@@ -22,6 +22,7 @@
     "@hono/auth-js": "^1.0.15",
     "@hono/graphql-server": "^0.5.1",
     "@line/liff": "2.25.1",
+    "@line/liff-inspector": "^1.0.2",
     "@pothos/core": "^4.4.0",
     "@pothos/plugin-prisma": "^4.4.0",
     "@prisma/client": "^6.4.1",
