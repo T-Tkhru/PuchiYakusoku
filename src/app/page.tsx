@@ -24,6 +24,8 @@ import { useUserData } from "@/hooks/useUserData";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
 import { useState } from "react";
+import { UserCard } from "./_components/Card";
+import { exampleUser } from "@/lib/mockData";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },
