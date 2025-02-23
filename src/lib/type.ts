@@ -8,7 +8,7 @@ export const UserSimpleProfileSchema = z.object({
 export type UserSimpleProfile = z.infer<typeof UserSimpleProfileSchema>;
 
 export const UserProfileSchema = z.object({
-  lineId: z.string(),
+  userId: z.string(),
   displayName: z.string(),
   pictureUrl: z.string(),
 });
