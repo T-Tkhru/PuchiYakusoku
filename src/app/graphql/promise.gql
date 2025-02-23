@@ -1,0 +1,37 @@
+query GetPromises {
+  promises {
+    id
+    content
+    level
+    dueDate
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+  }
+}
+
+mutation CreatePromise($input: CreatePromiseInput!) {
+  createPromise(input: $input) {
+    id
+    content
+    level
+    dueDate
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+  }
+}
