@@ -1,12 +1,11 @@
 "use client";
 
+import liff from "@line/liff";
 import { useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
 import { liffState, userState } from "@/lib/jotai_state";
 import { UserProfileSchema } from "@/lib/type";
-import { LiffMockPlugin } from "@line/liff-mock";
-import liff from "@line/liff";
 
 export const useLiff = () => {
   const [currentLiff, setCurrentLiff] = useAtom(liffState);
@@ -37,8 +36,10 @@ export const useLiff = () => {
 
   const getProfile = useCallback(async () => {
     if (!liff) return;
-    try {
-      liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
+
+    liff
+      .init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
+      .then(() => {
         if (!liff.isLoggedIn()) {
           liff.login();
         }
@@ -47,12 +48,15 @@ export const useLiff = () => {
         alert(validatedData);
         setUser(validatedData);
         console.log(user);
-      }).then;
-    } catch (error) {
-      alert(error);
-      console.error(error);
-    }
-  }, []);
+      })
+      .then(() => {
+        console.log("success");
+      })
+      .catch((error) => {
+        alert(error);
+        console.error(error);
+      });
+  }, [setUser, user]);
 
   useEffect(() => {
     if (!currentLiff) {
@@ -60,7 +64,7 @@ export const useLiff = () => {
       return;
     }
     getProfile();
-  }, []);
+  }, [currentLiff, getProfile, setupLiff]);
 
   const loginLiff = () => {
     try {

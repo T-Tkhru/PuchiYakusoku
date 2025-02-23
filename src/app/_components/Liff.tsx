@@ -45,7 +45,7 @@ export const Liff: FC = () => {
           getProfile();
         }}
       >
-        shareTargetPicker
+        getProfile
       </Button>
       <Text>{user?.displayName}</Text>
       <Text>{user?.pictureUrl}</Text>
