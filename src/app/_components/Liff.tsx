@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Text, VStack } from "@yamada-ui/react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 import { useGlobalContext } from "@/hooks/useGlobalContext";
 import { useLiff } from "@/hooks/useLiff";
@@ -10,20 +10,9 @@ export const Liff: FC = () => {
   const { liff, liffError } = useGlobalContext();
   const { loginLiff, user } = useLiff();
 
-  // useEffect(() => {
-  //   const getProfile = async () => {
-  //     try {
-  //       if (!liff) return;
-  //       const profile = await liff.getProfile();
-  //       setName(profile.displayName);
-  //     } catch (error) {
-  //       alert(error);
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   getProfile();
-  // }, [liff]);
+  useEffect(() => {
+    loginLiff();
+  }, [liff, loginLiff]);
 
   return (
     <VStack>
