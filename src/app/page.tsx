@@ -25,7 +25,7 @@ import { exampleUser } from "@/lib/mockData";
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { useLiff } from "@/hooks/useLiff";
-// import { Liff } from "./_components/Liff";
+import { Liff } from "./_components/Liff";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },
@@ -137,7 +137,7 @@ export default function Home() {
           </VStack>
         )}
       </Box>
-      {/* <Liff /> */}
+      <Liff />
     </Container>
   );
 }
