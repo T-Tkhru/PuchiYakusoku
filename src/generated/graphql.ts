@@ -23,7 +23,6 @@ export type CreatePromiseInput = {
   content: Scalars['String']['input'];
   dueDate: Scalars['String']['input'];
   level: Level;
-  receiverId: Scalars['String']['input'];
   senderId: Scalars['String']['input'];
 };
 
@@ -78,10 +77,10 @@ export type User = {
   __typename?: 'User';
   displayName?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  lineId?: Maybe<Scalars['String']['output']>;
   pictureUrl?: Maybe<Scalars['String']['output']>;
   receivedPromises?: Maybe<Array<Promise>>;
   sentPromises?: Maybe<Array<Promise>>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;

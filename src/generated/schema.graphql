@@ -2,7 +2,6 @@ input CreatePromiseInput {
   content: String!
   dueDate: String!
   level: Level!
-  receiverId: String!
   senderId: String!
 }
 
@@ -43,8 +42,8 @@ type Query {
 type User {
   displayName: String
   id: ID
-  lineId: String
   pictureUrl: String
   receivedPromises: [Promise!]
   sentPromises: [Promise!]
+  userId: String
 }
