@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 import { theme } from "@/app/theme";
 import { GlobalContext } from "@/contexts/GlobalContext";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "@/lib/apollo-client";
 
 export const LIFFTemplate = ({ children }: { children: React.ReactNode }) => {
   const [liffObject, setLiffObject] = useState<Liff | null>(null);
@@ -35,7 +37,9 @@ export const LIFFTemplate = ({ children }: { children: React.ReactNode }) => {
       <GlobalContext.Provider
         value={{ liff: liffObject, liffError: liffError }}
       >
-        <div>{children}</div>
+        <ApolloProvider client={client}>
+          <div>{children}</div>
+        </ApolloProvider>
       </GlobalContext.Provider>
     </UIProvider>
   );

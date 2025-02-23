@@ -23,9 +23,14 @@ import { exampleUser } from "@/lib/mockData";
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
+import { useGetPromisesQuery } from "@/generated/graphql";
 
 export default function Home() {
   const { user } = useUserData();
+  const { data, loading, error } = useGetPromisesQuery();
+  console.log(data);
+  console.log(loading);
+  console.log(error);
   console.log(user);
   return (
     <Container
