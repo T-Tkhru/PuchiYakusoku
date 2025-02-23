@@ -35,9 +35,7 @@ export const useLiff = () => {
       if (!liff) return;
       if (liff.isLoggedIn()) return;
       liff.login();
-      liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-        setCurrentLiff(liff);
-      });
+      liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! });
       setCurrentLiff(liff);
     } catch (error) {
       alert(error);
