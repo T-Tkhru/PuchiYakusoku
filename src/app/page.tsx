@@ -55,93 +55,86 @@ export default function Home() {
     >
       <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
         <Header />
-        <VStack w="full" p={4} gap={4}>
-          <VStack w="full">
-            <Container
-              p={2}
-              bgColor="primary"
-              color="white"
-              rounded="md"
-              alignItems="center"
-              fontWeight={600}
-            >
-              約束の内容は？
-            </Container>
-            {user ? (
-              leftright ? (
-                <HStack>
-                  <UserCard user={user} />
-                  <Text fontSize="6xl">が</Text>
-                  <UserCard user={exampleUser} />
-                  <Text fontSize="6xl">に</Text>
-                </HStack>
-              ) : (
-                <HStack>
-                  <UserCard user={exampleUser} />
-                  <Text fontSize="6xl">が</Text>
-                  <UserCard user={user} />
-                  <Text fontSize="6xl">に</Text>
-                </HStack>
-              )
-            ) : (
-              <Heading size="md" p={4}>
-                ようこそ、ゲストさん
-              </Heading>
-            )}
-            <IconButton
-              icon={<ArrowRightLeft />}
-              aria-label="left-right"
-              colorScheme="primary"
-              onClick={handleLeftRight}
-            />
-            <Textarea
-              variant="filled"
-              placeholder="○○を△△する"
-              h="32"
-              focusBorderColor="teal.500"
-            />
-            <HStack
-              w="full"
-              justifyContent="space-between"
-              alignItems="center"
-              p={2}
-            >
-              <Text>重要度</Text>
-              <SegmentedControl
+        {user ? (
+          <VStack w="full" p={4} gap={4}>
+            <VStack w="full">
+              <Container
+                p={2}
+                bgColor="primary"
+                color="white"
+                rounded="md"
+                alignItems="center"
+                fontWeight={600}
+              >
+                約束の内容は？
+              </Container>
+              <HStack>
+                <UserCard user={user} />
+                <Text fontSize="6xl">が</Text>
+                <UserCard user={exampleUser} />
+                <Text fontSize="6xl">に</Text>
+              </HStack>
+
+              <IconButton
+                icon={<ArrowRightLeft />}
+                aria-label="left-right"
                 colorScheme="primary"
-                backgroundColor="gray.50"
-                defaultValue="low"
-                size="sm"
-                items={importanceItems}
-              ></SegmentedControl>
-            </HStack>
+                onClick={handleLeftRight}
+              />
+              <Textarea
+                variant="filled"
+                placeholder="○○を△△する"
+                h="32"
+                focusBorderColor="teal.500"
+              />
+              <HStack
+                w="full"
+                justifyContent="space-between"
+                alignItems="center"
+                p={2}
+              >
+                <Text>重要度</Text>
+                <SegmentedControl
+                  colorScheme="primary"
+                  backgroundColor="gray.50"
+                  defaultValue="low"
+                  size="sm"
+                  items={importanceItems}
+                ></SegmentedControl>
+              </HStack>
 
-            <HStack
-              w="full"
-              justifyContent="space-between"
-              alignItems="center"
-              p={2}
-            >
-              <Text minW="60px">期限</Text>
-              <Select placeholder="期限を選択" focusBorderColor="teal.500">
-                <Option value="期限なし">期限なし</Option>
-                <Option value="1日">1日</Option>
-                <Option value="1週間">1週間</Option>
-                <Option value="1か月">1か月</Option>
-                <Option value="その他">その他</Option>
-              </Select>
-            </HStack>
-
+              <HStack
+                w="full"
+                justifyContent="space-between"
+                alignItems="center"
+                p={2}
+              >
+                <Text minW="60px">期限</Text>
+                <Select placeholder="期限を選択" focusBorderColor="teal.500">
+                  <Option value="期限なし">期限なし</Option>
+                  <Option value="1日">1日</Option>
+                  <Option value="1週間">1週間</Option>
+                  <Option value="1か月">1か月</Option>
+                  <Option value="その他">その他</Option>
+                </Select>
+              </HStack>
+            </VStack>
+          </VStack>
+        ) : (
+          <VStack>
+            <Heading size="md" p={4}>
+              ようこそ、ゲストさん
+            </Heading>
             <Button
               colorScheme="secondary"
               onClick={() => {
                 loginLiff();
               }}
             >
-              ログイン（本番では消す）
+              ログイン
             </Button>
           </VStack>
-        </VStack>
+        )}
       </Box>
     </Container>
   );
