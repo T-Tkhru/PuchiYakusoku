@@ -23,9 +23,22 @@ import { exampleUser } from "@/lib/mockData";
 import { UserCard } from "./../_components/Card";
 import { Header } from "./../_components/Header";
 import { Liff } from "./../_components/Liff";
+import PromiseContents from "../_components/PromiseContents";
+import { useState } from "react";
 
 export default function Home() {
   const { user } = useUserData();
+  const [promise, setPromise] = useState(false);
+  const [finish, setFinish] = useState(false);
+  const username = "山田太郎";
+
+  const handlePromise = () => {
+    setPromise(!promise);
+  };
+
+  const handleFinish = () => {
+    setFinish(!finish);
+  };
   console.log(user);
   return (
     <Container
@@ -35,34 +48,10 @@ export default function Home() {
       p="0"
       backgroundColor="red.50"
     >
-      <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
-        <Header />
-        <VStack w="full" p={4} gap={4}>
-          <Container
-            p={2}
-            bgColor="primary"
-            color="white"
-            rounded="md"
-            alignItems="center"
-          >
-            誰と約束する？
-          </Container>
-          <IconButton
-            icon={<BoneIcon />}
-            aria-label="Search database"
-            colorScheme="primary"
-          />
-          <VStack w="full">
-            {user ? (
-              <HStack>
-                <UserCard user={user} />
-                <UserCard user={exampleUser} />
-              </HStack>
-            ) : (
-              <Heading size="md" p={4}>
-                ようこそ、ゲストさん
-              </Heading>
-            )}
+      {finish ? (
+        <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
+          <Header />
+          <VStack w="full" p={4} gap={4}>
             <Container
               p={2}
               bgColor="primary"
@@ -71,39 +60,85 @@ export default function Home() {
               alignItems="center"
               fontWeight={600}
             >
-              約束の内容は？
+              約束は完了しました！
             </Container>
-            <Input variant="outline" placeholder="outline" />
-            <SegmentedControl backgroundColor="teal.200">
-              <SegmentedControlButton value="重要度">
-                重要度
-              </SegmentedControlButton>
-              <SegmentedControlButton value="軽い約束">
-                軽い約束
-              </SegmentedControlButton>
-              <SegmentedControlButton value="少し重要">
-                少し重要
-              </SegmentedControlButton>
-            </SegmentedControl>
-            <NativeSelect placeholder="期限を選択">
-              <NativeOption value="期限なし">期限なし</NativeOption>
-              <NativeOption value="1日">1日</NativeOption>
-              <NativeOption value="1週間">1週間</NativeOption>
-              <NativeOption value="1か月">1か月</NativeOption>
-              <NativeOption value="その他">その他</NativeOption>
-            </NativeSelect>
-            <Liff />
-            <Button
-              colorScheme="secondary"
-              onClick={async () => {
-                await signIn("line", { redirectTo: "/" });
-              }}
-            >
-              ログイン
+            <PromiseContents
+              sender="山田太郎"
+              receiver="大塚遙"
+              content="ポスター発表で寿司をおごる"
+              deadline="2025/3/31"
+            />
+            <VStack w="full">
+              {user ? (
+                <HStack>
+                  <UserCard user={user} />
+                  <UserCard user={exampleUser} />
+                </HStack>
+              ) : (
+                <Heading size="md" p={4}>
+                  ようこそ、ゲストさん
+                </Heading>
+              )}
+            </VStack>
+            <Button colorScheme="primary" onClick={handleFinish}>
+              約束完了前に戻る（デバッグ用）
             </Button>
           </VStack>
-        </VStack>
-      </Box>
+        </Box>
+      ) : (
+        <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
+          <Header />
+          <VStack w="full" p={4} gap={4}>
+            <Container
+              p={2}
+              bgColor="primary"
+              color="white"
+              rounded="md"
+              alignItems="center"
+              fontWeight={600}
+            >
+              約束内容
+            </Container>
+            <PromiseContents
+              sender="山田太郎"
+              receiver="大塚遙"
+              content="ポスター発表で寿司をおごる"
+              deadline="2025/3/31"
+            />
+            <VStack w="full">
+              {user ? (
+                <HStack>
+                  <UserCard user={user} />
+                  <UserCard user={exampleUser} />
+                </HStack>
+              ) : (
+                <Heading size="md" p={4}>
+                  ようこそ、ゲストさん
+                </Heading>
+              )}
+              {promise ? (
+                <VStack>
+                  <Button colorScheme="primary">
+                    リマインドする（催促する）
+                  </Button>
+                  <Button colorScheme="primary" onClick={handleFinish}>
+                    約束を完了した
+                  </Button>
+                  <Button colorScheme="primary" onClick={handlePromise}>
+                    約束をキャンセルする（デバッグ用）
+                  </Button>
+                </VStack>
+              ) : username === "山田太郎" ? (
+                <Container centerContent>承認待ちです</Container>
+              ) : (
+                <Button colorScheme="primary" onClick={() => setPromise(true)}>
+                  約束をする
+                </Button>
+              )}
+            </VStack>
+          </VStack>
+        </Box>
+      )}
     </Container>
   );
 }
