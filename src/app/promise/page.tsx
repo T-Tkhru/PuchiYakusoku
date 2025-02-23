@@ -24,7 +24,7 @@ export default function Home() {
   const username = "山田太郎"; //仮置き、ログイン情報から引っ張ってくるからuser.nameになるやつ
   const sender = { name: "山田太郎", id: "yamada" }; //仮置き、データベースから引っ張ってくる
   const receiver = { name: "大塚遙", id: "ohtsuka" }; //仮置き、データベースから引っ張ってくる
-
+  console.log(receiver);
   const handlePromise = () => {
     setPromise(!promise);
   };

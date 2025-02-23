@@ -1,4 +1,4 @@
-import { Avatar, Card, CardBody, Text, VStack } from "@yamada-ui/react";
+import { Avatar, Text, VStack } from "@yamada-ui/react";
 
 import { UserSimpleProfile } from "@/lib/type";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { BoneIcon, Calendar, MailIcon } from "@yamada-ui/lucide";
+import { BoneIcon } from "@yamada-ui/lucide";
 import {
   Box,
   Button,
@@ -8,29 +8,25 @@ import {
   Heading,
   HStack,
   IconButton,
-  Input,
-  NativeOption,
-  NativeSelect,
   Option,
   SegmentedControl,
   SegmentedControlButton,
   SegmentedControlItem,
   Select,
-  SelectItem,
   Text,
   Textarea,
   VStack,
 } from "@yamada-ui/react";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 import { useGetPromisesQuery } from "@/generated/graphql";
 import { useUserData } from "@/hooks/useUserData";
+import { exampleUser } from "@/lib/mockData";
 
+import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
 import { Liff } from "./_components/Liff";
-import { useState } from "react";
-import { UserCard } from "./_components/Card";
-import { exampleUser } from "@/lib/mockData";
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: "low" },
@@ -100,7 +96,7 @@ export default function Home() {
               colorScheme="primary"
               onClick={handleLeftRight}
             />
-            <Input variant="filled" placeholder="○○を△△する" h="32" />
+            <Textarea variant="filled" placeholder="○○を△△する" h="32" />
             <HStack
               w="full"
               justifyContent="space-between"
@@ -112,6 +108,7 @@ export default function Home() {
                 colorScheme="primary"
                 backgroundColor="white"
                 defaultValue="軽い約束"
+                items={importanceItems}
               >
                 <SegmentedControlButton value="軽い約束">
                   軽い約束
@@ -132,13 +129,13 @@ export default function Home() {
               p={2}
             >
               <Text minW="60px">期限</Text>
-              <NativeSelect placeholder="期限を選択">
-                <NativeOption value="期限なし">期限なし</NativeOption>
-                <NativeOption value="1日">1日</NativeOption>
-                <NativeOption value="1週間">1週間</NativeOption>
-                <NativeOption value="1か月">1か月</NativeOption>
-                <NativeOption value="その他">その他</NativeOption>
-              </NativeSelect>
+              <Select placeholder="期限を選択">
+                <Option value="期限なし">期限なし</Option>
+                <Option value="1日">1日</Option>
+                <Option value="1週間">1週間</Option>
+                <Option value="1か月">1か月</Option>
+                <Option value="その他">その他</Option>
+              </Select>
             </HStack>
 
             <Liff />
