@@ -3,12 +3,12 @@
 import { Button, Text, VStack } from "@yamada-ui/react";
 import { FC } from "react";
 
-import { useGlobalContext } from "@/hooks/useGlobalContext";
+// import { useGlobalContext } from "@/hooks/useGlobalContext";
 import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
-  const { liff, liffError } = useGlobalContext();
-  const { user, sendShareText, setCurrentLiff } = useLiff();
+  // const { liff, liffError } = useGlobalContext();
+  const { setupMockLiff, user, sendShareText, setCurrentLiff } = useLiff();
 
   return (
     <VStack>
@@ -55,6 +55,13 @@ export const Liff: FC = () => {
         }}
       >
         send messages
+      </Button>
+      <Button
+        onClick={() => {
+          setupMockLiff()
+        }}
+      >
+        開発者モード
       </Button>
       <Button
         onClick={() => {

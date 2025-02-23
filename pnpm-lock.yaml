@@ -17,9 +17,15 @@ importers:
       '@hono/graphql-server':
         specifier: ^0.5.1
         version: 0.5.1(hono@4.7.2)
+      '@liff/get-profile':
+        specifier: ^2.25.1
+        version: 2.25.1(tslib@2.8.1)
       '@line/liff':
         specifier: 2.25.1
         version: 2.25.1
+      '@line/liff-mock':
+        specifier: ^1.0.3
+        version: 1.0.3(@line/liff@2.25.1)
       '@pothos/core':
         specifier: ^4.4.0
         version: 4.4.0(graphql@16.10.0)
@@ -1324,6 +1330,11 @@ packages:
   '@line/bot-sdk@7.7.0':
     resolution: {integrity: sha512-lm5VlCq9J0zoqa3RfGor2g2hwZOBxK9xsBqWz5s0WZPlGaq+JhXBC/cAPbuEIS+YTpPn+F22K9C6VRYEO8WE9A==}
     engines: {node: '>=18'}
+
+  '@line/liff-mock@1.0.3':
+    resolution: {integrity: sha512-9js4YXheVV4rTXvvLIMVSqC6ikmD7mRrpbFqFZBemqCmSu3YSfljQs1fzKVy9LVUCREmsESLwWqa57jS3LY45g==}
+    peerDependencies:
+      '@line/liff': '>= 2.19.0'
 
   '@line/liff@2.25.1':
     resolution: {integrity: sha512-sMP+WXCDI5mLuCN4vinqhLM5ULvWGLHJjVXg973KPc0ARyfbo9UOpw3FZNjpqt+7Tc9Y1YKEo1Zbol1nYfeplQ==}
@@ -6159,6 +6170,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - supports-color
+
+  '@line/liff-mock@1.0.3(@line/liff@2.25.1)':
+    dependencies:
+      '@line/liff': 2.25.1
 
   '@line/liff@2.25.1':
     dependencies:

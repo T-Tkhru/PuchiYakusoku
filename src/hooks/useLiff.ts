@@ -5,18 +5,41 @@ import { useCallback, useEffect } from "react";
 
 import { liffState, userState } from "@/lib/jotai_state";
 import { UserProfileSchema } from "@/lib/type";
-
-import { useGlobalContext } from "./useGlobalContext";
+import { LiffMockPlugin } from "@line/liff-mock";
+import liff from "@line/liff";
 
 export const useLiff = () => {
   const [currentLiff, setCurrentLiff] = useAtom(liffState);
   const [user, setUser] = useAtom(userState);
-  const { liff, liffError } = useGlobalContext();
+  // const { liff, liffError } = useGlobalContext();
+
+  const setupMockLiff = async (): Promise<void> => {
+    await liff
+      .init({
+        liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+        withLoginOnExternalBrowser: true,
+      })
+      .then(async () => {
+        // if (!liff.isLoggedIn()) {
+        //   await liff.login();
+        //   console.log("call login");
+        // } else {
+        //   console.log("already login");
+        // }
+      })
+      .catch((error: Error) => {
+        console.log("LIFF init failed.");
+        console.error(error.toString());
+      });
+    setCurrentLiff(liff);
+    console.log(liff);
+  };
 
   const getProfile = useCallback(async () => {
-    if (!liff) return;
+    if (!currentLiff) return;
     try {
-      const result = await liff.getProfile();
+      if (!currentLiff) return;
+      const result = await currentLiff.getProfile();
       const validatedData = UserProfileSchema.parse(result);
       setUser(validatedData);
       console.log(user);
@@ -27,19 +50,24 @@ export const useLiff = () => {
   }, [setUser, user]);
 
   useEffect(() => {
+    if (!currentLiff) {
+      setupMockLiff();
+      return;
+    }
     getProfile();
   }, []);
 
   const loginLiff = () => {
     try {
-      if (!liff) return;
-      if (liff.isLoggedIn()) return;
-      liff.login();
-      liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! });
-      setCurrentLiff(liff);
+      console.log(currentLiff);
+      if (!currentLiff) return;
+      if (currentLiff.isLoggedIn()) return;
+      currentLiff.login();
+      // currentLiff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! });
+      // setCurrentLiff(liff);
     } catch (error) {
       alert(error);
-      console.error(error, liffError);
+      console.error(error);
     }
   };
 
@@ -75,5 +103,13 @@ export const useLiff = () => {
     });
   };
 
-  return { currentLiff, loginLiff, user, sendShareText, setCurrentLiff };
+  return {
+    currentLiff,
+    loginLiff,
+    getProfile,
+    user,
+    sendShareText,
+    setCurrentLiff,
+    setupMockLiff,
+  };
 };
