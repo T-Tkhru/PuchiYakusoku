@@ -96,7 +96,12 @@ export default function Home() {
               colorScheme="primary"
               onClick={handleLeftRight}
             />
-            <Textarea variant="filled" placeholder="○○を△△する" h="32" />
+            <Textarea
+              variant="filled"
+              placeholder="○○を△△する"
+              h="32"
+              focusBorderColor="teal.500"
+            />
             <HStack
               w="full"
               justifyContent="space-between"
@@ -106,20 +111,11 @@ export default function Home() {
               <Text>重要度</Text>
               <SegmentedControl
                 colorScheme="primary"
-                backgroundColor="white"
-                defaultValue="軽い約束"
+                backgroundColor="gray.50"
+                defaultValue="low"
+                size="sm"
                 items={importanceItems}
-              >
-                <SegmentedControlButton value="軽い約束">
-                  軽い約束
-                </SegmentedControlButton>
-                <SegmentedControlButton value="少し重要">
-                  少し重要
-                </SegmentedControlButton>
-                <SegmentedControlButton value="お金が絡む">
-                  お金が絡む
-                </SegmentedControlButton>
-              </SegmentedControl>
+              ></SegmentedControl>
             </HStack>
 
             <HStack
@@ -129,7 +125,7 @@ export default function Home() {
               p={2}
             >
               <Text minW="60px">期限</Text>
-              <Select placeholder="期限を選択">
+              <Select placeholder="期限を選択" focusBorderColor="teal.500">
                 <Option value="期限なし">期限なし</Option>
                 <Option value="1日">1日</Option>
                 <Option value="1週間">1週間</Option>
