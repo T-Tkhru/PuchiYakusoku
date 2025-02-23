@@ -65,23 +65,12 @@ export default function Home() {
               約束は完了しました！
             </Container>
             <PromiseContents
-              sender="山田太郎"
-              receiver="大塚遙"
+              sender={exampleUser}
+              receiver={exampleUser}
               content="ポスター発表で寿司をおごる"
               deadline="2025/3/31"
             />
-            <VStack w="full">
-              {user ? (
-                <HStack>
-                  <UserCard user={user} />
-                  <UserCard user={exampleUser} />
-                </HStack>
-              ) : (
-                <Heading size="md" p={4}>
-                  ようこそ、ゲストさん
-                </Heading>
-              )}
-            </VStack>
+
             <Button colorScheme="primary" onClick={handleFinish}>
               約束完了前に戻る（デバッグ用）
             </Button>
@@ -102,22 +91,12 @@ export default function Home() {
               約束内容
             </Container>
             <PromiseContents
-              sender="山田太郎"
-              receiver="大塚遙"
+              sender={exampleUser}
+              receiver={exampleUser}
               content="ポスター発表で寿司をおごる"
               deadline="2025/3/31"
             />
             <VStack w="full">
-              {user ? (
-                <HStack>
-                  <UserCard user={user} />
-                  <UserCard user={exampleUser} />
-                </HStack>
-              ) : (
-                <Heading size="md" p={4}>
-                  ようこそ、ゲストさん
-                </Heading>
-              )}
               {promise ? (
                 <VStack>
                   <Button colorScheme="primary">
