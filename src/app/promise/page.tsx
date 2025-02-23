@@ -31,8 +31,8 @@ export default function Home() {
   const [promise, setPromise] = useState(false);
   const [finish, setFinish] = useState(false);
   const username = "山田太郎";
-  const sender = ["山田太郎", "yamada"]; //仮置き、データベースから引っ張ってくる
-  const receiver = ["大塚遙", "ohtsuka"]; //仮置き、データベースから引っ張ってくる
+  const sender = { name: "山田太郎", id: "yamada" }; //仮置き、データベースから引っ張ってくる
+  const receiver = { name: "大塚遙", id: "ohtsuka" }; //仮置き、データベースから引っ張ってくる
 
   const handlePromise = () => {
     setPromise(!promise);
@@ -130,7 +130,7 @@ export default function Home() {
                     約束をキャンセルする（デバッグ用）
                   </Button>
                 </VStack>
-              ) : username === "山田太郎" ? (
+              ) : username === sender.name ? (
                 <Container centerContent>承認待ちです</Container>
               ) : (
                 <Button colorScheme="primary" onClick={() => setPromise(true)}>
