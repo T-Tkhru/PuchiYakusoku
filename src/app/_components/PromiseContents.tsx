@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Box, Container, Heading, HStack, Text } from "@yamada-ui/react";
 import { UserSimpleProfile } from "@/lib/type";
 import { UserCard } from "./Card";
+
 
 interface PromiseContentsProps {
   sender: UserSimpleProfile;
@@ -10,7 +12,7 @@ interface PromiseContentsProps {
   deadline: string;
 }
 
-const PromiseContents: React.FC<PromiseContentsProps> = ({
+export const PromiseContents: React.FC<PromiseContentsProps> = ({
   sender,
   receiver,
   content,
@@ -40,5 +42,3 @@ const PromiseContents: React.FC<PromiseContentsProps> = ({
     // </Box>
   );
 };
-
-export default PromiseContents;
