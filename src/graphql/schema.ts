@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs";
 import { lexicographicSortSchema, printSchema } from "graphql";
+
 import path from "path";
 
 import { builder } from "@/lib/builder";
