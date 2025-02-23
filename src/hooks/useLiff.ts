@@ -10,7 +10,6 @@ import { UserProfileSchema } from "@/lib/type";
 export const useLiff = () => {
   const [currentLiff, setCurrentLiff] = useAtom(liffState);
   const [user, setUser] = useAtom(userState);
-  // const { liff, liffError } = useGlobalContext();
 
   const setupLiff = useCallback(async () => {
     await liff
@@ -26,28 +25,43 @@ export const useLiff = () => {
     console.log(liff);
   }, [setCurrentLiff]);
 
-  const getProfile = useCallback(async () => {
-    if (!liff) return;
+  // const getProfile = useCallback(async () => {
+  //   if (!liff) return;
 
-    liff
-      .init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
-      .then(async () => {
-        if (!liff.isLoggedIn()) {
-          liff.login();
-        }
-        const result = await liff.getProfile();
+  //   liff
+  //     .init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
+  //     .then(async () => {
+  //       if (!liff.isLoggedIn()) {
+  //         liff.login();
+  //       }
+  //       const result = await liff.getProfile();
+  //       const validatedData = UserProfileSchema.parse(result);
+  //       setUser(validatedData);
+  //       console.log(user);
+  //     })
+  //     .then(() => {
+  //       console.log("success");
+  //     })
+  //     .catch((error) => {
+  //       alert(error);
+  //       console.error(error);
+  //     });
+  // }, [setUser, user]);
+
+  const getProfile = useCallback(async () => {
+    if (!currentLiff) return;
+    currentLiff
+      .getProfile()
+      .then((result) => {
         const validatedData = UserProfileSchema.parse(result);
         setUser(validatedData);
         console.log(user);
-      })
-      .then(() => {
-        console.log("success");
       })
       .catch((error) => {
         alert(error);
         console.error(error);
       });
-  }, [setUser, user]);
+  }, []);
 
   useEffect(() => {
     if (!currentLiff) {
@@ -55,7 +69,7 @@ export const useLiff = () => {
       return;
     }
     getProfile();
-  }, [currentLiff, getProfile, setupLiff]);
+  }, [currentLiff]);
 
   const loginLiff = () => {
     try {
