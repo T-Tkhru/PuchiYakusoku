@@ -113,7 +113,5 @@ export const useLiff = () => {
     getProfile,
     user,
     sendShareText,
-    setCurrentLiff,
-    setupMockLiff,
   };
 };

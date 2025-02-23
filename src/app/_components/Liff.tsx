@@ -8,37 +8,14 @@ import { useLiff } from "@/hooks/useLiff";
 
 export const Liff: FC = () => {
   // const { liff, liffError } = useGlobalContext();
-  const { setupMockLiff, user, sendShareText, setCurrentLiff } = useLiff();
+  const { currentLiff, user, sendShareText } = useLiff();
 
   return (
     <VStack>
-      {liff && <Text>LIFF init succeeded.</Text>}
-      {liffError && (
-        <>
-          <Text>LIFF init failed.</Text>
-          <Text>
-            <code>{liffError}</code>
-          </Text>
-        </>
-      )}
       <Button
         onClick={() => {
-          if (!liff) return;
-          liff.login();
-          liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! }).then(() => {
-            liff.getIDToken();
-            console.log("liff login");
-          });
-          setCurrentLiff(liff);
-          // loginLiff();
-        }}
-      >
-        liffログイン
-      </Button>
-      <Button
-        onClick={() => {
-          if (!liff) return;
-          liff
+          if (!currentLiff) return;
+          currentLiff
             .sendMessages([
               {
                 type: "text",
@@ -55,13 +32,6 @@ export const Liff: FC = () => {
         }}
       >
         send messages
-      </Button>
-      <Button
-        onClick={() => {
-          setupMockLiff()
-        }}
-      >
-        開発者モード
       </Button>
       <Button
         onClick={() => {
