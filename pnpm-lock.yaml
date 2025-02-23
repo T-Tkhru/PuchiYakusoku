@@ -53,6 +53,9 @@ importers:
       next-auth:
         specifier: 5.0.0-beta.25
         version: 5.0.0-beta.25(next@15.1.7(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+      prisma:
+        specifier: ^6.4.1
+        version: 6.4.1(typescript@5.7.3)
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -6268,8 +6271,7 @@ snapshots:
 
   '@prisma/debug@6.4.1': {}
 
-  '@prisma/engines-version@6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d':
-    optional: true
+  '@prisma/engines-version@6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d': {}
 
   '@prisma/engines@6.4.1':
     dependencies:
@@ -6277,14 +6279,12 @@ snapshots:
       '@prisma/engines-version': 6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d
       '@prisma/fetch-engine': 6.4.1
       '@prisma/get-platform': 6.4.1
-    optional: true
 
   '@prisma/fetch-engine@6.4.1':
     dependencies:
       '@prisma/debug': 6.4.1
       '@prisma/engines-version': 6.4.0-29.a9055b89e58b4b5bfb59600785423b1db3d0e75d
       '@prisma/get-platform': 6.4.1
-    optional: true
 
   '@prisma/generator-helper@6.4.1':
     dependencies:
@@ -6293,7 +6293,6 @@ snapshots:
   '@prisma/get-platform@6.4.1':
     dependencies:
       '@prisma/debug': 6.4.1
-    optional: true
 
   '@repeaterjs/repeater@3.0.6': {}
 
@@ -8397,7 +8396,6 @@ snapshots:
       esbuild: 0.25.0
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   esbuild@0.25.0:
     optionalDependencies:
@@ -9623,7 +9621,6 @@ snapshots:
       typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   process@0.11.10: {}
 
