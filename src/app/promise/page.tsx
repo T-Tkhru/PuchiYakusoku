@@ -27,10 +27,12 @@ import PromiseContents from "../_components/PromiseContents";
 import { useState } from "react";
 
 export default function Home() {
-  const { user } = useUserData();
+  const { user } = useUserData(); //このページにアクセスした人を表す
   const [promise, setPromise] = useState(false);
   const [finish, setFinish] = useState(false);
   const username = "山田太郎";
+  const sender = ["山田太郎", "yamada"]; //仮置き、データベースから引っ張ってくる
+  const receiver = ["大塚遙", "ohtsuka"]; //仮置き、データベースから引っ張ってくる
 
   const handlePromise = () => {
     setPromise(!promise);
