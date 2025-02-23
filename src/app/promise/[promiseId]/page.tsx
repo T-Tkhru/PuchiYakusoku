@@ -8,8 +8,10 @@ import {
   HStack,
   VStack,
 } from "@yamada-ui/react";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useLiff } from "@/hooks/useLiff";
 import { useUserData } from "@/hooks/useUserData";
 import { exampleUser } from "@/lib/mockData";
 
@@ -17,8 +19,8 @@ import { PromiseContents } from "../_components/PromiseContents";
 import { UserCard } from "./../_components/Card";
 import { Header } from "./../_components/Header";
 
-export default function Home() {
-  const { user } = useUserData(); //このページにアクセスした人を表す
+export default function PromiseDetail() {
+  const { user } = useLiff();
   const [promise, setPromise] = useState(false); //本来はデータベースに送る
   const [finish, setFinish] = useState(false); //本来はデータベースに送る
   const username = "山田太郎"; //仮置き、ログイン情報から引っ張ってくるからuser.nameになるやつ

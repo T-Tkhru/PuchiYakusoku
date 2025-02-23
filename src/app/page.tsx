@@ -18,7 +18,11 @@ import {
 } from "@yamada-ui/react";
 import { useState } from "react";
 
-import { useGetPromisesQuery } from "@/generated/graphql";
+import {
+  Level,
+  useCreatePromiseMutation,
+  useGetPromisesQuery,
+} from "@/generated/graphql";
 import { useLiff } from "@/hooks/useLiff";
 import { exampleUser } from "@/lib/mockData";
 
@@ -34,10 +38,7 @@ const importanceItems: SegmentedControlItem[] = [
 
 export default function Home() {
   const { user, loginLiff } = useLiff();
-  const { data, loading, error } = useGetPromisesQuery();
-  console.log(data);
-  console.log(loading);
-  console.log(error);
+  const [createPromise] = useCreatePromiseMutation();
   const [leftright, setLeftRight] = useState(false);
 
   const handleLeftRight = () => {
@@ -125,6 +126,24 @@ export default function Home() {
                   <Option value="その他">その他</Option>
                 </Select>
               </HStack>
+              <Button
+                colorScheme="secondary"
+                onClick={async () => {
+                  createPromise({
+                    variables: {
+                      input: {
+                        content: "test",
+                        level: Level.Low,
+                        dueDate: "2022-12-31",
+                        senderId: "test",
+                        receiverId: "test",
+                      },
+                    },
+                  });
+                }}
+              >
+                送信！
+              </Button>
             </VStack>
           </VStack>
         ) : (

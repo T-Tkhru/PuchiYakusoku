@@ -27,6 +27,7 @@
     "@pothos/core": "^4.4.0",
     "@pothos/plugin-prisma": "^4.4.0",
     "@prisma/client": "^6.4.1",
+    "@yamada-ui/calendar": "^1.8.14",
     "@yamada-ui/lucide": "^1.10.3",
     "@yamada-ui/react": "^1.7.4",
     "graphql": "^16.10.0",
