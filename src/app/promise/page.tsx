@@ -28,9 +28,9 @@ import { useState } from "react";
 
 export default function Home() {
   const { user } = useUserData(); //このページにアクセスした人を表す
-  const [promise, setPromise] = useState(false);
-  const [finish, setFinish] = useState(false);
-  const username = "山田太郎";
+  const [promise, setPromise] = useState(false); //本来はデータベースに送る
+  const [finish, setFinish] = useState(false); //本来はデータベースに送る
+  const username = "山田太郎"; //仮置き、ログイン情報から引っ張ってくるからuser.nameになるやつ
   const sender = { name: "山田太郎", id: "yamada" }; //仮置き、データベースから引っ張ってくる
   const receiver = { name: "大塚遙", id: "ohtsuka" }; //仮置き、データベースから引っ張ってくる
 
