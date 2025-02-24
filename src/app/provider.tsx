@@ -11,9 +11,9 @@ import { LiffProvider } from "./providers/LiffProvider";
 export const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
     <UIProvider theme={theme}>
-      <LiffProvider>
-        <ApolloProvider client={client}>{children}</ApolloProvider>
-      </LiffProvider>
+      <ApolloProvider client={client}>
+        <LiffProvider>{children}</LiffProvider>
+      </ApolloProvider>
     </UIProvider>
   );
 };

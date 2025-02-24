@@ -3,12 +3,12 @@
 import type liff from "@line/liff";
 import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
-import { createContext, use, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+
 import {
   useCreateUserMutation,
   useGetUserByUserIdLazyQuery,
 } from "@/generated/graphql";
-
 import { exampleUser2 } from "@/lib/mockData";
 
 interface UserProfile {
