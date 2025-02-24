@@ -1,5 +1,6 @@
 query GetUserByUserId($userId: String!) {
   userByUserId(userId: $userId) {
+    id
     userId
     displayName
     pictureUrl
@@ -8,6 +9,7 @@ query GetUserByUserId($userId: String!) {
 
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
+    id
     userId
     displayName
     pictureUrl

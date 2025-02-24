@@ -129,14 +129,14 @@ export type GetUserByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByUserIdQuery = { __typename?: 'Query', userByUserId?: { __typename?: 'User', userId: string, displayName: string, pictureUrl?: string | null } | null };
+export type GetUserByUserIdQuery = { __typename?: 'Query', userByUserId?: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', userId: string, displayName: string, pictureUrl?: string | null } | null };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null } | null };
 
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -183,6 +183,7 @@ export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise
 export const GetUserByUserIdDocument = gql`
     query GetUserByUserId($userId: String!) {
   userByUserId(userId: $userId) {
+    id
     userId
     displayName
     pictureUrl
@@ -225,6 +226,7 @@ export type GetUserByUserIdQueryResult = Apollo.QueryResult<GetUserByUserIdQuery
 export const CreateUserDocument = gql`
     mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
+    id
     userId
     displayName
     pictureUrl

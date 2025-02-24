@@ -3,7 +3,6 @@
 import { Calendar } from "@yamada-ui/calendar";
 import { ArrowRightLeft } from "@yamada-ui/lucide";
 import {
-  Box,
   Button,
   Center,
   Container,
@@ -17,11 +16,14 @@ import {
   Textarea,
   VStack,
 } from "@yamada-ui/react";
+import { useAtomValue } from "jotai";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
 import { createMessageString, getDueDate } from "@/lib/control-form";
+import { superBaseIdState } from "@/lib/jotai_state";
 import { exampleUser } from "@/lib/mockData";
+import { baseUri } from "@/lib/request";
 
 import { UserCard } from "./_components/Card";
 import { Header } from "./_components/Header";
@@ -43,24 +45,27 @@ const dueDateItems: SelectItem[] = [
 
 export default function Home() {
   const { user, liff } = useLiff();
+  const superBaseId = useAtomValue(superBaseIdState);
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [createPromise] = useCreatePromiseMutation();
   const [dueDate, setDueDate] = useState<Date>(new Date());
+  const senderId = superBaseId ?? "cm7htd03f0001k8d2hwuxs9zf";
 
-  const [leftright, setLeftRight] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
-  const handleLeftRight = () => {
-    setLeftRight(!leftright);
+  const handleReverse = () => {
+    setIsReverse(!isReverse);
   };
   if (!user) {
     return null;
   }
   return (
     <React.Fragment>
+      <Text>{superBaseId}</Text>
       <Header />
-      <VStack w="full" p={4} gap={4}>
+      <VStack w="full" px={8} py={4} gap={4}>
         <VStack w="full" alignItems="center">
           <Container
             bgColor="primary"
@@ -72,9 +77,9 @@ export default function Home() {
             約束の内容は？
           </Container>
           <HStack gap={4}>
-            <UserCard user={user} />
+            <UserCard user={isReverse ? exampleUser : user} />
             <Text fontSize="6xl">が</Text>
-            <UserCard user={exampleUser} />
+            <UserCard user={isReverse ? user : exampleUser} />
             <Text fontSize="6xl">に</Text>
           </HStack>
           <Center pr={16}>
@@ -85,7 +90,7 @@ export default function Home() {
               h="12"
               w="12"
               rounded="full"
-              onClick={handleLeftRight}
+              onClick={handleReverse}
             />
           </Center>
           <Textarea
@@ -143,8 +148,20 @@ export default function Home() {
         </VStack>
         <Button
           colorScheme="secondary"
-          onClick={() => {
+          onClick={async () => {
             if (!liff) return;
+            const result = await createPromise({
+              variables: {
+                input: {
+                  content: textContentRef.current?.value ?? "",
+                  level: importance,
+                  dueDate:
+                    getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+                  senderId: senderId,
+                },
+              },
+            });
+            const promiseId = result.data?.createPromise?.id;
             liff
               .shareTargetPicker(
                 [
@@ -152,29 +169,21 @@ export default function Home() {
                     type: "text",
                     text: createMessageString(user, importance),
                   },
+                  {
+                    type: "text",
+                    text: baseUri + `/promise/${promiseId}`,
+                  },
                 ],
                 {
                   isMultiple: true,
                 }
               )
               .then(function (res) {
-                // if (res) {
-
-                //   console.log(`[${res.status}] Message sent!`);
-                // } else {
-                //   console.log("TargetPicker was closed!");
-                // }
-                createPromise({
-                  variables: {
-                    input: {
-                      content: textContentRef.current?.value ?? "",
-                      level: importance,
-                      dueDate:
-                        getDueDate(selectDueDateType) ?? dueDate.toISOString(),
-                      senderId: user.userId,
-                    },
-                  },
-                });
+                if (res) {
+                  console.log(`[${res.status}] Message sent!`);
+                } else {
+                  console.log("TargetPicker was closed!");
+                }
               })
               .catch(function (error) {
                 alert(error);
