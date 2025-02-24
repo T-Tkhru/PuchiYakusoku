@@ -58,9 +58,15 @@ export type Promise = {
 
 export type Query = {
   __typename?: 'Query';
+  promise?: Maybe<Promise>;
   promises?: Maybe<Array<Promise>>;
   receivedPromises?: Maybe<Array<Promise>>;
   sentPromises?: Maybe<Array<Promise>>;
+};
+
+
+export type QueryPromiseArgs = {
+  id: Scalars['String']['input'];
 };
 
 

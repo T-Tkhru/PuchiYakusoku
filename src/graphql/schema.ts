@@ -70,6 +70,17 @@ builder.queryType({
       resolve: (_, args) =>
         prisma.promise.findMany({ where: { receiverId: args.receiverId } }),
     }),
+    promise: t.field({
+      type: promise,
+      nullable: true,
+      args: {
+        id: t.arg.string({ required: true }),
+      },
+      resolve: (_, args) =>
+        prisma.promise.findUnique({
+          where: { id: args.id },
+        }),
+    }),
   }),
 });
 
