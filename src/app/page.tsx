@@ -64,6 +64,7 @@ export default function Home() {
   return (
     <React.Fragment>
       <Text>{superBaseId}</Text>
+      <Text>{senderId}</Text>
       <Header />
       <VStack w="full" px={8} py={4} gap={4}>
         <VStack w="full" alignItems="center">
