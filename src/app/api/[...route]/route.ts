@@ -10,6 +10,8 @@ import { auth } from "../auth/[...nextauth]/auth";
 
 const app = new Hono().basePath("/api");
 
+console.log(process.env.DATABASE_URL);
+
 app.get("/userProfile", async (c) => {
   const session = await auth();
   const user = session?.user as UserSimpleProfile;

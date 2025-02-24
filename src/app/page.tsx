@@ -162,6 +162,7 @@ export default function Home() {
                 },
               },
             });
+            console.log(result);
             const promiseId = result.data?.createPromise?.id;
             liff
               .shareTargetPicker(
