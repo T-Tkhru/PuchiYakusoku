@@ -185,7 +185,7 @@ builder.mutationType({
 
 export const schema = builder.toSchema();
 
-const schemaAsString = printSchema(lexicographicSortSchema(schema));
+// const schemaAsString = printSchema(lexicographicSortSchema(schema));
 
-const schemaPath = process.env.NODE_ENV === "development" ? path.join(process.cwd(), "src/generated/schema.graphql") : path.join("/tmp/generated/schema.graphql");
-writeFileSync(schemaPath, schemaAsString);
+// const schemaPath = process.env.NODE_ENV === "development" ? path.join(process.cwd(), "src/generated/schema.graphql") : path.join("/tmp/generated/schema.graphql");
+// writeFileSync(schemaPath, schemaAsString);
