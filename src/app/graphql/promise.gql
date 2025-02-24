@@ -17,6 +17,26 @@ query GetPromises {
   }
 }
 
+query GetPromise($id: String!) {
+  promise(id: $id) {
+    id
+    content
+    level
+    dueDate
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+  }
+}
+
+
 mutation CreatePromise($input: CreatePromiseInput!) {
   createPromise(input: $input) {
     id

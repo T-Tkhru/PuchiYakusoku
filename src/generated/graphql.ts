@@ -145,6 +145,13 @@ export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null }> | null };
 
+export type GetPromiseQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
+
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
 }>;
@@ -304,6 +311,59 @@ export type GetPromisesQueryHookResult = ReturnType<typeof useGetPromisesQuery>;
 export type GetPromisesLazyQueryHookResult = ReturnType<typeof useGetPromisesLazyQuery>;
 export type GetPromisesSuspenseQueryHookResult = ReturnType<typeof useGetPromisesSuspenseQuery>;
 export type GetPromisesQueryResult = Apollo.QueryResult<GetPromisesQuery, GetPromisesQueryVariables>;
+export const GetPromiseDocument = gql`
+    query GetPromise($id: String!) {
+  promise(id: $id) {
+    id
+    content
+    level
+    dueDate
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPromiseQuery__
+ *
+ * To run a query within a React component, call `useGetPromiseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPromiseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPromiseQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetPromiseQuery(baseOptions: Apollo.QueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables> & ({ variables: GetPromiseQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPromiseQuery, GetPromiseQueryVariables>(GetPromiseDocument, options);
+      }
+export function useGetPromiseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPromiseQuery, GetPromiseQueryVariables>(GetPromiseDocument, options);
+        }
+export function useGetPromiseSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPromiseQuery, GetPromiseQueryVariables>(GetPromiseDocument, options);
+        }
+export type GetPromiseQueryHookResult = ReturnType<typeof useGetPromiseQuery>;
+export type GetPromiseLazyQueryHookResult = ReturnType<typeof useGetPromiseLazyQuery>;
+export type GetPromiseSuspenseQueryHookResult = ReturnType<typeof useGetPromiseSuspenseQuery>;
+export type GetPromiseQueryResult = Apollo.QueryResult<GetPromiseQuery, GetPromiseQueryVariables>;
 export const CreatePromiseDocument = gql`
     mutation CreatePromise($input: CreatePromiseInput!) {
   createPromise(input: $input) {
