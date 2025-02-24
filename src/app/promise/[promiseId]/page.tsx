@@ -11,13 +11,10 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { PromiseContents } from "@/app/_components/PromiseContents";
 import { useLiff } from "@/hooks/useLiff";
 import { useUserData } from "@/hooks/useUserData";
 import { exampleUser } from "@/lib/mockData";
-
-import { PromiseContents } from "../_components/PromiseContents";
-import { UserCard } from "./../_components/Card";
-import { Header } from "./../_components/Header";
 
 export default function PromiseDetail() {
   const { user } = useLiff();
@@ -45,7 +42,6 @@ export default function PromiseDetail() {
     >
       {finish ? (
         <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
-          <Header />
           <VStack w="full" p={4} gap={4}>
             <Container
               p={2}
@@ -71,7 +67,6 @@ export default function PromiseDetail() {
         </Box>
       ) : (
         <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
-          <Header />
           <VStack w="full" p={4} gap={4}>
             <Container
               p={2}
