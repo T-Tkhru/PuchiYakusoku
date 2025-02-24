@@ -42,7 +42,7 @@ type Promise {
 }
 
 type Query {
-  promise(id: String!): Promise!
+  promise(id: String!): Promise
   promises: [Promise!]
   receivedPromises(receiverId: String!): [Promise!]
   sentPromises(senderId: String!): [Promise!]

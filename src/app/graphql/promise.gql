@@ -33,7 +33,6 @@ query GetPromise($id: String!) {
       displayName
       pictureUrl
     }
-    createdAt
   }
 }
 
