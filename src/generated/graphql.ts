@@ -150,7 +150,7 @@ export type GetPromiseQueryVariables = Exact<{
 }>;
 
 
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, createdAt?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
@@ -328,6 +328,7 @@ export const GetPromiseDocument = gql`
       displayName
       pictureUrl
     }
+    createdAt
   }
 }
     `;

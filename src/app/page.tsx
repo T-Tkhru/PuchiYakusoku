@@ -16,7 +16,7 @@ import {
   Textarea,
   VStack,
 } from "@yamada-ui/react";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
 import { createMessageString, getDueDate } from "@/lib/control-form";
@@ -57,144 +57,135 @@ export default function Home() {
     return null;
   }
   return (
-    <Container
-      w="full"
-      minH="100vh"
-      alignItems="center"
-      p="0"
-      backgroundColor="red.50"
-    >
-      <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
-        <Header />
-        <VStack w="full" p={4} gap={4}>
-          <VStack w="full">
-            <Container
-              bgColor="primary"
-              color="white"
-              rounded="md"
-              alignItems="center"
-              fontWeight={600}
-            >
-              約束の内容は？
-            </Container>
-            <HStack pb={16}>
-              <UserCard user={user} />
-              <VStack p={0} gap={4} position="relative">
-                <Text fontSize="6xl">が</Text>
-                <IconButton
-                  position="absolute"
-                  icon={<ArrowRightLeft />}
-                  aria-label="left-right"
-                  colorScheme="primary"
-                  top="24"
-                  h="12"
-                  w="12"
-                  rounded="full"
-                  onClick={handleLeftRight}
-                />
-              </VStack>
-              <UserCard user={exampleUser} />
-              <Text fontSize="6xl">に</Text>
-            </HStack>
-
-            <Textarea
-              variant="filled"
-              placeholder="回らない寿司を奢る"
-              h="32"
-              focusBorderColor="teal.500"
-              ref={textContentRef}
-            />
-            <HStack
-              w="full"
-              justifyContent="space-between"
-              alignItems="center"
-              p={2}
-            >
-              <Text>重要度</Text>
-              <SegmentedControl
-                colorScheme="primary"
-                backgroundColor="gray.50"
-                defaultValue="low"
-                size="sm"
-                items={importanceItems}
-                value={importance}
-                onChange={(value) => setImportance(value as Level)}
-              ></SegmentedControl>
-            </HStack>
-
-            <HStack
-              justifyContent="space-between"
-              alignItems="center"
-              p={2}
-              w="full"
-            >
-              <Text w="full">期限</Text>
-              <VStack p={"null"} m={"null"}>
-                <Select
-                  w="60"
-                  placeholder="期限を選択"
-                  focusBorderColor="teal.500"
-                  onChange={(value) => {
-                    setSelectDueDateType(value);
-                  }}
-                  items={dueDateItems}
-                ></Select>
-                {selectDueDateType === "other" && (
-                  <Calendar
-                    value={dueDate}
-                    onChange={(date) => {
-                      setDueDate(date);
-                    }}
-                  />
-                )}
-              </VStack>
-            </HStack>
-          </VStack>
-          <Button
-            colorScheme="secondary"
-            onClick={() => {
-              if (!liff) return;
-              liff
-                .shareTargetPicker(
-                  [
-                    {
-                      type: "text",
-                      text: createMessageString(user, importance),
-                    },
-                  ],
-                  {
-                    isMultiple: true,
-                  }
-                )
-                .then(function (res) {
-                  // if (res) {
-
-                  //   console.log(`[${res.status}] Message sent!`);
-                  // } else {
-                  //   console.log("TargetPicker was closed!");
-                  // }
-                  createPromise({
-                    variables: {
-                      input: {
-                        content: textContentRef.current?.value ?? "",
-                        level: importance,
-                        dueDate:
-                          getDueDate(selectDueDateType) ??
-                          dueDate.toISOString(),
-                        senderId: user.userId,
-                      },
-                    },
-                  });
-                })
-                .catch(function (error) {
-                  alert(error);
-                });
-            }}
+    <React.Fragment>
+      <Header />
+      <VStack w="full" p={4} gap={4}>
+        <VStack w="full">
+          <Container
+            bgColor="primary"
+            color="white"
+            rounded="md"
+            alignItems="center"
+            fontWeight={600}
           >
-            約束する
-          </Button>
+            約束の内容は？
+          </Container>
+          <HStack pb={16}>
+            <UserCard user={user} />
+            <VStack p={0} gap={4} position="relative">
+              <Text fontSize="6xl">が</Text>
+              <IconButton
+                position="absolute"
+                icon={<ArrowRightLeft />}
+                aria-label="left-right"
+                colorScheme="primary"
+                top="24"
+                h="12"
+                w="12"
+                rounded="full"
+                onClick={handleLeftRight}
+              />
+            </VStack>
+            <UserCard user={exampleUser} />
+            <Text fontSize="6xl">に</Text>
+          </HStack>
+
+          <Textarea
+            variant="filled"
+            placeholder="回らない寿司を奢る"
+            h="32"
+            focusBorderColor="teal.500"
+            ref={textContentRef}
+          />
+          <HStack
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+            p={2}
+          >
+            <Text>重要度</Text>
+            <SegmentedControl
+              colorScheme="primary"
+              backgroundColor="gray.50"
+              defaultValue="low"
+              size="sm"
+              items={importanceItems}
+              value={importance}
+              onChange={(value) => setImportance(value as Level)}
+            ></SegmentedControl>
+          </HStack>
+
+          <HStack
+            justifyContent="space-between"
+            alignItems="center"
+            p={2}
+            w="full"
+          >
+            <Text w="full">期限</Text>
+            <VStack p={"null"} m={"null"}>
+              <Select
+                w="60"
+                placeholder="期限を選択"
+                focusBorderColor="teal.500"
+                onChange={(value) => {
+                  setSelectDueDateType(value);
+                }}
+                items={dueDateItems}
+              ></Select>
+              {selectDueDateType === "other" && (
+                <Calendar
+                  value={dueDate}
+                  onChange={(date) => {
+                    setDueDate(date);
+                  }}
+                />
+              )}
+            </VStack>
+          </HStack>
         </VStack>
-      </Box>
-    </Container>
+        <Button
+          colorScheme="secondary"
+          onClick={() => {
+            if (!liff) return;
+            liff
+              .shareTargetPicker(
+                [
+                  {
+                    type: "text",
+                    text: createMessageString(user, importance),
+                  },
+                ],
+                {
+                  isMultiple: true,
+                }
+              )
+              .then(function (res) {
+                // if (res) {
+
+                //   console.log(`[${res.status}] Message sent!`);
+                // } else {
+                //   console.log("TargetPicker was closed!");
+                // }
+                createPromise({
+                  variables: {
+                    input: {
+                      content: textContentRef.current?.value ?? "",
+                      level: importance,
+                      dueDate:
+                        getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+                      senderId: user.userId,
+                    },
+                  },
+                });
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          }}
+        >
+          約束する
+        </Button>
+      </VStack>
+    </React.Fragment>
   );
 }

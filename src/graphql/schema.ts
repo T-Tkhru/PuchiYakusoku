@@ -80,7 +80,6 @@ builder.queryType({
     }),
     promise: t.field({
       type: promise,
-      nullable: true,
       args: {
         id: t.arg.string({ required: true }),
       },

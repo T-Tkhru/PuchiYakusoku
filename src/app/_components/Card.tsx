@@ -4,9 +4,15 @@ import { UserProfile } from "@/lib/type";
 
 interface CardProps {
   user: UserProfile;
+  size?: string;
+  color?: string;
 }
 
-export const UserCard = ({ user }: CardProps) => {
+export const UserCard = ({
+  user,
+  size = "lg",
+  color = "orange.400",
+}: CardProps) => {
   return (
     <VStack alignItems="center" gap={1}>
       <Tooltip
@@ -17,9 +23,9 @@ export const UserCard = ({ user }: CardProps) => {
       >
         <Avatar
           src={user.pictureUrl}
-          size={"xl"}
+          size={size}
           border="2px solid"
-          borderColor="orange.400"
+          borderColor={color}
         />
       </Tooltip>
     </VStack>
