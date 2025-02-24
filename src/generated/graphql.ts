@@ -1,45 +1,59 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: { input: string; output: string; }
+  DateTime: { input: string; output: string };
 };
 
 export type CreatePromiseInput = {
-  content: Scalars['String']['input'];
-  dueDate: Scalars['String']['input'];
+  content: Scalars["String"]["input"];
+  dueDate: Scalars["String"]["input"];
   level: Level;
-  senderId: Scalars['String']['input'];
+  senderId: Scalars["String"]["input"];
 };
 
 export type CreateUserInput = {
-  displayName: Scalars['String']['input'];
-  pictureUrl: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
+  displayName: Scalars["String"]["input"];
+  pictureUrl: Scalars["String"]["input"];
+  userId: Scalars["String"]["input"];
 };
 
 export enum Level {
-  High = 'HIGH',
-  Low = 'LOW',
-  Medium = 'MEDIUM'
+  High = "HIGH",
+  Low = "LOW",
+  Medium = "MEDIUM",
 }
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   acceptPromise?: Maybe<Promise>;
   completePromise?: Maybe<Promise>;
   createPromise?: Maybe<Promise>;
@@ -47,150 +61,267 @@ export type Mutation = {
   rejectPromise?: Maybe<Promise>;
 };
 
-
 export type MutationAcceptPromiseArgs = {
-  id: Scalars['ID']['input'];
-  receiverId: Scalars['String']['input'];
+  id: Scalars["ID"]["input"];
+  receiverId: Scalars["String"]["input"];
 };
-
 
 export type MutationCompletePromiseArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type MutationCreatePromiseArgs = {
   input: CreatePromiseInput;
 };
 
-
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
-
 export type MutationRejectPromiseArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type Promise = {
-  __typename?: 'Promise';
-  completedAt?: Maybe<Scalars['DateTime']['output']>;
-  content?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  isAccepted?: Maybe<Scalars['Boolean']['output']>;
-  level?: Maybe<Level>;
+  __typename?: "Promise";
+  completedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  content: Scalars["String"]["output"];
+  dueDate: Scalars["DateTime"]["output"];
+  id: Scalars["ID"]["output"];
+  isAccepted?: Maybe<Scalars["Boolean"]["output"]>;
+  level: Level;
   receiver?: Maybe<User>;
-  sender?: Maybe<User>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  sender: User;
 };
 
 export type Query = {
-  __typename?: 'Query';
-  promise?: Maybe<Promise>;
+  __typename?: "Query";
+  promise: Promise;
   promises?: Maybe<Array<Promise>>;
   receivedPromises?: Maybe<Array<Promise>>;
   sentPromises?: Maybe<Array<Promise>>;
   userByUserId?: Maybe<User>;
 };
 
-
 export type QueryPromiseArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 };
-
 
 export type QueryReceivedPromisesArgs = {
-  receiverId: Scalars['String']['input'];
+  receiverId: Scalars["String"]["input"];
 };
-
 
 export type QuerySentPromisesArgs = {
-  senderId: Scalars['String']['input'];
+  senderId: Scalars["String"]["input"];
 };
 
-
 export type QueryUserByUserIdArgs = {
-  userId: Scalars['String']['input'];
+  userId: Scalars["String"]["input"];
 };
 
 export type User = {
-  __typename?: 'User';
-  displayName?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  pictureUrl?: Maybe<Scalars['String']['output']>;
+  __typename?: "User";
+  displayName: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
+  pictureUrl?: Maybe<Scalars["String"]["output"]>;
   receivedPromises?: Maybe<Array<Promise>>;
   sentPromises?: Maybe<Array<Promise>>;
-  userId?: Maybe<Scalars['String']['output']>;
+  userId: Scalars["String"]["output"];
 };
 
 export type GetUserByUserIdQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
+  userId: Scalars["String"]["input"];
 }>;
 
-
-export type GetUserByUserIdQuery = { __typename?: 'Query', userByUserId?: { __typename?: 'User', userId?: string | null, displayName?: string | null, pictureUrl?: string | null } | null };
+export type GetUserByUserIdQuery = {
+  __typename?: "Query";
+  userByUserId?: {
+    __typename?: "User";
+    userId: string;
+    displayName: string;
+    pictureUrl?: string | null;
+  } | null;
+};
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
+export type CreateUserMutation = {
+  __typename?: "Mutation";
+  createUser?: {
+    __typename?: "User";
+    userId: string;
+    displayName: string;
+    pictureUrl?: string | null;
+  } | null;
+};
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', userId?: string | null, displayName?: string | null, pictureUrl?: string | null } | null };
+export type GetPromisesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null }> | null };
+export type GetPromisesQuery = {
+  __typename?: "Query";
+  promises?: Array<{
+    __typename?: "Promise";
+    id: string;
+    content: string;
+    level: Level;
+    dueDate: string;
+    sender: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    };
+    receiver?: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    } | null;
+  }> | null;
+};
 
 export type GetPromiseQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: Scalars["String"]["input"];
 }>;
 
-
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, createdAt?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = {
+  __typename?: "Query";
+  promise?: {
+    __typename?: "Promise";
+    id?: string | null;
+    content?: string | null;
+    level?: Level | null;
+    dueDate?: string | null;
+    createdAt?: string | null;
+    sender?: {
+      __typename?: "User";
+      id?: string | null;
+      displayName?: string | null;
+      pictureUrl?: string | null;
+    } | null;
+    receiver?: {
+      __typename?: "User";
+      id?: string | null;
+      displayName?: string | null;
+      pictureUrl?: string | null;
+    } | null;
+  } | null;
+};
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
 }>;
 
-
-export type CreatePromiseMutation = { __typename?: 'Mutation', createPromise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
+export type CreatePromiseMutation = {
+  __typename?: "Mutation";
+  createPromise?: {
+    __typename?: "Promise";
+    id: string;
+    content: string;
+    level: Level;
+    dueDate: string;
+    sender: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    };
+    receiver?: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    } | null;
+  } | null;
+};
 
 export type AcceptPromiseMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  receiverId: Scalars['String']['input'];
+  id: Scalars["ID"]["input"];
+  receiverId: Scalars["String"]["input"];
 }>;
 
-
-export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
+export type AcceptPromiseMutation = {
+  __typename?: "Mutation";
+  acceptPromise?: {
+    __typename?: "Promise";
+    id: string;
+    content: string;
+    level: Level;
+    dueDate: string;
+    sender: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    };
+    receiver?: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    } | null;
+  } | null;
+};
 
 export type RejectPromiseMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 }>;
 
-
-export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
+export type RejectPromiseMutation = {
+  __typename?: "Mutation";
+  rejectPromise?: {
+    __typename?: "Promise";
+    id: string;
+    content: string;
+    level: Level;
+    dueDate: string;
+    sender: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    };
+  } | null;
+};
 
 export type CompletePromiseMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 }>;
 
-
-export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id?: string | null, content?: string | null, level?: Level | null, dueDate?: string | null, sender?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null, receiver?: { __typename?: 'User', id?: string | null, displayName?: string | null, pictureUrl?: string | null } | null } | null };
-
+export type CompletePromiseMutation = {
+  __typename?: "Mutation";
+  completePromise?: {
+    __typename?: "Promise";
+    id: string;
+    content: string;
+    level: Level;
+    dueDate: string;
+    sender: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    };
+    receiver?: {
+      __typename?: "User";
+      id: string;
+      displayName: string;
+      pictureUrl?: string | null;
+    } | null;
+  } | null;
+};
 
 export const GetUserByUserIdDocument = gql`
-    query GetUserByUserId($userId: String!) {
-  userByUserId(userId: $userId) {
-    userId
-    displayName
-    pictureUrl
+  query GetUserByUserId($userId: String!) {
+    userByUserId(userId: $userId) {
+      userId
+      displayName
+      pictureUrl
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetUserByUserIdQuery__
@@ -208,32 +339,77 @@ export const GetUserByUserIdDocument = gql`
  *   },
  * });
  */
-export function useGetUserByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables> & ({ variables: GetUserByUserIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>(GetUserByUserIdDocument, options);
-      }
-export function useGetUserByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>(GetUserByUserIdDocument, options);
-        }
-export function useGetUserByUserIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>(GetUserByUserIdDocument, options);
-        }
-export type GetUserByUserIdQueryHookResult = ReturnType<typeof useGetUserByUserIdQuery>;
-export type GetUserByUserIdLazyQueryHookResult = ReturnType<typeof useGetUserByUserIdLazyQuery>;
-export type GetUserByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetUserByUserIdSuspenseQuery>;
-export type GetUserByUserIdQueryResult = Apollo.QueryResult<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>;
-export const CreateUserDocument = gql`
-    mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    userId
-    displayName
-    pictureUrl
-  }
+export function useGetUserByUserIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserByUserIdQuery,
+    GetUserByUserIdQueryVariables
+  > &
+    (
+      | { variables: GetUserByUserIdQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>(
+    GetUserByUserIdDocument,
+    options
+  );
 }
-    `;
-export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+export function useGetUserByUserIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserByUserIdQuery,
+    GetUserByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserByUserIdQuery,
+    GetUserByUserIdQueryVariables
+  >(GetUserByUserIdDocument, options);
+}
+export function useGetUserByUserIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetUserByUserIdQuery,
+        GetUserByUserIdQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetUserByUserIdQuery,
+    GetUserByUserIdQueryVariables
+  >(GetUserByUserIdDocument, options);
+}
+export type GetUserByUserIdQueryHookResult = ReturnType<
+  typeof useGetUserByUserIdQuery
+>;
+export type GetUserByUserIdLazyQueryHookResult = ReturnType<
+  typeof useGetUserByUserIdLazyQuery
+>;
+export type GetUserByUserIdSuspenseQueryHookResult = ReturnType<
+  typeof useGetUserByUserIdSuspenseQuery
+>;
+export type GetUserByUserIdQueryResult = Apollo.QueryResult<
+  GetUserByUserIdQuery,
+  GetUserByUserIdQueryVariables
+>;
+export const CreateUserDocument = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      userId
+      displayName
+      pictureUrl
+    }
+  }
+`;
+export type CreateUserMutationFn = Apollo.MutationFunction<
+  CreateUserMutation,
+  CreateUserMutationVariables
+>;
 
 /**
  * __useCreateUserMutation__
@@ -252,33 +428,47 @@ export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, C
  *   },
  * });
  */
-export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
-      }
-export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
-export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export function useCreateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserMutation,
+    CreateUserMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(
+    CreateUserDocument,
+    options
+  );
+}
+export type CreateUserMutationHookResult = ReturnType<
+  typeof useCreateUserMutation
+>;
+export type CreateUserMutationResult =
+  Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserMutation,
+  CreateUserMutationVariables
+>;
 export const GetPromisesDocument = gql`
-    query GetPromises {
-  promises {
-    id
-    content
-    level
-    dueDate
-    sender {
+  query GetPromises {
+    promises {
       id
-      displayName
-      pictureUrl
-    }
-    receiver {
-      id
-      displayName
-      pictureUrl
+      content
+      level
+      dueDate
+      sender {
+        id
+        displayName
+        pictureUrl
+      }
+      receiver {
+        id
+        displayName
+        pictureUrl
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetPromisesQuery__
@@ -295,43 +485,79 @@ export const GetPromisesDocument = gql`
  *   },
  * });
  */
-export function useGetPromisesQuery(baseOptions?: Apollo.QueryHookOptions<GetPromisesQuery, GetPromisesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPromisesQuery, GetPromisesQueryVariables>(GetPromisesDocument, options);
-      }
-export function useGetPromisesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPromisesQuery, GetPromisesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPromisesQuery, GetPromisesQueryVariables>(GetPromisesDocument, options);
-        }
-export function useGetPromisesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPromisesQuery, GetPromisesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPromisesQuery, GetPromisesQueryVariables>(GetPromisesDocument, options);
-        }
-export type GetPromisesQueryHookResult = ReturnType<typeof useGetPromisesQuery>;
-export type GetPromisesLazyQueryHookResult = ReturnType<typeof useGetPromisesLazyQuery>;
-export type GetPromisesSuspenseQueryHookResult = ReturnType<typeof useGetPromisesSuspenseQuery>;
-export type GetPromisesQueryResult = Apollo.QueryResult<GetPromisesQuery, GetPromisesQueryVariables>;
-export const GetPromiseDocument = gql`
-    query GetPromise($id: String!) {
-  promise(id: $id) {
-    id
-    content
-    level
-    dueDate
-    sender {
-      id
-      displayName
-      pictureUrl
-    }
-    receiver {
-      id
-      displayName
-      pictureUrl
-    }
-    createdAt
-  }
+export function useGetPromisesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetPromisesQuery,
+    GetPromisesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetPromisesQuery, GetPromisesQueryVariables>(
+    GetPromisesDocument,
+    options
+  );
 }
-    `;
+export function useGetPromisesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetPromisesQuery,
+    GetPromisesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetPromisesQuery, GetPromisesQueryVariables>(
+    GetPromisesDocument,
+    options
+  );
+}
+export function useGetPromisesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetPromisesQuery,
+        GetPromisesQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetPromisesQuery, GetPromisesQueryVariables>(
+    GetPromisesDocument,
+    options
+  );
+}
+export type GetPromisesQueryHookResult = ReturnType<typeof useGetPromisesQuery>;
+export type GetPromisesLazyQueryHookResult = ReturnType<
+  typeof useGetPromisesLazyQuery
+>;
+export type GetPromisesSuspenseQueryHookResult = ReturnType<
+  typeof useGetPromisesSuspenseQuery
+>;
+export type GetPromisesQueryResult = Apollo.QueryResult<
+  GetPromisesQuery,
+  GetPromisesQueryVariables
+>;
+export const GetPromiseDocument = gql`
+  query GetPromise($id: String!) {
+    promise(id: $id) {
+      id
+      content
+      level
+      dueDate
+      sender {
+        id
+        displayName
+        pictureUrl
+      }
+      receiver {
+        id
+        displayName
+        pictureUrl
+      }
+      createdAt
+    }
+  }
+`;
 
 /**
  * __useGetPromiseQuery__
@@ -349,43 +575,83 @@ export const GetPromiseDocument = gql`
  *   },
  * });
  */
-export function useGetPromiseQuery(baseOptions: Apollo.QueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables> & ({ variables: GetPromiseQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPromiseQuery, GetPromiseQueryVariables>(GetPromiseDocument, options);
-      }
-export function useGetPromiseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPromiseQuery, GetPromiseQueryVariables>(GetPromiseDocument, options);
-        }
-export function useGetPromiseSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPromiseQuery, GetPromiseQueryVariables>(GetPromiseDocument, options);
-        }
+export function useGetPromiseQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetPromiseQuery,
+    GetPromiseQueryVariables
+  > &
+    (
+      | { variables: GetPromiseQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetPromiseQuery, GetPromiseQueryVariables>(
+    GetPromiseDocument,
+    options
+  );
+}
+export function useGetPromiseLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetPromiseQuery,
+    GetPromiseQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetPromiseQuery, GetPromiseQueryVariables>(
+    GetPromiseDocument,
+    options
+  );
+}
+export function useGetPromiseSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetPromiseQuery, GetPromiseQueryVariables>
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetPromiseQuery, GetPromiseQueryVariables>(
+    GetPromiseDocument,
+    options
+  );
+}
 export type GetPromiseQueryHookResult = ReturnType<typeof useGetPromiseQuery>;
-export type GetPromiseLazyQueryHookResult = ReturnType<typeof useGetPromiseLazyQuery>;
-export type GetPromiseSuspenseQueryHookResult = ReturnType<typeof useGetPromiseSuspenseQuery>;
-export type GetPromiseQueryResult = Apollo.QueryResult<GetPromiseQuery, GetPromiseQueryVariables>;
+export type GetPromiseLazyQueryHookResult = ReturnType<
+  typeof useGetPromiseLazyQuery
+>;
+export type GetPromiseSuspenseQueryHookResult = ReturnType<
+  typeof useGetPromiseSuspenseQuery
+>;
+export type GetPromiseQueryResult = Apollo.QueryResult<
+  GetPromiseQuery,
+  GetPromiseQueryVariables
+>;
 export const CreatePromiseDocument = gql`
-    mutation CreatePromise($input: CreatePromiseInput!) {
-  createPromise(input: $input) {
-    id
-    content
-    level
-    dueDate
-    sender {
+  mutation CreatePromise($input: CreatePromiseInput!) {
+    createPromise(input: $input) {
       id
-      displayName
-      pictureUrl
-    }
-    receiver {
-      id
-      displayName
-      pictureUrl
+      content
+      level
+      dueDate
+      sender {
+        id
+        displayName
+        pictureUrl
+      }
+      receiver {
+        id
+        displayName
+        pictureUrl
+      }
     }
   }
-}
-    `;
-export type CreatePromiseMutationFn = Apollo.MutationFunction<CreatePromiseMutation, CreatePromiseMutationVariables>;
+`;
+export type CreatePromiseMutationFn = Apollo.MutationFunction<
+  CreatePromiseMutation,
+  CreatePromiseMutationVariables
+>;
 
 /**
  * __useCreatePromiseMutation__
@@ -404,34 +670,51 @@ export type CreatePromiseMutationFn = Apollo.MutationFunction<CreatePromiseMutat
  *   },
  * });
  */
-export function useCreatePromiseMutation(baseOptions?: Apollo.MutationHookOptions<CreatePromiseMutation, CreatePromiseMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreatePromiseMutation, CreatePromiseMutationVariables>(CreatePromiseDocument, options);
-      }
-export type CreatePromiseMutationHookResult = ReturnType<typeof useCreatePromiseMutation>;
-export type CreatePromiseMutationResult = Apollo.MutationResult<CreatePromiseMutation>;
-export type CreatePromiseMutationOptions = Apollo.BaseMutationOptions<CreatePromiseMutation, CreatePromiseMutationVariables>;
+export function useCreatePromiseMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreatePromiseMutation,
+    CreatePromiseMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreatePromiseMutation,
+    CreatePromiseMutationVariables
+  >(CreatePromiseDocument, options);
+}
+export type CreatePromiseMutationHookResult = ReturnType<
+  typeof useCreatePromiseMutation
+>;
+export type CreatePromiseMutationResult =
+  Apollo.MutationResult<CreatePromiseMutation>;
+export type CreatePromiseMutationOptions = Apollo.BaseMutationOptions<
+  CreatePromiseMutation,
+  CreatePromiseMutationVariables
+>;
 export const AcceptPromiseDocument = gql`
-    mutation AcceptPromise($id: ID!, $receiverId: String!) {
-  acceptPromise(id: $id, receiverId: $receiverId) {
-    id
-    content
-    level
-    dueDate
-    sender {
+  mutation AcceptPromise($id: ID!, $receiverId: String!) {
+    acceptPromise(id: $id, receiverId: $receiverId) {
       id
-      displayName
-      pictureUrl
-    }
-    receiver {
-      id
-      displayName
-      pictureUrl
+      content
+      level
+      dueDate
+      sender {
+        id
+        displayName
+        pictureUrl
+      }
+      receiver {
+        id
+        displayName
+        pictureUrl
+      }
     }
   }
-}
-    `;
-export type AcceptPromiseMutationFn = Apollo.MutationFunction<AcceptPromiseMutation, AcceptPromiseMutationVariables>;
+`;
+export type AcceptPromiseMutationFn = Apollo.MutationFunction<
+  AcceptPromiseMutation,
+  AcceptPromiseMutationVariables
+>;
 
 /**
  * __useAcceptPromiseMutation__
@@ -451,29 +734,46 @@ export type AcceptPromiseMutationFn = Apollo.MutationFunction<AcceptPromiseMutat
  *   },
  * });
  */
-export function useAcceptPromiseMutation(baseOptions?: Apollo.MutationHookOptions<AcceptPromiseMutation, AcceptPromiseMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AcceptPromiseMutation, AcceptPromiseMutationVariables>(AcceptPromiseDocument, options);
-      }
-export type AcceptPromiseMutationHookResult = ReturnType<typeof useAcceptPromiseMutation>;
-export type AcceptPromiseMutationResult = Apollo.MutationResult<AcceptPromiseMutation>;
-export type AcceptPromiseMutationOptions = Apollo.BaseMutationOptions<AcceptPromiseMutation, AcceptPromiseMutationVariables>;
+export function useAcceptPromiseMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AcceptPromiseMutation,
+    AcceptPromiseMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AcceptPromiseMutation,
+    AcceptPromiseMutationVariables
+  >(AcceptPromiseDocument, options);
+}
+export type AcceptPromiseMutationHookResult = ReturnType<
+  typeof useAcceptPromiseMutation
+>;
+export type AcceptPromiseMutationResult =
+  Apollo.MutationResult<AcceptPromiseMutation>;
+export type AcceptPromiseMutationOptions = Apollo.BaseMutationOptions<
+  AcceptPromiseMutation,
+  AcceptPromiseMutationVariables
+>;
 export const RejectPromiseDocument = gql`
-    mutation RejectPromise($id: ID!) {
-  rejectPromise(id: $id) {
-    id
-    content
-    level
-    dueDate
-    sender {
+  mutation RejectPromise($id: ID!) {
+    rejectPromise(id: $id) {
       id
-      displayName
-      pictureUrl
+      content
+      level
+      dueDate
+      sender {
+        id
+        displayName
+        pictureUrl
+      }
     }
   }
-}
-    `;
-export type RejectPromiseMutationFn = Apollo.MutationFunction<RejectPromiseMutation, RejectPromiseMutationVariables>;
+`;
+export type RejectPromiseMutationFn = Apollo.MutationFunction<
+  RejectPromiseMutation,
+  RejectPromiseMutationVariables
+>;
 
 /**
  * __useRejectPromiseMutation__
@@ -492,34 +792,51 @@ export type RejectPromiseMutationFn = Apollo.MutationFunction<RejectPromiseMutat
  *   },
  * });
  */
-export function useRejectPromiseMutation(baseOptions?: Apollo.MutationHookOptions<RejectPromiseMutation, RejectPromiseMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RejectPromiseMutation, RejectPromiseMutationVariables>(RejectPromiseDocument, options);
-      }
-export type RejectPromiseMutationHookResult = ReturnType<typeof useRejectPromiseMutation>;
-export type RejectPromiseMutationResult = Apollo.MutationResult<RejectPromiseMutation>;
-export type RejectPromiseMutationOptions = Apollo.BaseMutationOptions<RejectPromiseMutation, RejectPromiseMutationVariables>;
+export function useRejectPromiseMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RejectPromiseMutation,
+    RejectPromiseMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RejectPromiseMutation,
+    RejectPromiseMutationVariables
+  >(RejectPromiseDocument, options);
+}
+export type RejectPromiseMutationHookResult = ReturnType<
+  typeof useRejectPromiseMutation
+>;
+export type RejectPromiseMutationResult =
+  Apollo.MutationResult<RejectPromiseMutation>;
+export type RejectPromiseMutationOptions = Apollo.BaseMutationOptions<
+  RejectPromiseMutation,
+  RejectPromiseMutationVariables
+>;
 export const CompletePromiseDocument = gql`
-    mutation CompletePromise($id: ID!) {
-  completePromise(id: $id) {
-    id
-    content
-    level
-    dueDate
-    sender {
+  mutation CompletePromise($id: ID!) {
+    completePromise(id: $id) {
       id
-      displayName
-      pictureUrl
-    }
-    receiver {
-      id
-      displayName
-      pictureUrl
+      content
+      level
+      dueDate
+      sender {
+        id
+        displayName
+        pictureUrl
+      }
+      receiver {
+        id
+        displayName
+        pictureUrl
+      }
     }
   }
-}
-    `;
-export type CompletePromiseMutationFn = Apollo.MutationFunction<CompletePromiseMutation, CompletePromiseMutationVariables>;
+`;
+export type CompletePromiseMutationFn = Apollo.MutationFunction<
+  CompletePromiseMutation,
+  CompletePromiseMutationVariables
+>;
 
 /**
  * __useCompletePromiseMutation__
@@ -538,10 +855,24 @@ export type CompletePromiseMutationFn = Apollo.MutationFunction<CompletePromiseM
  *   },
  * });
  */
-export function useCompletePromiseMutation(baseOptions?: Apollo.MutationHookOptions<CompletePromiseMutation, CompletePromiseMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CompletePromiseMutation, CompletePromiseMutationVariables>(CompletePromiseDocument, options);
-      }
-export type CompletePromiseMutationHookResult = ReturnType<typeof useCompletePromiseMutation>;
-export type CompletePromiseMutationResult = Apollo.MutationResult<CompletePromiseMutation>;
-export type CompletePromiseMutationOptions = Apollo.BaseMutationOptions<CompletePromiseMutation, CompletePromiseMutationVariables>;
+export function useCompletePromiseMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CompletePromiseMutation,
+    CompletePromiseMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CompletePromiseMutation,
+    CompletePromiseMutationVariables
+  >(CompletePromiseDocument, options);
+}
+export type CompletePromiseMutationHookResult = ReturnType<
+  typeof useCompletePromiseMutation
+>;
+export type CompletePromiseMutationResult =
+  Apollo.MutationResult<CompletePromiseMutation>;
+export type CompletePromiseMutationOptions = Apollo.BaseMutationOptions<
+  CompletePromiseMutation,
+  CompletePromiseMutationVariables
+>;

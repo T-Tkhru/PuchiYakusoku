@@ -32,19 +32,17 @@ type Mutation {
 
 type Promise {
   completedAt: DateTime
-  content: String
-  createdAt: DateTime
-  dueDate: DateTime
-  id: ID
+  content: String!
+  dueDate: DateTime!
+  id: ID!
   isAccepted: Boolean
-  level: Level
+  level: Level!
   receiver: User
-  sender: User
-  updatedAt: DateTime
+  sender: User!
 }
 
 type Query {
-  promise(id: String!): Promise
+  promise(id: String!): Promise!
   promises: [Promise!]
   receivedPromises(receiverId: String!): [Promise!]
   sentPromises(senderId: String!): [Promise!]
@@ -52,10 +50,10 @@ type Query {
 }
 
 type User {
-  displayName: String
-  id: ID
+  displayName: String!
+  id: ID!
   pictureUrl: String
   receivedPromises: [Promise!]
   sentPromises: [Promise!]
-  userId: String
+  userId: String!
 }

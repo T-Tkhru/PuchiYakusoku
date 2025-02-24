@@ -32,24 +32,22 @@ const createUserInput = builder.inputType("CreateUserInput", {
 
 const promise = builder.prismaObject("Promise", {
   fields: (t) => ({
-    id: t.exposeID("id"),
-    content: t.exposeString("content"),
-    level: t.expose("level", { type: LevelEnum }),
-    dueDate: t.expose("dueDate", { type: "DateTime" }),
-    sender: t.relation("sender"),
+    id: t.exposeID("id", { nullable: false }),
+    content: t.exposeString("content", { nullable: false }),
+    level: t.expose("level", { type: LevelEnum, nullable: false }),
+    dueDate: t.expose("dueDate", { type: "DateTime", nullable: false }),
+    sender: t.relation("sender", { nullable: false }),
     receiver: t.relation("receiver"),
     isAccepted: t.exposeBoolean("isAccepted"),
     completedAt: t.expose("completedAt", { type: "DateTime" }),
-    createdAt: t.expose("createdAt", { type: "DateTime" }),
-    updatedAt: t.expose("updatedAt", { type: "DateTime" }),
   }),
 });
 
 const user = builder.prismaObject("User", {
   fields: (t) => ({
-    id: t.exposeID("id"),
-    userId: t.exposeString("userId"),
-    displayName: t.exposeString("displayName"),
+    id: t.exposeID("id", { nullable: false }),
+    userId: t.exposeString("userId", { nullable: false }),
+    displayName: t.exposeString("displayName", { nullable: false }),
     pictureUrl: t.exposeString("pictureUrl"),
     sentPromises: t.relation("sentPromises"),
     receivedPromises: t.relation("receivedPromises"),
@@ -83,10 +81,15 @@ builder.queryType({
       args: {
         id: t.arg.string({ required: true }),
       },
-      resolve: (_, args) =>
-        prisma.promise.findUnique({
+      resolve: async (_, args) => {
+        const foundPromise = await prisma.promise.findUnique({
           where: { id: args.id },
-        }),
+        });
+        if (!foundPromise) {
+          throw new Error("Promise not found");
+        }
+        return foundPromise;
+      },
     }),
     userByUserId: t.field({
       type: user,
