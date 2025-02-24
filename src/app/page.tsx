@@ -19,7 +19,7 @@ import {
 import { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
-import { createMessageString } from "@/lib/control-form";
+import { createMessageString, getDueDate } from "@/lib/control-form";
 import { exampleUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
@@ -46,7 +46,7 @@ export default function Home() {
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [createPromise] = useCreatePromiseMutation();
-  const dueDateRef = useRef<HTMLDivElement | null>(null);
+  const [dueDate, setDueDate] = useState<Date>(new Date());
 
   const [leftright, setLeftRight] = useState(false);
 
@@ -54,11 +54,7 @@ export default function Home() {
     setLeftRight(!leftright);
   };
   if (!user) {
-    return (
-      <Container>
-        <Text>ログインしてください</Text>
-      </Container>
-    );
+    return null;
   }
   return (
     <Container
@@ -103,7 +99,7 @@ export default function Home() {
 
             <Textarea
               variant="filled"
-              placeholder="○○を△△する"
+              placeholder="回らない寿司を奢る"
               h="32"
               focusBorderColor="teal.500"
               ref={textContentRef}
@@ -121,19 +117,21 @@ export default function Home() {
                 defaultValue="low"
                 size="sm"
                 items={importanceItems}
+                value={importance}
                 onChange={(value) => setImportance(value as Level)}
               ></SegmentedControl>
             </HStack>
 
             <HStack
-              w="full"
               justifyContent="space-between"
               alignItems="center"
               p={2}
+              w="full"
             >
-              <Text minW="60px">期限</Text>
-              <VStack>
+              <Text w="full">期限</Text>
+              <VStack p={"null"} m={"null"}>
                 <Select
+                  w="60"
                   placeholder="期限を選択"
                   focusBorderColor="teal.500"
                   onChange={(value) => {
@@ -141,7 +139,14 @@ export default function Home() {
                   }}
                   items={dueDateItems}
                 ></Select>
-                {selectDueDateType === "other" && <Calendar ref={dueDateRef} />}
+                {selectDueDateType === "other" && (
+                  <Calendar
+                    value={dueDate}
+                    onChange={(date) => {
+                      setDueDate(date);
+                    }}
+                  />
+                )}
               </VStack>
             </HStack>
           </VStack>
@@ -162,21 +167,24 @@ export default function Home() {
                   }
                 )
                 .then(function (res) {
-                  if (res) {
-                    createPromise({
-                      variables: {
-                        input: {
-                          content: textContentRef.current?.value ?? "",
-                          level: importance,
-                          dueDate: selectDueDateType,
-                          senderId: user.userId,
-                        },
+                  // if (res) {
+
+                  //   console.log(`[${res.status}] Message sent!`);
+                  // } else {
+                  //   console.log("TargetPicker was closed!");
+                  // }
+                  createPromise({
+                    variables: {
+                      input: {
+                        content: textContentRef.current?.value ?? "",
+                        level: importance,
+                        dueDate:
+                          getDueDate(selectDueDateType) ??
+                          dueDate.toISOString(),
+                        senderId: user.userId,
                       },
-                    });
-                    console.log(`[${res.status}] Message sent!`);
-                  } else {
-                    console.log("TargetPicker was closed!");
-                  }
+                    },
+                  });
                 })
                 .catch(function (error) {
                   alert(error);

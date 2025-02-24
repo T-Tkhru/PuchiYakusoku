@@ -37,8 +37,10 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
           liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
           // @ts-expect-error: mock property is provided by LiffMockPlugin
           mock: true,
+          withLoginOnExternalBrowser: true,
         });
         setLiffObject(liffModule.default);
+        liffModule.liff.login();
         setUser(exampleUser2);
         screen.finish();
         return;

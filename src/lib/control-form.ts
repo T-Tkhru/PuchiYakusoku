@@ -2,7 +2,7 @@ import { Level } from "@prisma/client";
 
 import { UserProfile } from "./type";
 
-export function getDueDate(value: string | null): Date | null {
+export function getDueDate(value: string | null): string | null {
   const today = new Date();
 
   switch (value) {
@@ -21,7 +21,7 @@ export function getDueDate(value: string | null): Date | null {
       return null;
   }
 
-  return today;
+  return today.toISOString();
 }
 
 export const createMessageString = (user: UserProfile, importance: Level) => {
