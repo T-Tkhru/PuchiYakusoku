@@ -6,10 +6,14 @@ import { UIProvider } from "@yamada-ui/react";
 import { theme } from "@/app/theme";
 import { client } from "@/lib/apollo-client";
 
-export const LIFFTemplate = ({ children }: { children: React.ReactNode }) => {
+import { LiffProvider } from "./providers/LiffProvider";
+
+export const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
     <UIProvider theme={theme}>
-      <ApolloProvider client={client}>{children}</ApolloProvider>
+      <LiffProvider>
+        <ApolloProvider client={client}>{children}</ApolloProvider>
+      </LiffProvider>
     </UIProvider>
   );
 };

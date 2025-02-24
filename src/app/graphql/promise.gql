@@ -33,6 +33,7 @@ query GetPromise($id: String!) {
       displayName
       pictureUrl
     }
+    createdAt
   }
 }
 
@@ -105,5 +106,6 @@ mutation CompletePromise($id: ID!) {
       displayName
       pictureUrl
     }
+    
   }
 }

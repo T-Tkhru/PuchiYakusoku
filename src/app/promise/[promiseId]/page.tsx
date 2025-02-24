@@ -1,113 +1,90 @@
 "use client";
 
+import { Level } from "@prisma/client";
 import {
-  Box,
+  Avatar,
   Button,
-  Container,
-  Heading,
+  Divider,
   HStack,
+  Text,
   VStack,
 } from "@yamada-ui/react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 
 import { PromiseContents } from "@/app/_components/PromiseContents";
-import { useLiff } from "@/hooks/useLiff";
-import { useUserData } from "@/hooks/useUserData";
-import { exampleUser } from "@/lib/mockData";
+import { GetPromiseQuery, useGetPromiseQuery } from "@/generated/graphql";
+import { UserProfile } from "@/lib/type";
+import { formatDate } from "@/lib/utils";
 
 export default function PromiseDetail() {
-  const { user } = useLiff();
-  const [promise, setPromise] = useState(false); //本来はデータベースに送る
-  const [finish, setFinish] = useState(false); //本来はデータベースに送る
-  const username = "山田太郎"; //仮置き、ログイン情報から引っ張ってくるからuser.nameになるやつ
-  const sender = { name: "山田太郎", id: "yamada" }; //仮置き、データベースから引っ張ってくる
-  const receiver = { name: "大塚遙", id: "ohtsuka" }; //仮置き、データベースから引っ張ってくる
-  console.log(receiver);
-  const handlePromise = () => {
-    setPromise(!promise);
-  };
+  const params = useParams() as { promiseId: string };
+  const { data, loading, error } = useGetPromiseQuery({
+    variables: {
+      id: params.promiseId,
+    },
+  });
 
-  const handleFinish = () => {
-    setFinish(!finish);
-  };
-  console.log(user);
+  if (!data || !data.promise) return <p>No data found</p>;
+
+  const promise: GetPromiseQuery["promise"] = data.promise;
+
   return (
-    <Container
-      w="full"
+    <VStack
+      bgColor="secondary"
+      px={8}
+      py={12}
       minH="100vh"
+      gap={8}
       alignItems="center"
-      p="0"
-      backgroundColor="red.50"
     >
-      {finish ? (
-        <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
-          <VStack w="full" p={4} gap={4}>
-            <Container
-              p={2}
-              bgColor="primary"
-              color="white"
-              rounded="md"
-              alignItems="center"
-              fontWeight={600}
-            >
-              約束は完了しました！
-            </Container>
-            <PromiseContents
-              sender={exampleUser}
-              receiver={exampleUser}
-              content="ポスター発表で寿司をおごる"
-              deadline="2025/3/31"
-            />
-
-            <Button colorScheme="primary" onClick={handleFinish}>
-              約束完了前に戻る（デバッグ用）
-            </Button>
-          </VStack>
-        </Box>
-      ) : (
-        <Box w="100%" maxW="480px" backgroundColor="white" p={4}>
-          <VStack w="full" p={4} gap={4}>
-            <Container
-              p={2}
-              bgColor="primary"
-              color="white"
-              rounded="md"
-              alignItems="center"
-              fontWeight={600}
-            >
-              約束内容
-            </Container>
-            <PromiseContents
-              sender={exampleUser}
-              receiver={exampleUser}
-              content="ポスター発表で寿司をおごる"
-              deadline="2025/3/31"
-            />
-            <VStack w="full">
-              {promise ? (
-                <VStack>
-                  <Button colorScheme="primary">
-                    リマインドする（催促する）
-                  </Button>
-                  <Button colorScheme="primary" onClick={handleFinish}>
-                    約束を完了した
-                  </Button>
-                  <Button colorScheme="primary" onClick={handlePromise}>
-                    約束をキャンセルする（デバッグ用）
-                  </Button>
-                </VStack>
-              ) : username === sender.name ? (
-                <Container centerContent>承認待ちです</Container>
-              ) : (
-                <Button colorScheme="primary" onClick={() => setPromise(true)}>
-                  約束をする
-                </Button>
-              )}
-            </VStack>
-          </VStack>
-        </Box>
-      )}
-    </Container>
+      <Image
+        src="/mail.png"
+        alt="mail icon"
+        width={200}
+        height={200}
+        objectFit="contain"
+      />
+      <HStack color="white" gap={4}>
+        <Avatar
+          src={promise.sender?.pictureUrl as string}
+          size="md"
+          border="2px solid"
+          borderColor="white"
+        />
+        <VStack alignItems="flex-start" gap={2}>
+          <Text>{promise.sender?.displayName}さんから</Text>
+          <Text>約束が届いています！</Text>
+        </VStack>
+      </HStack>
+      <VStack alignItems="center">
+        <Text fontSize="md" color="white">
+          作成日 : {formatDate(data?.promise.createdAt as string)}
+        </Text>
+        <Divider orientation="horizontal" />
+      </VStack>
+      <PromiseContents
+        sender={data?.promise?.sender as UserProfile}
+        receiver={data?.promise?.receiver as UserProfile}
+        content={data?.promise?.content as string}
+        deadline={data?.promise?.dueDate as string}
+        level={data?.promise?.level as Level}
+      />
+      <VStack w="full">
+        <VStack>
+          <Button colorScheme="primary">約束する</Button>
+          <Button
+            variant="outline"
+            color="white"
+            borderColor="white"
+            onClick={() => {}}
+            colorScheme="blackAlpha"
+            backgroundColor="blackAlpha.300"
+          >
+            キャンセルする
+          </Button>
+        </VStack>
+      </VStack>
+    </VStack>
   );
 }
