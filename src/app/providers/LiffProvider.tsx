@@ -3,7 +3,11 @@
 import type liff from "@line/liff";
 import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
+import {
+  useCreateUserMutation,
+  useGetUserByUserIdLazyQuery,
+} from "@/generated/graphql";
 
 import { exampleUser2 } from "@/lib/mockData";
 
@@ -26,6 +30,8 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
   const { screen } = useLoading();
+  const [createUser] = useCreateUserMutation();
+  const [getUser] = useGetUserByUserIdLazyQuery();
 
   useEffect(() => {
     async function initLiff() {
@@ -61,8 +67,25 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
           setUser({
             userId: profile.userId,
             displayName: profile.displayName,
-            pictureUrl: profile.pictureUrl,
+            pictureUrl: profile.pictureUrl ?? "",
           });
+          // ユーザー情報がDBに存在しない場合は登録
+          const { data } = await getUser({
+            variables: {
+              userId: profile.userId,
+            },
+          });
+          if (data?.userByUserId === null) {
+            await createUser({
+              variables: {
+                input: {
+                  userId: profile.userId,
+                  displayName: profile.displayName,
+                  pictureUrl: profile.pictureUrl ?? "",
+                },
+              },
+            });
+          }
         }
       } catch (error) {
         console.error(`liff.init() failed: ${error}`);
