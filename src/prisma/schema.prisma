@@ -29,7 +29,7 @@ model Promise {
   sender      User   @relation(fields: [senderId], references: [id], name: "sender")
   receiverId  String?
   receiver    User?   @relation(fields: [receiverId], references: [id], name: "receiver")
-  acceptedAt  DateTime?
+  isAccepted  Boolean?
   completedAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

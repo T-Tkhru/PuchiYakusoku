@@ -1,0 +1,15 @@
+query GetUserByUserId($userId: String!) {
+  userByUserId(userId: $userId) {
+    userId
+    displayName
+    pictureUrl
+  }
+}
+
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    userId
+    displayName
+    pictureUrl
+  }
+}
