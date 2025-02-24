@@ -5,6 +5,7 @@ import { ArrowRightLeft } from "@yamada-ui/lucide";
 import {
   Box,
   Button,
+  Center,
   Container,
   HStack,
   IconButton,
@@ -60,7 +61,7 @@ export default function Home() {
     <React.Fragment>
       <Header />
       <VStack w="full" p={4} gap={4}>
-        <VStack w="full">
+        <VStack w="full" alignItems="center">
           <Container
             bgColor="primary"
             color="white"
@@ -70,26 +71,23 @@ export default function Home() {
           >
             約束の内容は？
           </Container>
-          <HStack pb={16}>
+          <HStack gap={4}>
             <UserCard user={user} />
-            <VStack p={0} gap={4} position="relative">
-              <Text fontSize="6xl">が</Text>
-              <IconButton
-                position="absolute"
-                icon={<ArrowRightLeft />}
-                aria-label="left-right"
-                colorScheme="primary"
-                top="24"
-                h="12"
-                w="12"
-                rounded="full"
-                onClick={handleLeftRight}
-              />
-            </VStack>
+            <Text fontSize="6xl">が</Text>
             <UserCard user={exampleUser} />
             <Text fontSize="6xl">に</Text>
           </HStack>
-
+          <Center pr={16}>
+            <IconButton
+              icon={<ArrowRightLeft />}
+              aria-label="left-right"
+              colorScheme="primary"
+              h="12"
+              w="12"
+              rounded="full"
+              onClick={handleLeftRight}
+            />
+          </Center>
           <Textarea
             variant="filled"
             placeholder="回らない寿司を奢る"
