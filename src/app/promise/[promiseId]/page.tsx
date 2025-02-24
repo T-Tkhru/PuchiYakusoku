@@ -58,17 +58,14 @@ export default function PromiseDetail() {
         </VStack>
       </HStack>
       <VStack alignItems="center">
-        <Text fontSize="md" color="white">
-          作成日 : {formatDate(data?.promise.createdAt as string)}
-        </Text>
         <Divider orientation="horizontal" />
       </VStack>
       <PromiseContents
-        sender={data?.promise?.sender as UserProfile}
-        receiver={data?.promise?.receiver as UserProfile}
-        content={data?.promise?.content as string}
-        deadline={data?.promise?.dueDate as string}
-        level={data?.promise?.level as Level}
+        sender={promise.sender as unknown as UserProfile}
+        receiver={promise.receiver as unknown as UserProfile}
+        content={promise.content as string}
+        deadline={promise.dueDate as string}
+        level={promise.level as Level}
       />
       <VStack w="full">
         <VStack>
