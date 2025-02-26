@@ -6,6 +6,7 @@ export const exampleSimpleUser: UserSimpleProfile = {
   image:
     "https://ca.slack-edge.com/T060W6FMWBF-U06D7EVJE4B-5ec28bf084d7-512#.png",
   name: "大塚 遥",
+  id: "testUser1",
 };
 
 export const exampleUser: UserProfile = {
@@ -21,7 +22,13 @@ export const exampleUser2: UserProfile = {
   displayName: "筧万里",
 };
 
+export const gestUser: UserProfile = {
+  userId: "",
+  displayName: "ともだち",
+};
+
 export const exampleLiffProfile: Profile = {
   displayName: "筧テスト",
   userId: "test1",
 };
+

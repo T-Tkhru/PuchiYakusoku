@@ -6,7 +6,7 @@ export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
-  secret: "SECRET",
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     Line({
       clientId: process.env.LINE_CLIENT_ID,
@@ -15,6 +15,12 @@ export const {
     }),
   ],
   callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.sub as string;
+      }
+      return session;
+    },
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl + "/";
     },

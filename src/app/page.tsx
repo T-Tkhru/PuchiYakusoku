@@ -1,11 +1,12 @@
 "use client";
 
 import { Calendar } from "@yamada-ui/calendar";
-import { ArrowRightLeft } from "@yamada-ui/lucide";
+import { RefreshCwIcon } from "@yamada-ui/lucide";
 import {
-  Box,
   Button,
+  Center,
   Container,
+  Heading,
   HStack,
   IconButton,
   SegmentedControl,
@@ -16,14 +17,16 @@ import {
   Textarea,
   VStack,
 } from "@yamada-ui/react";
+import { useAtomValue } from "jotai";
+import { signIn, useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
 import { createMessageString, getDueDate } from "@/lib/control-form";
-import { exampleUser } from "@/lib/mockData";
+import { superBaseIdState } from "@/lib/jotai_state";
+import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
-import { Header } from "./_components/Header";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -41,55 +44,64 @@ const dueDateItems: SelectItem[] = [
 ];
 
 export default function Home() {
+  const { data: session } = useSession();
   const { user, liff } = useLiff();
+  const superBaseId = useAtomValue(superBaseIdState);
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [createPromise] = useCreatePromiseMutation();
   const [dueDate, setDueDate] = useState<Date>(new Date());
+  const senderId = superBaseId ?? "cm7htd03f0001k8d2hwuxs9zf";
 
-  const [leftright, setLeftRight] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
-  const handleLeftRight = () => {
-    setLeftRight(!leftright);
+  const handleReverse = () => {
+    setIsReverse(!isReverse);
   };
   if (!user) {
-    return null;
+    return <Text>loading...</Text>;
   }
   return (
     <React.Fragment>
-      <Header />
-      <VStack w="full" p={4} gap={4}>
-        <VStack w="full">
+      <Text>{superBaseId}</Text>
+      <Text>{senderId}</Text>
+
+      <VStack w="full" px={8} py={4} gap={4}>
+        <Heading py={4}>約束をプチる</Heading>
+        <VStack w="full" alignItems="center">
           <Container
             bgColor="primary"
             color="white"
             rounded="md"
             alignItems="center"
             fontWeight={600}
+            py={2}
+            maxH={12}
+            justifyContent="center"
           >
-            約束の内容は？
+            <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
-          <HStack pb={16}>
-            <UserCard user={user} />
-            <VStack p={0} gap={4} position="relative">
+          <VStack alignItems="center" gap={0}>
+            <HStack gap={4}>
+              <UserCard user={isReverse ? gestUser : user} />
               <Text fontSize="6xl">が</Text>
+              <UserCard user={isReverse ? user : gestUser} />
+              <Text fontSize="6xl">に</Text>
+            </HStack>
+            <Center pr={16}>
               <IconButton
-                position="absolute"
-                icon={<ArrowRightLeft />}
+                icon={<RefreshCwIcon />}
                 aria-label="left-right"
+                fontSize="24"
                 colorScheme="primary"
-                top="24"
                 h="12"
                 w="12"
                 rounded="full"
-                onClick={handleLeftRight}
+                onClick={handleReverse}
               />
-            </VStack>
-            <UserCard user={exampleUser} />
-            <Text fontSize="6xl">に</Text>
-          </HStack>
-
+            </Center>
+          </VStack>
           <Textarea
             variant="filled"
             placeholder="回らない寿司を奢る"
@@ -144,9 +156,25 @@ export default function Home() {
           </HStack>
         </VStack>
         <Button
+          py={4}
           colorScheme="secondary"
-          onClick={() => {
+          rounded="full"
+          size="lg"
+          fontWeight={800}
+          onClick={async () => {
             if (!liff) return;
+            const result = await createPromise({
+              variables: {
+                input: {
+                  content: textContentRef.current?.value ?? "",
+                  level: importance,
+                  dueDate:
+                    getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+                },
+              },
+            });
+            console.log(result);
+            const promiseId = result.data?.createPromise?.id;
             liff
               .shareTargetPicker(
                 [
@@ -154,29 +182,22 @@ export default function Home() {
                     type: "text",
                     text: createMessageString(user, importance),
                   },
+                  {
+                    type: "text",
+                    text:
+                      "https://hello-liff.vercel.app" + `/promise/${promiseId}`,
+                  },
                 ],
                 {
                   isMultiple: true,
                 }
               )
               .then(function (res) {
-                // if (res) {
-
-                //   console.log(`[${res.status}] Message sent!`);
-                // } else {
-                //   console.log("TargetPicker was closed!");
-                // }
-                createPromise({
-                  variables: {
-                    input: {
-                      content: textContentRef.current?.value ?? "",
-                      level: importance,
-                      dueDate:
-                        getDueDate(selectDueDateType) ?? dueDate.toISOString(),
-                      senderId: user.userId,
-                    },
-                  },
-                });
+                if (res) {
+                  console.log(`[${res.status}] Message sent!`);
+                } else {
+                  console.log("TargetPicker was closed!");
+                }
               })
               .catch(function (error) {
                 alert(error);
@@ -185,6 +206,38 @@ export default function Home() {
         >
           約束する
         </Button>
+        {session ? null : (
+          <Container
+            boxShadow="lg"
+            position="absolute"
+            top="70%"
+            p={4}
+            w="md"
+            border="2px solid"
+            borderColor="#01BF3A"
+            rounded="md"
+            justifyContent="center"
+            right="calc(50% - 190px)"
+          >
+            <Text
+              fontWeight={800}
+              fontSize="lg"
+              textAlign="center"
+              color="black"
+            >
+              まずはラインでログインしましょう！
+            </Text>
+            <Button
+              backgroundColor="#01BF3A"
+              color="white"
+              onClick={async () => {
+                await signIn("line", { redirectTo: "/" });
+              }}
+            >
+              ログイン
+            </Button>
+          </Container>
+        )}
       </VStack>
     </React.Fragment>
   );

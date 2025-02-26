@@ -110,11 +110,6 @@ export type QuerySentPromisesArgs = {
   senderId: Scalars['String']['input'];
 };
 
-
-export type QueryUserByUserIdArgs = {
-  userId: Scalars['String']['input'];
-};
-
 export type User = {
   __typename?: 'User';
   displayName: Scalars['String']['output'];
@@ -125,31 +120,29 @@ export type User = {
   userId: Scalars['String']['output'];
 };
 
-export type GetUserByUserIdQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
-}>;
+export type GetUserByUserIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserByUserIdQuery = { __typename?: 'Query', userByUserId?: { __typename?: 'User', userId: string, displayName: string, pictureUrl?: string | null } | null };
+export type GetUserByUserIdQuery = { __typename?: 'Query', userByUserId?: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', userId: string, displayName: string, pictureUrl?: string | null } | null };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null } | null };
 
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
+export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, isAccepted?: boolean | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
 
 export type GetPromiseQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
@@ -182,8 +175,9 @@ export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise
 
 
 export const GetUserByUserIdDocument = gql`
-    query GetUserByUserId($userId: String!) {
-  userByUserId(userId: $userId) {
+    query GetUserByUserId {
+  userByUserId {
+    id
     userId
     displayName
     pictureUrl
@@ -203,11 +197,10 @@ export const GetUserByUserIdDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserByUserIdQuery({
  *   variables: {
- *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useGetUserByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables> & ({ variables: GetUserByUserIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetUserByUserIdQuery(baseOptions?: Apollo.QueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>(GetUserByUserIdDocument, options);
       }
@@ -226,6 +219,7 @@ export type GetUserByUserIdQueryResult = Apollo.QueryResult<GetUserByUserIdQuery
 export const CreateUserDocument = gql`
     mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
+    id
     userId
     displayName
     pictureUrl
@@ -275,6 +269,7 @@ export const GetPromisesDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
   }
 }
     `;
@@ -327,6 +322,8 @@ export const GetPromiseDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
   }
 }
     `;

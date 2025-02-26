@@ -3,12 +3,14 @@
 import type liff from "@line/liff";
 import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
+import { useSetAtom } from "jotai";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import {
   useCreateUserMutation,
   useGetUserByUserIdLazyQuery,
 } from "@/generated/graphql";
+import { superBaseIdState } from "@/lib/jotai_state";
 import { exampleUser2 } from "@/lib/mockData";
 
 interface UserProfile {
@@ -32,6 +34,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   const { screen } = useLoading();
   const [createUser] = useCreateUserMutation();
   const [getUser] = useGetUserByUserIdLazyQuery();
+  const setSuperBaseIdState = useSetAtom(superBaseIdState);
 
   useEffect(() => {
     async function initLiff() {
@@ -69,14 +72,11 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
             displayName: profile.displayName,
             pictureUrl: profile.pictureUrl ?? "",
           });
-          // ユーザー情報がDBに存在しない場合は登録
-          const { data } = await getUser({
-            variables: {
-              userId: profile.userId,
-            },
-          });
+          const { data } = await getUser();
+
+          console.log(data);
           if (data?.userByUserId === null) {
-            await createUser({
+            const result = await createUser({
               variables: {
                 input: {
                   userId: profile.userId,
@@ -85,6 +85,11 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
                 },
               },
             });
+            const id = result.data?.createUser?.id ?? null;
+            setSuperBaseIdState(id);
+          } else {
+            const id = data?.userByUserId?.id ?? null;
+            setSuperBaseIdState(id);
           }
         }
       } catch (error) {
