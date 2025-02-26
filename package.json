@@ -31,6 +31,7 @@
     "@yamada-ui/calendar": "^1.8.14",
     "@yamada-ui/lucide": "^1.10.3",
     "@yamada-ui/react": "^1.7.4",
+    "axios": "^1.8.1",
     "graphql": "^16.10.0",
     "graphql-modules": "^3.0.0",
     "graphql-scalars": "^1.24.1",

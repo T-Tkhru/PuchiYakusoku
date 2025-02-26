@@ -60,7 +60,7 @@ builder.queryType({
     promises: t.field({
       type: [promise],
       resolve: (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         return prisma.promise.findMany({
           where: { sender: { userId: userId } },
         });
@@ -72,7 +72,7 @@ builder.queryType({
         senderId: t.arg.string({ required: true }),
       },
       resolve: (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         return prisma.promise.findMany({
           where: { sender: { userId: userId } },
         });
@@ -84,7 +84,7 @@ builder.queryType({
         receiverId: t.arg.string({ required: true }),
       },
       resolve: (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         return prisma.promise.findMany({
           where: { receiver: { userId: userId } },
         });
@@ -121,11 +121,10 @@ builder.queryType({
       nullable: true,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: async (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         const foundUser = await prisma.user.findUnique({
           where: { userId: userId },
         });
-
         return foundUser;
       },
     }),
@@ -139,7 +138,7 @@ builder.mutationType({
       args: { input: t.arg({ type: createPromiseInput, required: true }) },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, args, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         console.log(context.get("user"));
         return prisma.promise.create({
           data: {

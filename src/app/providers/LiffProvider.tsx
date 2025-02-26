@@ -5,11 +5,8 @@ import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
 import { useSetAtom } from "jotai";
 import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 
-import {
-  useCreateUserMutation,
-  useGetUserByUserIdLazyQuery,
-} from "@/generated/graphql";
 import { superBaseIdState } from "@/lib/jotai_state";
 import { exampleUser2 } from "@/lib/mockData";
 
@@ -32,8 +29,6 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
   const { screen } = useLoading();
-  const [createUser] = useCreateUserMutation();
-  const [getUser] = useGetUserByUserIdLazyQuery();
   const setSuperBaseIdState = useSetAtom(superBaseIdState);
 
   useEffect(() => {
@@ -63,7 +58,11 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         });
         console.log("liff.init() done");
         setLiffObject(liffModule.default);
-
+        // トークンをローカルストレージに保存
+        const accessToken = liffModule.default.getAccessToken();
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken);
+        }
         // ユーザーがログインしている場合にプロフィール情報を取得
         if (liffModule.default.isLoggedIn()) {
           const profile = await liffModule.default.getProfile();
@@ -72,24 +71,19 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
             displayName: profile.displayName,
             pictureUrl: profile.pictureUrl ?? "",
           });
-          const { data } = await getUser();
 
-          console.log(data);
-          if (data?.userByUserId === null) {
-            const result = await createUser({
-              variables: {
-                input: {
-                  userId: profile.userId,
-                  displayName: profile.displayName,
-                  pictureUrl: profile.pictureUrl ?? "",
-                },
+          // ログインAPIを呼び出してサーバー側でのログイン処理を行う
+          const response = await axios.post(
+            "/api/login",
+            {},
+            {
+              headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "",
               },
-            });
-            const id = result.data?.createUser?.id ?? null;
-            setSuperBaseIdState(id);
-          } else {
-            const id = data?.userByUserId?.id ?? null;
-            setSuperBaseIdState(id);
+            }
+          );
+          if (response.status === 200) {
+            console.log("login success");
           }
         }
       } catch (error) {
