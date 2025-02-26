@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs";
 import { lexicographicSortSchema, printSchema } from "graphql";
+import { CONTEXT, Inject } from "graphql-modules";
 import path from "path";
 
 import { builder } from "@/lib/builder";
@@ -18,7 +19,6 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
     content: t.string({ required: true }),
     level: t.field({ type: LevelEnum, required: true }),
     dueDate: t.string({ required: true }),
-    senderId: t.string({ required: true }),
   }),
 });
 
@@ -58,23 +58,34 @@ builder.queryType({
   fields: (t) => ({
     promises: t.field({
       type: [promise],
-      resolve: () => prisma.promise.findMany(),
+      resolve: (_, __, context: Inject<typeof CONTEXT>) => {
+        const userId = context.get("user").id;
+        return prisma.promise.findMany({
+          where: { senderId: userId },
+        });
+      },
     }),
     sentPromises: t.field({
       type: [promise],
       args: {
         senderId: t.arg.string({ required: true }),
       },
-      resolve: (_, args) =>
-        prisma.promise.findMany({ where: { senderId: args.senderId } }),
+      resolve: (_, args, context: Inject<typeof CONTEXT>) => {
+        const userId = context.get("user").id;
+        return prisma.promise.findMany({ where: { senderId: userId } });
+      },
     }),
     receivedPromises: t.field({
       type: [promise],
       args: {
         receiverId: t.arg.string({ required: true }),
       },
-      resolve: (_, args) =>
-        prisma.promise.findMany({ where: { receiverId: args.receiverId } }),
+      resolve: (_, args, context: Inject<typeof CONTEXT>) => {
+        const userId = context.get("user").id;
+        return prisma.promise.findMany({
+          where: { receiverId: userId },
+        });
+      },
     }),
     promise: t.field({
       type: promise,
@@ -91,16 +102,28 @@ builder.queryType({
         return foundPromise;
       },
     }),
+    // userByUserId: t.field({
+    //   type: user,
+    //   nullable: true,
+    //   args: {
+    //     userId: t.arg.string({ required: true }),
+    //   },
+    //   resolve: (_, args) =>
+    //     prisma.user.findUnique({
+    //       where: { userId: args.userId },
+    //     }),
+    // }),
     userByUserId: t.field({
       type: user,
       nullable: true,
-      args: {
-        userId: t.arg.string({ required: true }),
+      resolve: async (_, __, context: Inject<typeof CONTEXT>) => {
+        const userId = context.get("user").id;
+        const foundUser = await prisma.user.findUnique({
+          where: { userId: userId },
+        });
+
+        return foundUser;
       },
-      resolve: (_, args) =>
-        prisma.user.findUnique({
-          where: { userId: args.userId },
-        }),
     }),
   }),
 });
@@ -110,15 +133,18 @@ builder.mutationType({
     createPromise: t.field({
       type: promise,
       args: { input: t.arg({ type: createPromiseInput, required: true }) },
-      resolve: (_, args) =>
-        prisma.promise.create({
+      resolve: (_, args, context: Inject<typeof CONTEXT>) => {
+        const userId = context.get("user").id;
+        console.log(context.get("user"));
+        return prisma.promise.create({
           data: {
             content: args.input.content,
             level: args.input.level,
             dueDate: new Date(args.input.dueDate),
-            senderId: args.input.senderId,
+            senderId: userId,
           },
-        }),
+        });
+      },
     }),
     createUser: t.field({
       type: user,

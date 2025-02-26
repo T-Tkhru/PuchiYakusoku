@@ -1,5 +1,5 @@
-query GetUserByUserId($userId: String!) {
-  userByUserId(userId: $userId) {
+query GetUserByUserId {
+  userByUserId{
     id
     userId
     displayName

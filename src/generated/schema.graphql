@@ -2,7 +2,6 @@ input CreatePromiseInput {
   content: String!
   dueDate: String!
   level: Level!
-  senderId: String!
 }
 
 input CreateUserInput {
@@ -46,7 +45,7 @@ type Query {
   promises: [Promise!]
   receivedPromises(receiverId: String!): [Promise!]
   sentPromises(senderId: String!): [Promise!]
-  userByUserId(userId: String!): User
+  userByUserId: User
 }
 
 type User {

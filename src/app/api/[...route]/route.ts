@@ -4,24 +4,47 @@ import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
 import { schema } from "@/graphql/schema";
-import { UserSimpleProfile } from "@/lib/type";
+import { UserSimpleProfile, UserSimpleProfileSchema } from "@/lib/type";
 
 import { auth } from "../auth/[...nextauth]/auth";
 
-const app = new Hono().basePath("/api");
+type Variables = {
+  user: UserSimpleProfile;
+};
 
-console.log(process.env.DATABASE_URL);
+const app = new Hono<{ Variables: Variables }>().basePath("/api");
 
-app.get("/userProfile", async (c) => {
+app.use(async (c, next) => {
   const session = await auth();
-  const user = session?.user as UserSimpleProfile;
-  return c.json({ name: user.name, image: user.image });
+  if (!session) {
+    const lineLoginUrl = "/";
+    return c.redirect(lineLoginUrl);
+  }
+  const user = UserSimpleProfileSchema.parse(session?.user);
+  c.set("user", user);
+  await next();
 });
+
+app.use("/userProfile", async (c) => {
+  const session = await auth();
+  console.log(session);
+  const user = UserSimpleProfileSchema.parse(session?.user);
+  return c.json({ name: user.name, image: user.image, id: user.id });
+});
+
+const rootResolver = (c: {
+  get: (arg0: string) => { image: string; name: string; id: string };
+}) => {
+  return {
+    user: () => c.get("user") as UserSimpleProfile,
+  };
+};
 
 app.use(
   "/graphql",
   graphqlServer({
     schema,
+    rootResolver,
     graphiql: true,
   })
 );

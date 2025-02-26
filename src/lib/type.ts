@@ -3,6 +3,7 @@ import { z } from "zod";
 export const UserSimpleProfileSchema = z.object({
   image: z.string(),
   name: z.string(),
+  id: z.string(),
 });
 
 export type UserSimpleProfile = z.infer<typeof UserSimpleProfileSchema>;

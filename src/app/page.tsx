@@ -18,6 +18,7 @@ import {
   VStack,
 } from "@yamada-ui/react";
 import { useAtomValue } from "jotai";
+import { signIn, useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
@@ -43,6 +44,7 @@ const dueDateItems: SelectItem[] = [
 ];
 
 export default function Home() {
+  const { data: session } = useSession();
   const { user, liff } = useLiff();
   const superBaseId = useAtomValue(superBaseIdState);
   const [importance, setImportance] = useState<Level>(Level.Low);
@@ -58,7 +60,7 @@ export default function Home() {
     setIsReverse(!isReverse);
   };
   if (!user) {
-    return null;
+    return <Text>loading...</Text>;
   }
   return (
     <React.Fragment>
@@ -168,7 +170,6 @@ export default function Home() {
                   level: importance,
                   dueDate:
                     getDueDate(selectDueDateType) ?? dueDate.toISOString(),
-                  senderId: senderId,
                 },
               },
             });
@@ -205,6 +206,38 @@ export default function Home() {
         >
           約束する
         </Button>
+        {session ? null : (
+          <Container
+            boxShadow="lg"
+            position="absolute"
+            top="70%"
+            p={4}
+            w="md"
+            border="2px solid"
+            borderColor="#01BF3A"
+            rounded="md"
+            justifyContent="center"
+            right="calc(50% - 190px)"
+          >
+            <Text
+              fontWeight={800}
+              fontSize="lg"
+              textAlign="center"
+              color="black"
+            >
+              まずはラインでログインしましょう！
+            </Text>
+            <Button
+              backgroundColor="#01BF3A"
+              color="white"
+              onClick={async () => {
+                await signIn("line", { redirectTo: "/" });
+              }}
+            >
+              ログイン
+            </Button>
+          </Container>
+        )}
       </VStack>
     </React.Fragment>
   );

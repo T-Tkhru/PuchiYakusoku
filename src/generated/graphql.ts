@@ -23,7 +23,6 @@ export type CreatePromiseInput = {
   content: Scalars['String']['input'];
   dueDate: Scalars['String']['input'];
   level: Level;
-  senderId: Scalars['String']['input'];
 };
 
 export type CreateUserInput = {
@@ -109,11 +108,6 @@ export type QuerySentPromisesArgs = {
   senderId: Scalars['String']['input'];
 };
 
-
-export type QueryUserByUserIdArgs = {
-  userId: Scalars['String']['input'];
-};
-
 export type User = {
   __typename?: 'User';
   displayName: Scalars['String']['output'];
@@ -124,9 +118,7 @@ export type User = {
   userId: Scalars['String']['output'];
 };
 
-export type GetUserByUserIdQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
-}>;
+export type GetUserByUserIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserByUserIdQuery = { __typename?: 'Query', userByUserId?: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null } | null };
@@ -181,8 +173,8 @@ export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise
 
 
 export const GetUserByUserIdDocument = gql`
-    query GetUserByUserId($userId: String!) {
-  userByUserId(userId: $userId) {
+    query GetUserByUserId {
+  userByUserId {
     id
     userId
     displayName
@@ -203,11 +195,10 @@ export const GetUserByUserIdDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserByUserIdQuery({
  *   variables: {
- *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useGetUserByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables> & ({ variables: GetUserByUserIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetUserByUserIdQuery(baseOptions?: Apollo.QueryHookOptions<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetUserByUserIdQuery, GetUserByUserIdQueryVariables>(GetUserByUserIdDocument, options);
       }

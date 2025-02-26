@@ -21,7 +21,6 @@ import { GetPromiseQuery, useGetPromiseQuery } from "@/generated/graphql";
 import { superBaseIdState } from "@/lib/jotai_state";
 import { defineStatus, headerMessage, imageSource } from "@/lib/status";
 import { UserProfile } from "@/lib/type";
-import { formatDate } from "@/lib/utils";
 
 export default function PromiseDetail() {
   const params = useParams() as { promiseId: string };

@@ -90,11 +90,9 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
               },
             });
             const id = result.data?.createUser?.id ?? null;
-            console.log("superBaseId: ", id);
             setSuperBaseIdState(id);
           } else {
             const id = data?.userByUserId?.id ?? null;
-            console.log("superBaseId: ", id);
             setSuperBaseIdState(id);
           }
         }
