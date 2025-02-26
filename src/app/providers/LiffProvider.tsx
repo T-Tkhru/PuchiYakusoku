@@ -3,11 +3,9 @@
 import type liff from "@line/liff";
 import { LiffMockPlugin } from "@line/liff-mock";
 import { useLoading } from "@yamada-ui/react";
-import { useSetAtom } from "jotai";
-import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { superBaseIdState } from "@/lib/jotai_state";
 import { exampleUser2 } from "@/lib/mockData";
 import { UserProfile } from "@/lib/type";
 
@@ -24,7 +22,6 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
   const { screen } = useLoading();
-  const setSuperBaseIdState = useSetAtom(superBaseIdState);
 
   useEffect(() => {
     async function initLiff() {

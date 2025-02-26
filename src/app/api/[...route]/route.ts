@@ -1,12 +1,12 @@
 import { authHandler, verifyAuth } from "@hono/auth-js";
 import { graphqlServer } from "@hono/graphql-server";
+import axios from "axios";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import axios from "axios";
 
 import { schema } from "@/graphql/schema";
-import { UserSimpleProfile, UserSimpleProfileSchema } from "@/lib/type";
 import { prisma } from "@/lib/prisma";
+import { UserSimpleProfileSchema } from "@/lib/type";
 
 import { auth } from "../auth/[...nextauth]/auth";
 
