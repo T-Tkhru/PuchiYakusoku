@@ -1,6 +1,5 @@
 import { writeFileSync } from "fs";
 import { lexicographicSortSchema, printSchema } from "graphql";
-import { CONTEXT, Inject } from "graphql-modules";
 import path from "path";
 
 import { builder } from "@/lib/builder";
@@ -58,7 +57,8 @@ builder.queryType({
   fields: (t) => ({
     promises: t.field({
       type: [promise],
-      resolve: (_, __, context: Inject<typeof CONTEXT>) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
           where: { senderId: userId },
@@ -70,7 +70,8 @@ builder.queryType({
       args: {
         senderId: t.arg.string({ required: true }),
       },
-      resolve: (_, args, context: Inject<typeof CONTEXT>) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({ where: { senderId: userId } });
       },
@@ -80,7 +81,8 @@ builder.queryType({
       args: {
         receiverId: t.arg.string({ required: true }),
       },
-      resolve: (_, args, context: Inject<typeof CONTEXT>) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
           where: { receiverId: userId },
@@ -116,7 +118,8 @@ builder.queryType({
     userByUserId: t.field({
       type: user,
       nullable: true,
-      resolve: async (_, __, context: Inject<typeof CONTEXT>) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: async (_, __, context: any) => {
         const userId = context.get("user").id;
         const foundUser = await prisma.user.findUnique({
           where: { userId: userId },
@@ -133,7 +136,8 @@ builder.mutationType({
     createPromise: t.field({
       type: promise,
       args: { input: t.arg({ type: createPromiseInput, required: true }) },
-      resolve: (_, args, context: Inject<typeof CONTEXT>) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: (_, args, context: any) => {
         const userId = context.get("user").id;
         console.log(context.get("user"));
         return prisma.promise.create({
