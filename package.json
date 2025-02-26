@@ -28,6 +28,7 @@
     "@pothos/core": "^4.4.0",
     "@pothos/plugin-prisma": "^4.4.0",
     "@prisma/client": "^6.4.1",
+    "@supabase/supabase-js": "^2.49.1",
     "@yamada-ui/calendar": "^1.8.14",
     "@yamada-ui/lucide": "^1.10.3",
     "@yamada-ui/react": "^1.7.4",
@@ -60,6 +61,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.4.2",
+    "supabase": "^2.15.8",
     "typescript": "^5"
   }
 }
