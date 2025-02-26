@@ -60,13 +60,11 @@ builder.queryType({
     promises: t.field({
       type: [promise],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      resolve: async (_, __, context: any) => {
-        const userId = context.get("user").id;
-        console.log(userId);
-        const result = await prisma.promise.findMany({
+      resolve: (_, __, context: any) => {
+        const userId = context.get("user").userId;
+        return prisma.promise.findMany({
           where: { sender: { userId: userId } },
         });
-        return result;
       },
     }),
     sentPromises: t.field({
@@ -76,7 +74,7 @@ builder.queryType({
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         return prisma.promise.findMany({
           where: { sender: { userId: userId } },
         });
@@ -89,7 +87,7 @@ builder.queryType({
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         return prisma.promise.findMany({
           where: { receiver: { userId: userId } },
         });
@@ -115,11 +113,10 @@ builder.queryType({
       nullable: true,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: async (_, __, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         const foundUser = await prisma.user.findUnique({
           where: { userId: userId },
         });
-
         return foundUser;
       },
     }),
@@ -133,7 +130,7 @@ builder.mutationType({
       args: { input: t.arg({ type: createPromiseInput, required: true }) },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, args, context: any) => {
-        const userId = context.get("user").id;
+        const userId = context.get("user").userId;
         console.log(context.get("user"));
         return prisma.promise.create({
           data: {
