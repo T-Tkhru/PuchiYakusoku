@@ -21,6 +21,7 @@ export type Scalars = {
 
 export type CreatePromiseInput = {
   content: Scalars['String']['input'];
+  direction: Scalars['Boolean']['input'];
   dueDate: Scalars['String']['input'];
   level: Level;
 };
@@ -76,6 +77,7 @@ export type Promise = {
   __typename?: 'Promise';
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   content: Scalars['String']['output'];
+  direction: Scalars['Boolean']['output'];
   dueDate: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   isAccepted?: Maybe<Scalars['Boolean']['output']>;

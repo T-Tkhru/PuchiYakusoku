@@ -18,6 +18,7 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
     content: t.string({ required: true }),
     level: t.field({ type: LevelEnum, required: true }),
     dueDate: t.string({ required: true }),
+    direction: t.boolean({ required: true }),
   }),
 });
 
@@ -37,6 +38,7 @@ const promise = builder.prismaObject("Promise", {
     dueDate: t.expose("dueDate", { type: "DateTime", nullable: false }),
     sender: t.relation("sender", { nullable: false }),
     receiver: t.relation("receiver"),
+    direction: t.exposeBoolean("direction", { nullable: false }),
     isAccepted: t.exposeBoolean("isAccepted"),
     completedAt: t.expose("completedAt", { type: "DateTime" }),
   }),
@@ -57,11 +59,10 @@ builder.queryType({
   fields: (t) => ({
     promises: t.field({
       type: [promise],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
-          where: { senderId: userId },
+          where: { sender: { userId: userId } },
         });
       },
     }),
@@ -70,10 +71,11 @@ builder.queryType({
       args: {
         senderId: t.arg.string({ required: true }),
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
-        return prisma.promise.findMany({ where: { senderId: userId } });
+        return prisma.promise.findMany({
+          where: { sender: { userId: userId } },
+        });
       },
     }),
     receivedPromises: t.field({
@@ -81,11 +83,10 @@ builder.queryType({
       args: {
         receiverId: t.arg.string({ required: true }),
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
-          where: { receiverId: userId },
+          where: { receiver: { userId: userId } },
         });
       },
     }),
@@ -145,7 +146,8 @@ builder.mutationType({
             content: args.input.content,
             level: args.input.level,
             dueDate: new Date(args.input.dueDate),
-            senderId: userId,
+            direction: args.input.direction,
+            sender: { connect: { userId: userId } },
           },
         });
       },
@@ -177,7 +179,10 @@ builder.mutationType({
         }
         return prisma.promise.update({
           where: { id: args.id },
-          data: { receiverId: args.receiverId, isAccepted: true },
+          data: {
+            receiver: { connect: { userId: args.receiverId } },
+            isAccepted: true,
+          },
         });
       },
     }),
@@ -189,7 +194,7 @@ builder.mutationType({
       resolve: (_, args) =>
         prisma.promise.update({
           where: { id: args.id },
-          data: { receiverId: null, isAccepted: false },
+          data: { receiver: { disconnect: true }, isAccepted: false },
         }),
     }),
     completePromise: t.field({
