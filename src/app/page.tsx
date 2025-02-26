@@ -147,7 +147,7 @@ export default function Home() {
               {selectDueDateType === "other" && (
                 <Calendar
                   value={dueDate}
-                  onChange={(date) => {
+                  onChange={(date: React.SetStateAction<Date>) => {
                     setDueDate(date);
                   }}
                 />
@@ -186,7 +186,8 @@ export default function Home() {
                   {
                     type: "text",
                     text:
-                      "https://hello-liff.vercel.app" + `/promise/${promiseId}`,
+                      `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
+                      `/promise/${promiseId}`,
                   },
                 ],
                 {
