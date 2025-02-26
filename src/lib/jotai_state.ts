@@ -11,3 +11,4 @@ export const superBaseIdState = atom<string | null>(null);
 export const senderState = atom<UserProfile | null>(null);
 export const receiverState = atom<UserProfile | null>(null);
 export const promiseState = atom<Promise | null>(null);
+export const promisesListState = atom<Promise[]>([]);

@@ -60,11 +60,13 @@ builder.queryType({
     promises: t.field({
       type: [promise],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      resolve: (_, __, context: any) => {
+      resolve: async (_, __, context: any) => {
         const userId = context.get("user").id;
-        return prisma.promise.findMany({
+        console.log(userId);
+        const result = await prisma.promise.findMany({
           where: { sender: { userId: userId } },
         });
+        return result;
       },
     }),
     sentPromises: t.field({

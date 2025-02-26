@@ -16,6 +16,7 @@ query GetPromises {
       pictureUrl
     }
     isAccepted
+    completedAt
   }
 }
 
