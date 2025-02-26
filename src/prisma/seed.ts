@@ -1,4 +1,4 @@
-import { Level,PrismaClient } from "@prisma/client";
+import { Level, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -26,7 +26,8 @@ async function main() {
       content: "Deliver a presentation",
       level: Level.HIGH,
       dueDate: new Date("2025-02-28T23:59:59Z"),
-      senderId: user1.id,
+      direction: true,
+      sender: { connect: { userId: user1.userId } },
     },
   });
 
@@ -35,7 +36,8 @@ async function main() {
       content: "Complete the project report",
       level: Level.MEDIUM,
       dueDate: new Date("2025-03-15T23:59:59Z"),
-      senderId: user2.id,
+      direction: true,
+      sender: { connect: { userId: user1.userId } },
     },
   });
 
