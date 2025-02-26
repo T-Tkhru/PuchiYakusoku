@@ -72,7 +72,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
             displayName: profile.displayName,
             pictureUrl: profile.pictureUrl ?? "",
           });
-          const { data } = await getUser({});
+          const { data } = await getUser();
 
           console.log(data);
           if (data?.userByUserId === null) {
