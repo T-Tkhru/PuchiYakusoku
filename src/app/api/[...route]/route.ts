@@ -1,6 +1,6 @@
 import { authHandler, verifyAuth } from "@hono/auth-js";
-import { graphqlServer, RootResolver } from "@hono/graphql-server";
-import { Hono, HonoRequest, Context } from "hono";
+import { graphqlServer } from "@hono/graphql-server";
+import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import axios from "axios";
 
@@ -72,11 +72,6 @@ const createUser = async (token: string) => {
       userId,
       displayName,
       pictureUrl,
-    },
-    select: {
-      userId: true,
-      displayName: true,
-      pictureUrl: true,
     },
   });
   return user;
