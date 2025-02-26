@@ -1,8 +1,8 @@
 input CreatePromiseInput {
   content: String!
+  direction: Boolean!
   dueDate: String!
   level: Level!
-  senderId: String!
 }
 
 input CreateUserInput {
@@ -33,6 +33,7 @@ type Mutation {
 type Promise {
   completedAt: DateTime
   content: String!
+  direction: Boolean!
   dueDate: DateTime!
   id: ID!
   isAccepted: Boolean

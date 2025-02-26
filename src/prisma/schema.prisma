@@ -21,22 +21,23 @@ datasource db {
 }
 
 model Promise {
-  id          String   @id @default(cuid())
+  id          String   @id @default(uuid())
   content     String
   level       Level
   dueDate     DateTime
-  senderId    String
-  sender      User   @relation(fields: [senderId], references: [id], name: "sender")
-  receiverId  String?
-  receiver    User?   @relation(fields: [receiverId], references: [id], name: "receiver")
+  senderUserId    String
+  sender      User   @relation(fields: [senderUserId], references: [userId], name: "sender")
+  receiverUserId  String?
+  receiver    User?   @relation(fields: [receiverUserId], references: [userId], name: "receiver")
   isAccepted  Boolean?
   completedAt DateTime?
+  direction   Boolean  // true: sender -> receiver, false: receiver -> sender
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   userId    String   @unique
   displayName String
   pictureUrl  String
