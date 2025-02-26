@@ -38,12 +38,13 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
   return (
     <VStack
       backgroundColor="blackAlpha.300"
-      rounded="md"
+      rounded="lg"
       p={4}
       justifyContent="center"
     >
       <Container
-        p={2}
+        py={2}
+        px={4}
         bgColor={color}
         color="white"
         rounded="lg"

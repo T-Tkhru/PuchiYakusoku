@@ -19,6 +19,7 @@ export const UserCard = ({
       isOpen
       boxShadow={"none"}
       border={"none"}
+      zIndex={1}
     >
       <Avatar
         src={user ? user.pictureUrl : "https://not-found.com"}
