@@ -1,5 +1,3 @@
-import { Promise } from "@prisma/client";
-
 import { GetPromiseQuery } from "@/generated/graphql";
 
 enum StatusEnum {

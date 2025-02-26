@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar } from "@yamada-ui/calendar";
-import { ArrowRightLeft, RefreshCwIcon } from "@yamada-ui/lucide";
+import { RefreshCwIcon } from "@yamada-ui/lucide";
 import {
   Button,
   Center,

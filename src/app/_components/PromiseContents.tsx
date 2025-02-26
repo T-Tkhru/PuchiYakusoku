@@ -1,14 +1,5 @@
 import { Level } from "@prisma/client";
-import {
-  Box,
-  Container,
-  Heading,
-  HStack,
-  Tag,
-  Text,
-  VStack,
-  Wrap,
-} from "@yamada-ui/react";
+import { Container, HStack, Tag, Text, VStack } from "@yamada-ui/react";
 import React from "react";
 
 import { UserProfile } from "@/lib/type";
