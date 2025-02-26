@@ -63,7 +63,7 @@ builder.queryType({
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
-          where: { senderId: userId },
+          where: { sender: { userId: userId } },
         });
       },
     }),
@@ -75,7 +75,9 @@ builder.queryType({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
-        return prisma.promise.findMany({ where: { senderId: userId } });
+        return prisma.promise.findMany({
+          where: { sender: { userId: userId } },
+        });
       },
     }),
     receivedPromises: t.field({
@@ -87,7 +89,7 @@ builder.queryType({
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
-          where: { receiverId: userId },
+          where: { receiver: { userId: userId } },
         });
       },
     }),
@@ -148,7 +150,7 @@ builder.mutationType({
             level: args.input.level,
             dueDate: new Date(args.input.dueDate),
             direction: args.input.direction,
-            senderId: userId,
+            sender: { connect: { userId: userId } },
           },
         });
       },

@@ -166,6 +166,7 @@ export default function Home() {
             const result = await createPromise({
               variables: {
                 input: {
+                  direction: isReverse,
                   content: textContentRef.current?.value ?? "",
                   level: importance,
                   dueDate:
