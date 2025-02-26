@@ -21,7 +21,13 @@ export const exampleUser2: UserProfile = {
   displayName: "筧万里",
 };
 
+export const gestUser: UserProfile = {
+  userId: "",
+  displayName: "ともだち",
+};
+
 export const exampleLiffProfile: Profile = {
   displayName: "筧テスト",
   userId: "test1",
 };
+

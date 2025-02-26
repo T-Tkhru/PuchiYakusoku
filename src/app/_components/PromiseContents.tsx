@@ -4,8 +4,10 @@ import {
   Container,
   Heading,
   HStack,
+  Tag,
   Text,
   VStack,
+  Wrap,
 } from "@yamada-ui/react";
 import React from "react";
 
@@ -20,6 +22,7 @@ interface PromiseContentsProps {
   content: string;
   deadline: string;
   level: Level;
+  color: string;
 }
 
 const strImportance = (level: Level) => {
@@ -39,6 +42,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
   content,
   deadline,
   level,
+  color,
 }) => {
   return (
     <VStack
@@ -49,25 +53,52 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
     >
       <Container
         p={2}
-        bgColor="primary"
+        bgColor={color}
         color="white"
         rounded="lg"
         alignItems="center"
         fontWeight={600}
       >
-        約束内容
+        <Text fontWeight={800} fontSize={24}>
+          約束内容
+        </Text>
       </Container>
-      <Container color="white" gap={16}>
+      <Container color="white" gap={16} alignItems="center">
         <HStack>
           <UserCard user={sender} color="white" />
-          <Text fontSize="4xl">が</Text>
+          <Text fontSize="5xl" fontWeight={800}>
+            が
+          </Text>
           <UserCard user={receiver} color="white" />
-          <Text fontSize="4xl">に</Text>
+          <Text fontSize="5xl" fontWeight={800}>
+            に
+          </Text>
         </HStack>
         <VStack>
-          <Text fontSize="md">内容 : {content}</Text>
-          <Text fontSize="md">期限 : {formatDate(deadline)}まで</Text>
-          <Text fontSize="md">重要度 : {strImportance(level)}</Text>
+          <HStack>
+            <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
+              内容
+            </Tag>
+            <Text fontSize="lg" fontWeight={600}>
+              {content}
+            </Text>
+          </HStack>
+          <HStack>
+            <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
+              期限
+            </Tag>
+            <Text fontSize="lg" fontWeight={600}>
+              {formatDate(deadline)}まで
+            </Text>
+          </HStack>
+          <HStack>
+            <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
+              重要度
+            </Tag>
+            <Text fontSize="lg" fontWeight={600}>
+              {strImportance(level)}
+            </Text>
+          </HStack>
         </VStack>
       </Container>
     </VStack>

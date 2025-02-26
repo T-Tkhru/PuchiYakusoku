@@ -23,7 +23,7 @@ export const UserCard = ({
       <Avatar
         src={user.pictureUrl}
         size={size}
-        border="2px solid"
+        border="4px solid"
         borderColor={color}
       />
     </Tooltip>

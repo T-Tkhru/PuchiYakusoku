@@ -1,11 +1,12 @@
 "use client";
 
 import { Calendar } from "@yamada-ui/calendar";
-import { ArrowRightLeft } from "@yamada-ui/lucide";
+import { ArrowRightLeft, RefreshCwIcon } from "@yamada-ui/lucide";
 import {
   Button,
   Center,
   Container,
+  Heading,
   HStack,
   IconButton,
   SegmentedControl,
@@ -22,11 +23,9 @@ import React, { useRef, useState } from "react";
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
 import { createMessageString, getDueDate } from "@/lib/control-form";
 import { superBaseIdState } from "@/lib/jotai_state";
-import { exampleUser } from "@/lib/mockData";
-import { baseUri } from "@/lib/request";
+import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
-import { Header } from "./_components/Header";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -65,8 +64,9 @@ export default function Home() {
     <React.Fragment>
       <Text>{superBaseId}</Text>
       <Text>{senderId}</Text>
-      <Header />
+
       <VStack w="full" px={8} py={4} gap={4}>
+        <Heading py={4}>約束をプチる</Heading>
         <VStack w="full" alignItems="center">
           <Container
             bgColor="primary"
@@ -74,26 +74,32 @@ export default function Home() {
             rounded="md"
             alignItems="center"
             fontWeight={600}
+            py={2}
+            maxH={12}
+            justifyContent="center"
           >
-            約束の内容は？
+            <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
-          <HStack gap={4}>
-            <UserCard user={isReverse ? exampleUser : user} />
-            <Text fontSize="6xl">が</Text>
-            <UserCard user={isReverse ? user : exampleUser} />
-            <Text fontSize="6xl">に</Text>
-          </HStack>
-          <Center pr={16}>
-            <IconButton
-              icon={<ArrowRightLeft />}
-              aria-label="left-right"
-              colorScheme="primary"
-              h="12"
-              w="12"
-              rounded="full"
-              onClick={handleReverse}
-            />
-          </Center>
+          <VStack alignItems="center" gap={0}>
+            <HStack gap={4}>
+              <UserCard user={isReverse ? gestUser : user} />
+              <Text fontSize="6xl">が</Text>
+              <UserCard user={isReverse ? user : gestUser} />
+              <Text fontSize="6xl">に</Text>
+            </HStack>
+            <Center pr={16}>
+              <IconButton
+                icon={<RefreshCwIcon />}
+                aria-label="left-right"
+                fontSize="24"
+                colorScheme="primary"
+                h="12"
+                w="12"
+                rounded="full"
+                onClick={handleReverse}
+              />
+            </Center>
+          </VStack>
           <Textarea
             variant="filled"
             placeholder="回らない寿司を奢る"
@@ -148,7 +154,11 @@ export default function Home() {
           </HStack>
         </VStack>
         <Button
+          py={4}
           colorScheme="secondary"
+          rounded="full"
+          size="lg"
+          fontWeight={800}
           onClick={async () => {
             if (!liff) return;
             const result = await createPromise({
@@ -173,7 +183,8 @@ export default function Home() {
                   },
                   {
                     type: "text",
-                    text: baseUri + `/promise/${promiseId}`,
+                    text:
+                      "https://hello-liff.vercel.app" + `/promise/${promiseId}`,
                   },
                 ],
                 {

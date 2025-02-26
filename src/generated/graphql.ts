@@ -141,14 +141,14 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
+export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, isAccepted?: boolean | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
 
 export type GetPromiseQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
@@ -276,6 +276,7 @@ export const GetPromisesDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
   }
 }
     `;
@@ -328,6 +329,8 @@ export const GetPromiseDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
   }
 }
     `;
