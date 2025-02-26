@@ -59,6 +59,7 @@ builder.queryType({
   fields: (t) => ({
     promises: t.field({
       type: [promise],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
@@ -71,6 +72,7 @@ builder.queryType({
       args: {
         senderId: t.arg.string({ required: true }),
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
@@ -83,6 +85,7 @@ builder.queryType({
       args: {
         receiverId: t.arg.string({ required: true }),
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").id;
         return prisma.promise.findMany({
@@ -105,17 +108,6 @@ builder.queryType({
         return foundPromise;
       },
     }),
-    // userByUserId: t.field({
-    //   type: user,
-    //   nullable: true,
-    //   args: {
-    //     userId: t.arg.string({ required: true }),
-    //   },
-    //   resolve: (_, args) =>
-    //     prisma.user.findUnique({
-    //       where: { userId: args.userId },
-    //     }),
-    // }),
     userByUserId: t.field({
       type: user,
       nullable: true,

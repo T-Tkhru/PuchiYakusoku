@@ -12,12 +12,7 @@ import {
 } from "@/generated/graphql";
 import { superBaseIdState } from "@/lib/jotai_state";
 import { exampleUser2 } from "@/lib/mockData";
-
-interface UserProfile {
-  userId: string;
-  displayName: string;
-  pictureUrl?: string;
-}
+import { UserProfile } from "@/lib/type";
 
 interface LiffContextType {
   liff: typeof liff | null;
@@ -68,7 +63,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         if (liffModule.default.isLoggedIn()) {
           const profile = await liffModule.default.getProfile();
           setUser({
-            userId: profile.userId,
+            id: profile.userId,
             displayName: profile.displayName,
             pictureUrl: profile.pictureUrl ?? "",
           });

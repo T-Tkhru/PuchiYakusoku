@@ -12,27 +12,15 @@ import {
 } from "@yamada-ui/react";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import React from "react";
 
 import { PromiseContents } from "@/app/_components/PromiseContents";
-import { useLiff } from "@/app/providers/LiffProvider";
-import { GetPromiseQuery, useGetPromiseQuery } from "@/generated/graphql";
-import { superBaseIdState } from "@/lib/jotai_state";
+import { promiseState } from "@/lib/jotai_state";
 import { defineStatus, headerMessage, imageSource } from "@/lib/status";
-import { UserProfile } from "@/lib/type";
 
 export default function PromiseDetail() {
-  const params = useParams() as { promiseId: string };
-  const { user } = useLiff();
-  const superBaseId = useAtomValue(superBaseIdState);
-  const { data, loading, error } = useGetPromiseQuery({
-    variables: {
-      id: params.promiseId,
-    },
-  });
-
-  if (!data || !data.promise)
+  const promise = useAtomValue(promiseState);
+  if (promise === null) {
     return (
       <VStack
         bgColor="primary"
@@ -42,12 +30,11 @@ export default function PromiseDetail() {
         gap={8}
         alignItems="center"
       >
-        <Loading color="white" fontSize="1XL" speed="0.65s" />
+        <Loading color="white" fontSize="lg" speed="0.65s" />
       </VStack>
     );
-
-  const promise: GetPromiseQuery["promise"] = data.promise;
-  const status = defineStatus(promise, superBaseId ?? "");
+  }
+  const status = defineStatus(promise, promise.id);
 
   return (
     <VStack
@@ -89,19 +76,25 @@ export default function PromiseDetail() {
         <Divider orientation="horizontal" />
       </VStack>
       <PromiseContents
-        sender={promise.sender as unknown as UserProfile}
-        receiver={promise.receiver as unknown as UserProfile}
+        sender={promise.sender}
+        receiver={promise.receiver}
         content={promise.content as string}
-        deadline={promise.dueDate as string}
+        deadline={promise.dueDate}
         level={promise.level as Level}
         color={`${status.baseColor}.500`}
       />
       <VStack w="full">
         <VStack>
-          <Button colorScheme="primary" size="lg" fontWeight={800}>
+          <Button
+            colorScheme="primary"
+            size="lg"
+            fontWeight={800}
+            rounded="full"
+          >
             約束する
           </Button>
           <Button
+            rounded="full"
             variant="outline"
             color="white"
             borderColor="white"
