@@ -59,27 +59,36 @@ builder.queryType({
   fields: (t) => ({
     promises: t.field({
       type: [promise],
-      resolve: () => prisma.promise.findMany(),
+      resolve: (_, __, context: any) => {
+        const userId = context.get("user").id;
+        return prisma.promise.findMany({
+          where: { sender: { userId: userId } },
+        });
+      },
     }),
     sentPromises: t.field({
       type: [promise],
       args: {
         senderId: t.arg.string({ required: true }),
       },
-      resolve: (_, args) =>
-        prisma.promise.findMany({
-          where: { sender: { userId: args.senderId } },
-        }),
+      resolve: (_, __, context: any) => {
+        const userId = context.get("user").id;
+        return prisma.promise.findMany({
+          where: { sender: { userId: userId } },
+        });
+      },
     }),
     receivedPromises: t.field({
       type: [promise],
       args: {
         receiverId: t.arg.string({ required: true }),
       },
-      resolve: (_, args) =>
-        prisma.promise.findMany({
-          where: { receiver: { userId: args.receiverId } },
-        }),
+      resolve: (_, __, context: any) => {
+        const userId = context.get("user").id;
+        return prisma.promise.findMany({
+          where: { receiver: { userId: userId } },
+        });
+      },
     }),
     promise: t.field({
       type: promise,
@@ -96,16 +105,29 @@ builder.queryType({
         return foundPromise;
       },
     }),
+    // userByUserId: t.field({
+    //   type: user,
+    //   nullable: true,
+    //   args: {
+    //     userId: t.arg.string({ required: true }),
+    //   },
+    //   resolve: (_, args) =>
+    //     prisma.user.findUnique({
+    //       where: { userId: args.userId },
+    //     }),
+    // }),
     userByUserId: t.field({
       type: user,
       nullable: true,
-      args: {
-        userId: t.arg.string({ required: true }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: async (_, __, context: any) => {
+        const userId = context.get("user").id;
+        const foundUser = await prisma.user.findUnique({
+          where: { userId: userId },
+        });
+
+        return foundUser;
       },
-      resolve: (_, args) =>
-        prisma.user.findUnique({
-          where: { userId: args.userId },
-        }),
     }),
   }),
 });
@@ -115,15 +137,20 @@ builder.mutationType({
     createPromise: t.field({
       type: promise,
       args: { input: t.arg({ type: createPromiseInput, required: true }) },
-      resolve: (_, args) =>
-        prisma.promise.create({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: (_, args, context: any) => {
+        const userId = context.get("user").id;
+        console.log(context.get("user"));
+        return prisma.promise.create({
           data: {
             content: args.input.content,
             level: args.input.level,
             dueDate: new Date(args.input.dueDate),
             direction: args.input.direction,
+            sender: { connect: { userId: userId } },
           },
-        }),
+        });
+      },
     }),
     createUser: t.field({
       type: user,
@@ -194,5 +221,7 @@ builder.mutationType({
 export const schema = builder.toSchema();
 
 const schemaAsString = printSchema(lexicographicSortSchema(schema));
-const schemaPath = path.join(process.cwd(), "src/generated/schema.graphql");
-writeFileSync(schemaPath, schemaAsString);
+if (process.env.NODE_ENV === "development") {
+  const schemaPath = path.join(process.cwd(), "src/generated/schema.graphql");
+  writeFileSync(schemaPath, schemaAsString);
+}
