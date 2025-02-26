@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar } from "@yamada-ui/calendar";
-import { RefreshCwIcon } from "@yamada-ui/lucide";
+import { ArrowLeftIcon, RefreshCwIcon } from "@yamada-ui/lucide";
 import {
   Button,
   Center,
@@ -17,13 +17,11 @@ import {
   Textarea,
   VStack,
 } from "@yamada-ui/react";
-import { useAtomValue } from "jotai";
 import { signIn, useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
 import { createMessageString, getDueDate } from "@/lib/control-form";
-import { superBaseIdState } from "@/lib/jotai_state";
 import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
@@ -46,13 +44,11 @@ const dueDateItems: SelectItem[] = [
 export default function Home() {
   const { data: session } = useSession();
   const { user, liff } = useLiff();
-  const superBaseId = useAtomValue(superBaseIdState);
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [createPromise] = useCreatePromiseMutation();
   const [dueDate, setDueDate] = useState<Date>(new Date());
-  const senderId = superBaseId ?? "cm7htd03f0001k8d2hwuxs9zf";
 
   const [isReverse, setIsReverse] = useState(false);
 
@@ -64,10 +60,17 @@ export default function Home() {
   }
   return (
     <React.Fragment>
-      <Text>{superBaseId}</Text>
-      <Text>{senderId}</Text>
-
       <VStack w="full" px={8} py={4} gap={4}>
+        <HStack w="full">
+          <IconButton
+            variant="ghost"
+            size="xl"
+            rounded="full"
+            fontSize="xl"
+            icon={<ArrowLeftIcon />}
+            onClick={() => {}}
+          ></IconButton>
+        </HStack>
         <Heading py={4}>約束をプチる</Heading>
         <VStack w="full" alignItems="center">
           <Container
@@ -147,7 +150,7 @@ export default function Home() {
               {selectDueDateType === "other" && (
                 <Calendar
                   value={dueDate}
-                  onChange={(date) => {
+                  onChange={(date: React.SetStateAction<Date>) => {
                     setDueDate(date);
                   }}
                 />
@@ -186,7 +189,8 @@ export default function Home() {
                   {
                     type: "text",
                     text:
-                      "https://hello-liff.vercel.app" + `/promise/${promiseId}`,
+                      `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
+                      `/promise/${promiseId}`,
                   },
                 ],
                 {
@@ -210,15 +214,12 @@ export default function Home() {
         {session ? null : (
           <Container
             boxShadow="lg"
-            position="absolute"
-            top="70%"
             p={4}
             w="md"
             border="2px solid"
             borderColor="#01BF3A"
             rounded="md"
             justifyContent="center"
-            right="calc(50% - 190px)"
           >
             <Text
               fontWeight={800}

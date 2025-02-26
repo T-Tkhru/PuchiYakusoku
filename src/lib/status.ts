@@ -1,4 +1,4 @@
-import { GetPromiseQuery } from "@/generated/graphql";
+import { Promise } from "./type";
 
 enum StatusEnum {
   UN_READ = "unread",
@@ -24,10 +24,7 @@ export const taskStatus: Status = {
   baseColor: statusColors[StatusEnum.UN_READ],
 };
 
-export const defineStatus = (
-  promise: GetPromiseQuery["promise"],
-  userId: string
-): Status => {
+export const defineStatus = (promise: Promise, userId: string): Status => {
   if (promise === null || promise === undefined) {
     return {
       status: StatusEnum.UN_READ,

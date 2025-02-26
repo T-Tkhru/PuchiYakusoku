@@ -4,6 +4,7 @@ query GetPromises {
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -15,6 +16,7 @@ query GetPromises {
       pictureUrl
     }
     isAccepted
+    completedAt
   }
 }
 
@@ -24,6 +26,7 @@ query GetPromise($id: String!) {
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -65,6 +68,7 @@ mutation AcceptPromise($id: ID!, $receiverId: String!) {
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -84,6 +88,7 @@ mutation RejectPromise($id: ID!) {
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -98,6 +103,7 @@ mutation CompletePromise($id: ID!) {
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
