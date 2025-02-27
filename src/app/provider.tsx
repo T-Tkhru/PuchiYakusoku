@@ -20,7 +20,6 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             <Suspense fallback={null}>
               <PromiseNavigator>{children}</PromiseNavigator>
             </Suspense>
-            s
           </LiffProvider>
         </NextAuthSessionProvider>
       </ApolloProvider>
