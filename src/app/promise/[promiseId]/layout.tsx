@@ -18,14 +18,17 @@ export default function PromiseLayout({
 
   const params = useParams() as { promiseId: string };
   const setPromise = useSetAtom(promiseState);
-  const { data } = useGetPromiseQuery({
+  const { data, error } = useGetPromiseQuery({
     variables: {
       id: params.promiseId,
     },
   });
+  console.log(params);
+  console.log(data);
+  console.log(error);
 
   useEffect(() => {
-    if ((data && data?.promise !== null) || data?.promise !== undefined) {
+    if (data && data?.promise !== null && data?.promise !== undefined) {
       console.log(data.promise);
       const promise = PromiseSchema.parse(data.promise);
       if (user?.id !== promise.sender.id && user) {
