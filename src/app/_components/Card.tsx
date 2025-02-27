@@ -26,6 +26,7 @@ export const UserCard = ({
         size={size}
         border="4px solid"
         borderColor={color}
+        color="gray.100"
       />
     </Tooltip>
   );
