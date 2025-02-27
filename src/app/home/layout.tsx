@@ -4,7 +4,7 @@ import { Avatar, Heading, HStack, VStack } from "@yamada-ui/react";
 import { useSetAtom } from "jotai";
 import React, { useEffect } from "react";
 
-import { useLiff } from "@/app/providers/LiffProvider";
+import { LiffProvider, useLiff } from "@/app/providers/LiffProvider";
 import { useGetPromisesQuery } from "@/generated/graphql";
 import { promisesListState } from "@/lib/jotai_state";
 import { PromiseSchema } from "@/lib/type";
@@ -37,13 +37,15 @@ export default function HomeLayout({
 
   return (
     <React.Fragment>
-      <VStack p={12} minH="100vh" gap={8} alignItems="center">
-        <HStack justifyContent="space-between" w="full">
-          <Heading py={4}>ホーム</Heading>
-          <Avatar src={user?.pictureUrl} />
-        </HStack>
-        {children}
-      </VStack>
+      <LiffProvider>
+        <VStack p={12} minH="100vh" gap={8} alignItems="center">
+          <HStack justifyContent="space-between" w="full">
+            <Heading py={4}>ホーム</Heading>
+            <Avatar src={user?.pictureUrl} />
+          </HStack>
+          {children}
+        </VStack>
+      </LiffProvider>
     </React.Fragment>
   );
 }

@@ -48,6 +48,7 @@ export default function PromiseLayout({
 
   if (error) {
     console.error(error);
+    alert(error);
     return <div>エラーが発生したみたい。詳細:{error.message}</div>;
   }
 
