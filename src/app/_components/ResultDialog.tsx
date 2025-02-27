@@ -2,10 +2,8 @@ import {
   Button,
   Dialog,
   DialogBody,
-  DialogCloseButton,
   DialogFooter,
   DialogHeader,
-  DialogOverlay,
 } from "@yamada-ui/react";
 
 interface ResultDialogProps {
@@ -25,12 +23,10 @@ export const ResultDialog: React.FC<ResultDialogProps> = ({
   const headerBg = type === "success" ? "primary" : "danger";
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogOverlay />
       <Dialog>
         <DialogHeader bg={headerBg} color="white" fontWeight="bold">
           {title}
         </DialogHeader>
-        <DialogCloseButton />
         <DialogBody>{message}</DialogBody>
         <DialogFooter>
           <Button
