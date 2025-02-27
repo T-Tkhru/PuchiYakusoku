@@ -135,14 +135,14 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, isAccepted?: boolean | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
+export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
 
 export type GetPromiseQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
@@ -157,21 +157,21 @@ export type AcceptPromiseMutationVariables = Exact<{
 }>;
 
 
-export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type RejectPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } } | null };
+export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } } | null };
 
 export type CompletePromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 
 export const GetUserByUserIdDocument = gql`
@@ -259,6 +259,7 @@ export const GetPromisesDocument = gql`
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -270,6 +271,7 @@ export const GetPromisesDocument = gql`
       pictureUrl
     }
     isAccepted
+    completedAt
   }
 }
     `;
@@ -312,6 +314,7 @@ export const GetPromiseDocument = gql`
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -413,6 +416,7 @@ export const AcceptPromiseDocument = gql`
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -460,6 +464,7 @@ export const RejectPromiseDocument = gql`
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -501,6 +506,7 @@ export const CompletePromiseDocument = gql`
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName

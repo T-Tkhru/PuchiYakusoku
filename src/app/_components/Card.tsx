@@ -3,7 +3,7 @@ import { Avatar, Tooltip } from "@yamada-ui/react";
 import { UserProfile } from "@/lib/type";
 
 interface CardProps {
-  user: UserProfile;
+  user: UserProfile | null;
   size?: string;
   color?: string;
 }
@@ -15,16 +15,18 @@ export const UserCard = ({
 }: CardProps) => {
   return (
     <Tooltip
-      label={`${user.displayName}`}
+      label={user ? `${user.displayName}` : "友達"}
       isOpen
       boxShadow={"none"}
       border={"none"}
+      zIndex={1}
     >
       <Avatar
-        src={user.pictureUrl}
+        src={user ? user.pictureUrl : "https://not-found.com"}
         size={size}
         border="4px solid"
         borderColor={color}
+        color="gray.100"
       />
     </Tooltip>
   );

@@ -9,9 +9,9 @@ import { UserCard } from "./Card";
 
 interface PromiseContentsProps {
   sender: UserProfile;
-  receiver: UserProfile;
+  receiver: UserProfile | null;
   content: string;
-  deadline: string;
+  deadline: string | null;
   level: Level;
   color: string;
 }
@@ -38,12 +38,13 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
   return (
     <VStack
       backgroundColor="blackAlpha.300"
-      rounded="md"
+      rounded="lg"
       p={4}
       justifyContent="center"
     >
       <Container
-        p={2}
+        py={2}
+        px={4}
         bgColor={color}
         color="white"
         rounded="lg"
@@ -78,9 +79,15 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
             <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
               期限
             </Tag>
-            <Text fontSize="lg" fontWeight={600}>
-              {formatDate(deadline)}まで
-            </Text>
+            {deadline === null ? (
+              <Text fontSize="lg" fontWeight={600}>
+                期限なし
+              </Text>
+            ) : (
+              <Text fontSize="lg" fontWeight={600}>
+                {formatDate(deadline)}まで
+              </Text>
+            )}
           </HStack>
           <HStack>
             <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
