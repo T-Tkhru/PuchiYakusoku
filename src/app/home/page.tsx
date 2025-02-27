@@ -80,8 +80,8 @@ export default function Home() {
         </HStack>
         <VStack w="full" gap={4}>
           {PromiseList.length === 0 ? (
-            <VStack w="full" gap={4}>
-              <Loading variant="circles" fontSize="2xl" speed="0.65s" />
+            <VStack w="full" gap={4} alignItems="center" p="8">
+              <Loading variant="circles" fontSize="4xl" speed="0.65s" />
               <Text fontSize="sm" fontWeight={600}>
                 プチ約束を読み込み中...
               </Text>

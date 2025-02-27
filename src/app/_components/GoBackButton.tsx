@@ -1,26 +1,27 @@
 "use client";
 import { HouseIcon } from "@yamada-ui/lucide";
-import { HStack, Icon } from "@yamada-ui/react";
-import Link from "next/link";
+import { HStack, Icon, IconButton } from "@yamada-ui/react";
+import { useRouter } from "next/navigation";
 
-interface BackButtonProps {
+interface HomeButtonProps {
   color?: string;
 }
 
-export function BackButton({ color }: BackButtonProps) {
+export function HomeButton({ color }: HomeButtonProps) {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push("/home");
+  };
   return (
     <HStack w="full">
-      <Link href="/home">
-        <Icon
-          variant="ghost"
-          size="xl"
-          rounded="full"
-          fontSize="xl"
-          p={4}
-          as={HouseIcon}
-          color={color ? color : "black"}
-        ></Icon>
-      </Link>
+      <IconButton
+        rounded="full"
+        fontSize="2xl"
+        p={2}
+        variant={"ghost"}
+        onClick={handleClick}
+        icon={<Icon as={HouseIcon} color={color ? color : "neutral.500"} />}
+      ></IconButton>
     </HStack>
   );
 }

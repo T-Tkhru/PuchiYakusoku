@@ -28,7 +28,7 @@ import { createMessageString, getDueDate } from "@/lib/control-form";
 import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
-import { BackButton } from "./_components/GoBackButton";
+import { HomeButton } from "./_components/GoBackButton";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -78,7 +78,7 @@ export default function Home() {
         </DialogBody>
       </Dialog>
       <VStack w="full" px={8} py={4} gap={4}>
-        <BackButton />
+        <HomeButton />
         <Heading py={4}>約束をプチる</Heading>
         <VStack w="full" alignItems="center">
           <Container
