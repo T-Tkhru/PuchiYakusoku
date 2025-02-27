@@ -7,14 +7,14 @@
 
 import {
   ApolloClient,
-  InMemoryCache,
-  createHttpLink,
   ApolloLink,
+  createHttpLink,
+  InMemoryCache,
 } from "@apollo/client";
 
 // HTTPリンクを作成
 const httpLink = createHttpLink({
-  uri: "api/graphql", // GraphQLエンドポイント
+  uri: "/api/graphql", // GraphQLエンドポイント
 });
 
 // リクエストにアクセストークンを追加するApollo Link
