@@ -6,18 +6,23 @@ import {
   Button,
   Center,
   Container,
+  Dialog,
+  DialogBody,
   Heading,
   HStack,
+  Icon,
   IconButton,
+  Image,
   SegmentedControl,
   SegmentedControlItem,
   Select,
   SelectItem,
   Text,
   Textarea,
+  useDisclosure,
   VStack,
 } from "@yamada-ui/react";
-import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
@@ -42,12 +47,12 @@ const dueDateItems: SelectItem[] = [
 ];
 
 export default function Home() {
-  const { data: session } = useSession();
   const { user, liff } = useLiff();
+  const { onOpen, onClose } = useDisclosure();
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
-  const [createPromise] = useCreatePromiseMutation();
+  const [createPromise, { loading }] = useCreatePromiseMutation();
   const [dueDate, setDueDate] = useState<Date>(new Date());
 
   const [isReverse, setIsReverse] = useState(false);
@@ -60,16 +65,34 @@ export default function Home() {
   }
   return (
     <React.Fragment>
+      <Dialog
+        open={loading}
+        onClose={onClose}
+        header="約束を用意中..."
+        size="md"
+      >
+        <DialogBody alignItems="center">
+          <Image
+            src="/loading_icon.png"
+            alt="loading"
+            width={140}
+            height={140}
+          />
+        </DialogBody>
+      </Dialog>
       <VStack w="full" px={8} py={4} gap={4}>
         <HStack w="full">
-          <IconButton
-            variant="ghost"
-            size="xl"
-            rounded="full"
-            fontSize="xl"
-            icon={<ArrowLeftIcon />}
-            onClick={() => {}}
-          ></IconButton>
+          <Link href="/home">
+            <Icon
+              variant="ghost"
+              size="xl"
+              rounded="full"
+              fontSize="xl"
+              as={ArrowLeftIcon}
+              onClick={() => {}}
+              _hover={{ bgColor: "gray.800" }}
+            ></Icon>
+          </Link>
         </HStack>
         <Heading py={4}>約束をプチる</Heading>
         <VStack w="full" alignItems="center">
@@ -87,9 +110,9 @@ export default function Home() {
           </Container>
           <VStack alignItems="center" gap={0}>
             <HStack gap={4}>
-              <UserCard user={isReverse ? gestUser : user} />
+              <UserCard user={isReverse ? gestUser : user} color="primary" />
               <Text fontSize="6xl">が</Text>
-              <UserCard user={isReverse ? user : gestUser} />
+              <UserCard user={isReverse ? user : gestUser} color="primary" />
               <Text fontSize="6xl">に</Text>
             </HStack>
             <Center pr={16}>
@@ -164,8 +187,21 @@ export default function Home() {
           rounded="full"
           size="lg"
           fontWeight={800}
+          boxShadow="0px 6px pink"
+          // border="2px solid"
+          transition="all 0.2s ease"
+          _hover={{
+            boxShadow: "0px 8px 12px rgba(0, 0, 0, 0.3)",
+            transform: "translateY(-4px)",
+            backgroundColor: "secondary.600",
+          }}
+          _active={{
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.15)",
+            transform: "translateY(0)",
+          }}
           onClick={async () => {
             if (!liff) return;
+            onOpen();
             const result = await createPromise({
               variables: {
                 input: {
@@ -207,40 +243,13 @@ export default function Home() {
               .catch(function (error) {
                 alert(error);
               });
+            onClose();
           }}
         >
           約束する
         </Button>
-        {session ? null : (
-          <Container
-            boxShadow="lg"
-            p={4}
-            w="md"
-            border="2px solid"
-            borderColor="#01BF3A"
-            rounded="md"
-            justifyContent="center"
-          >
-            <Text
-              fontWeight={800}
-              fontSize="lg"
-              textAlign="center"
-              color="black"
-            >
-              まずはラインでログインしましょう！
-            </Text>
-            <Button
-              backgroundColor="#01BF3A"
-              color="white"
-              onClick={async () => {
-                await signIn("line", { redirectTo: "/" });
-              }}
-            >
-              ログイン
-            </Button>
-          </Container>
-        )}
       </VStack>
     </React.Fragment>
   );
 }
+

@@ -96,6 +96,7 @@ export default function Home() {
 }
 
 const EachPromiseCard = ({ promise }: { promise: Promise }) => {
+  const router = useRouter();
   return (
     <Button
       key={promise.id}
@@ -103,7 +104,9 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       size="md"
       rounded="lg"
       h="20"
-      onClick={() => {}}
+      onClick={() => {
+        router.push(`/promise/${promise.id}`);
+      }}
     >
       <HStack w="full">
         {promise.direction ? (
