@@ -79,7 +79,7 @@ export default function Home() {
       </Dialog>
       <VStack w="full" px={8} py={4} gap={4}>
         <HomeButton />
-        <Heading py={4}>約束をプチる</Heading>
+        <Heading py={2}>約束をプチる</Heading>
         <VStack w="full" alignItems="center">
           <Container
             bgColor="primary"
@@ -94,13 +94,13 @@ export default function Home() {
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
           <VStack alignItems="center" gap={0}>
-            <HStack gap={4}>
+            <HStack gap={6}>
               <UserCard user={isReverse ? gestUser : user} color="primary" />
               <Text fontSize="6xl">が</Text>
               <UserCard user={isReverse ? user : gestUser} color="primary" />
               <Text fontSize="6xl">に</Text>
             </HStack>
-            <Center pr={16}>
+            <Center pr={20}>
               <IconButton
                 zIndex={10}
                 icon={<RefreshCwIcon />}
@@ -111,6 +111,13 @@ export default function Home() {
                 w="12"
                 rounded="full"
                 onClick={handleReverse}
+                boxShadow="0px 4px teal"
+                transition="all 0.2s ease"
+                _active={{
+                  transform: "translateY(2px) scale(0.9) rotate(180deg)",
+                  backgroundColor: "teal.800",
+                  boxshadow: "none",
+                }}
               />
             </Center>
           </VStack>
@@ -120,6 +127,8 @@ export default function Home() {
             h="32"
             focusBorderColor="teal.500"
             ref={textContentRef}
+            border={"2px solid"}
+            borderColor="border"
           />
           <HStack
             w="full"
@@ -136,6 +145,13 @@ export default function Home() {
               items={importanceItems}
               value={importance}
               onChange={(value) => setImportance(value as Level)}
+              boxShadow={"0px 4px #9C9C9CFF"}
+              transition={"all 0.2s ease"}
+              _active={{
+                transform: "translateY(2px)",
+                backgroundColor: "gray.50",
+                boxshadow: "none",
+              }}
             ></SegmentedControl>
           </HStack>
 
@@ -155,6 +171,12 @@ export default function Home() {
                   setSelectDueDateType(value);
                 }}
                 items={dueDateItems}
+                boxShadow={"0px 4px #9C9C9CFF"}
+                _active={{
+                  transform: "translateY(2px)",
+                  backgroundColor: "gray.50",
+                  boxshadow: "none",
+                }}
               ></Select>
               {selectDueDateType === "other" && (
                 <Calendar
@@ -174,17 +196,12 @@ export default function Home() {
             rounded="full"
             size="lg"
             fontWeight={800}
-            boxShadow="0px 6px pink"
-            // border="2px solid"
+            boxShadow="0px 6px #EB777B"
             transition="all 0.2s ease"
-            _hover={{
-              boxShadow: "0px 8px 12px rgba(0, 0, 0, 0.3)",
-              transform: "translateY(-4px)",
-              backgroundColor: "secondary.600",
-            }}
             _active={{
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.15)",
-              transform: "translateY(0)",
+              transform: "translateY(2px)",
+              backgroundColor: "pink.800",
+              boxshadow: "none",
             }}
             onClick={async () => {
               if (!liff) return;

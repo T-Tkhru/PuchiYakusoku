@@ -38,7 +38,14 @@ export default function Home() {
         onClick={() => {
           router.push("/");
         }}
+        transition="all 0.2s ease"
         justifyContent="center"
+        boxShadow="0px 6px #EB777B"
+        _active={{
+          transform: "translateY(2px)",
+          backgroundColor: "pink.800",
+          boxshadow: "none",
+        }}
       >
         <VStack gap={1} alignItems="center">
           <Image src="/logo_puchi_only.svg" size="16" />
@@ -52,11 +59,18 @@ export default function Home() {
         <Heading fontSize="xl">最近のウゴキ</Heading>
         <Button
           colorScheme="primary"
+          boxShadow="0px 6px teal"
           size="md"
           fontWeight={800}
           rounded="lg"
           h="24"
           onClick={() => {}}
+          transition="all 0.2s ease"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "teal.800",
+            boxshadow: "none",
+          }}
         >
           約束する
         </Button>
@@ -111,6 +125,13 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       h="20"
       onClick={() => {
         router.push(`/promise/${promise.id}`);
+      }}
+      boxShadow={"0px 4px #9C9C9CFF"}
+      transition={"all 0.2s ease"}
+      _active={{
+        transform: "translateY(2px)",
+        backgroundColor: "gray.50",
+        boxshadow: "none",
       }}
     >
       <HStack w="full">
