@@ -82,13 +82,16 @@ export default function PromiseDetail() {
     return (
       <VStack
         bgColor="primary"
-        px={8}
+        px={12}
         py={12}
         minH="100vh"
         gap={8}
         alignItems="center"
       >
-        <Loading color="white" fontSize="lg" speed="0.65s" />
+        <Text color="white" fontSize="2xl" fontWeight={800}>
+          約束データを取得中...
+        </Text>
+        <Loading color="white" fontSize="2xl" speed="0.65s" />
       </VStack>
     );
   }

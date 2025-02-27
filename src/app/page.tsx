@@ -87,7 +87,7 @@ export default function Home() {
             rounded="md"
             alignItems="center"
             fontWeight={600}
-            py={2}
+            py={1}
             maxH={12}
             justifyContent="center"
           >
@@ -171,7 +171,6 @@ export default function Home() {
                 items={dueDateItems}
                 boxShadow={"0px 4px #9C9C9CFF"}
                 _active={{
-                  transform: "translateY(2px)",
                   backgroundColor: "gray.50",
                   boxshadow: "none",
                 }}
