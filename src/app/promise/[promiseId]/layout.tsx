@@ -31,7 +31,7 @@ export default function PromiseLayout({
     if (data && data?.promise !== null && data?.promise !== undefined) {
       console.log(data.promise);
       const promise = PromiseSchema.parse(data.promise);
-      if (user?.id !== promise.sender.id && user) {
+      if (user?.displayName !== promise.sender.displayName && user) {
         const newReceiverData = {
           id: user.id,
           displayName: user.displayName,
