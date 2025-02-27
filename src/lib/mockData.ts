@@ -19,7 +19,7 @@ export const exampleUser: UserProfile = {
 export const exampleUser2: UserProfile = {
   id: "user2-line-id",
   pictureUrl: "https://i.gyazo.com/0c8b621d7ffb02804c0fdbfd3f5de6fb.png",
-  displayName: "筧万里",
+  displayName: "かけひ　ばんり",
 };
 
 export const gestUser: UserProfile = {

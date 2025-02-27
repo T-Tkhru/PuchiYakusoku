@@ -117,6 +117,7 @@ export default function Home() {
             </HStack>
             <Center pr={16}>
               <IconButton
+                zIndex={10}
                 icon={<RefreshCwIcon />}
                 aria-label="left-right"
                 fontSize="24"

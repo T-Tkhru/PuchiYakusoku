@@ -37,15 +37,13 @@ export default function HomeLayout({
 
   return (
     <React.Fragment>
-      <LiffProvider>
-        <VStack p={12} minH="100vh" gap={8} alignItems="center">
-          <HStack justifyContent="space-between" w="full">
-            <Heading py={4}>ホーム</Heading>
-            <Avatar src={user?.pictureUrl} />
-          </HStack>
-          {children}
-        </VStack>
-      </LiffProvider>
+      <VStack px={8} py={4} minH="100vh" gap={8} alignItems="center">
+        <HStack justifyContent="space-between" w="full">
+          <Heading py={4}>ホーム</Heading>
+          <Avatar src={user?.pictureUrl} />
+        </HStack>
+        {children}
+      </VStack>
     </React.Fragment>
   );
 }
