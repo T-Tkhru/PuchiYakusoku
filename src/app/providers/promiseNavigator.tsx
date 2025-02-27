@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 export const PromiseNavigator = ({
   children,
@@ -17,5 +17,9 @@ export const PromiseNavigator = ({
       router.replace(`/promise/${query}`);
     }
   }, [query, router]);
-  return <React.Fragment>{children}</React.Fragment>;
+  return (
+    <React.Fragment>
+      <Suspense fallback={null}>{children}</Suspense>
+    </React.Fragment>
+  );
 };

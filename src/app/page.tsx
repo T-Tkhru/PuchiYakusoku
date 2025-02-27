@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar } from "@yamada-ui/calendar";
-import { ArrowLeftIcon, RefreshCwIcon } from "@yamada-ui/lucide";
+import { RefreshCwIcon } from "@yamada-ui/lucide";
 import {
   Button,
   Center,
@@ -10,7 +10,6 @@ import {
   DialogBody,
   Heading,
   HStack,
-  Icon,
   IconButton,
   Image,
   SegmentedControl,
@@ -22,7 +21,6 @@ import {
   useDisclosure,
   VStack,
 } from "@yamada-ui/react";
-import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
@@ -61,9 +59,7 @@ export default function Home() {
   const handleReverse = () => {
     setIsReverse(!isReverse);
   };
-  if (!user) {
-    return <Text>loading...</Text>;
-  }
+
   return (
     <React.Fragment>
       <Dialog
@@ -171,73 +167,75 @@ export default function Home() {
             </VStack>
           </HStack>
         </VStack>
-        <Button
-          py={4}
-          colorScheme="secondary"
-          rounded="full"
-          size="lg"
-          fontWeight={800}
-          boxShadow="0px 6px pink"
-          // border="2px solid"
-          transition="all 0.2s ease"
-          _hover={{
-            boxShadow: "0px 8px 12px rgba(0, 0, 0, 0.3)",
-            transform: "translateY(-4px)",
-            backgroundColor: "secondary.600",
-          }}
-          _active={{
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.15)",
-            transform: "translateY(0)",
-          }}
-          onClick={async () => {
-            if (!liff) return;
-            onOpen();
-            const result = await createPromise({
-              variables: {
-                input: {
-                  direction: isReverse,
-                  content: textContentRef.current?.value ?? "",
-                  level: importance,
-                  dueDate:
-                    getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+        {user ? (
+          <Button
+            py={4}
+            colorScheme="secondary"
+            rounded="full"
+            size="lg"
+            fontWeight={800}
+            boxShadow="0px 6px pink"
+            // border="2px solid"
+            transition="all 0.2s ease"
+            _hover={{
+              boxShadow: "0px 8px 12px rgba(0, 0, 0, 0.3)",
+              transform: "translateY(-4px)",
+              backgroundColor: "secondary.600",
+            }}
+            _active={{
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.15)",
+              transform: "translateY(0)",
+            }}
+            onClick={async () => {
+              if (!liff) return;
+              onOpen();
+              const result = await createPromise({
+                variables: {
+                  input: {
+                    direction: isReverse,
+                    content: textContentRef.current?.value ?? "",
+                    level: importance,
+                    dueDate:
+                      getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+                  },
                 },
-              },
-            });
-            console.log(result);
-            const promiseId = result.data?.createPromise?.id;
-            liff
-              .shareTargetPicker(
-                [
-                  {
-                    type: "text",
-                    text: createMessageString(user, importance),
-                  },
-                  {
-                    type: "text",
-                    text:
-                      `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
-                      `/?query=${promiseId}`,
-                  },
-                ],
-                {
-                  isMultiple: true,
-                }
-              )
-              .then(function (res) {
-                if (res) {
-                  console.log(`[${res.status}] Message sent!`);
-                } else {
-                  console.log("TargetPicker was closed!");
-                }
-              })
-              .catch(function (error) {
-                alert(error);
               });
-            onClose();
-          }}
-        >
-          約束する
-        </Button>
+              console.log(result);
+              const promiseId = result.data?.createPromise?.id;
+              liff
+                .shareTargetPicker(
+                  [
+                    {
+                      type: "text",
+                      text: createMessageString(user, importance),
+                    },
+                    {
+                      type: "text",
+                      text:
+                        `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
+                        `/?query=${promiseId}`,
+                    },
+                  ],
+                  {
+                    isMultiple: true,
+                  }
+                )
+                .then(function (res) {
+                  if (res) {
+                    console.log(`[${res.status}] Message sent!`);
+                  } else {
+                    console.log("TargetPicker was closed!");
+                  }
+                })
+                .catch(function (error) {
+                  alert(error);
+                });
+              onClose();
+            }}
+          >
+            約束する
+          </Button>
+        ) : null}
       </VStack>
     </React.Fragment>
   );
