@@ -30,6 +30,7 @@ import { createMessageString, getDueDate } from "@/lib/control-form";
 import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
+import { BackButton } from "./_components/GoBackButton";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -81,19 +82,7 @@ export default function Home() {
         </DialogBody>
       </Dialog>
       <VStack w="full" px={8} py={4} gap={4}>
-        <HStack w="full">
-          <Link href="/home">
-            <Icon
-              variant="ghost"
-              size="xl"
-              rounded="full"
-              fontSize="xl"
-              as={ArrowLeftIcon}
-              onClick={() => {}}
-              _hover={{ bgColor: "gray.800" }}
-            ></Icon>
-          </Link>
-        </HStack>
+        <BackButton />
         <Heading py={4}>約束をプチる</Heading>
         <VStack w="full" alignItems="center">
           <Container
@@ -227,7 +216,7 @@ export default function Home() {
                     type: "text",
                     text:
                       `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
-                      `/promise/${promiseId}`,
+                      `/?query=${promiseId}`,
                   },
                 ],
                 {

@@ -58,7 +58,7 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
 
 export const headerMessage = (senderName: string, status: Status) => {
   if (status.status === StatusEnum.MY_PROMISE) {
-    return ["約束は達成されるのを", "ひそかに待っている"];
+    return ["約束は達成は", "あなた次第だ！"];
   }
   if (status.status === StatusEnum.IS_ACCEPTED) {
     return ["約束はまだ心の中...", "深呼吸しましょう...スー..."];

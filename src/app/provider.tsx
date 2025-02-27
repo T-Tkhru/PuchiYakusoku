@@ -8,13 +8,16 @@ import { theme } from "@/app/theme";
 import { client } from "@/lib/apollo-client";
 
 import { LiffProvider } from "./providers/LiffProvider";
+import { PromiseNavigator } from "./providers/promiseNavigator";
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
     <UIProvider theme={theme}>
       <ApolloProvider client={client}>
         <NextAuthSessionProvider>
-          <LiffProvider>{children}</LiffProvider>
+          <LiffProvider>
+            <PromiseNavigator>{children}</PromiseNavigator>
+          </LiffProvider>
         </NextAuthSessionProvider>
       </ApolloProvider>
     </UIProvider>

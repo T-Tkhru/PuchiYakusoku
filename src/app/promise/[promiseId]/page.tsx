@@ -20,6 +20,7 @@ import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React, { useState } from "react";
 
+import { BackButton } from "@/app/_components/GoBackButton";
 import { PromiseContents } from "@/app/_components/PromiseContents";
 import { useLiff } from "@/app/providers/LiffProvider";
 import {
@@ -100,6 +101,7 @@ export default function PromiseDetail() {
       gap={8}
       alignItems="center"
     >
+      <BackButton color="white" />
       <Image
         src={imageSource(status)}
         alt="mail icon"
