@@ -1,4 +1,5 @@
 "use client";
+import "dayjs/locale/ja";
 
 import { Calendar } from "@yamada-ui/calendar";
 import { RefreshCwIcon } from "@yamada-ui/lucide";
@@ -8,6 +9,7 @@ import {
   Container,
   Dialog,
   DialogBody,
+  FormControl,
   Heading,
   HStack,
   IconButton,
@@ -100,7 +102,7 @@ export default function Home() {
               <UserCard user={isReverse ? user : gestUser} color="primary" />
               <Text fontSize="6xl">に</Text>
             </HStack>
-            <Center pr={20}>
+            <Center pr={16}>
               <IconButton
                 zIndex={10}
                 icon={<RefreshCwIcon />}
@@ -120,15 +122,17 @@ export default function Home() {
               />
             </Center>
           </VStack>
-          <Textarea
-            variant="filled"
-            placeholder="回らない寿司を奢る"
-            h="32"
-            focusBorderColor="teal.500"
-            ref={textContentRef}
-            border={"2px solid"}
-            borderColor="border"
-          />
+          <FormControl label="何をする？">
+            <Textarea
+              variant="filled"
+              placeholder="回らない寿司を奢る"
+              h="32"
+              focusBorderColor="teal.500"
+              ref={textContentRef}
+              border={"2px solid"}
+              borderColor="border"
+            />
+          </FormControl>
           <HStack
             w="full"
             justifyContent="space-between"
@@ -138,9 +142,13 @@ export default function Home() {
             <Text>重要度</Text>
             <SegmentedControl
               colorScheme="primary"
-              backgroundColor="gray.50"
+              backgroundColor="white"
+              border="1px solid"
+              borderColor="border"
               defaultValue="low"
+              rounded="md"
               size="sm"
+              h="9"
               items={importanceItems}
               value={importance}
               onChange={(value) => setImportance(value as Level)}
@@ -163,7 +171,7 @@ export default function Home() {
             <VStack p={"null"} m={"null"}>
               <Select
                 w="60"
-                placeholder="期限を選択"
+                placeholder="いつまでかを選択"
                 focusBorderColor="teal.500"
                 onChange={(value) => {
                   setSelectDueDateType(value);
@@ -177,10 +185,17 @@ export default function Home() {
               ></Select>
               {selectDueDateType === "other" && (
                 <Calendar
+                  locale="ja"
+                  border="2px solid"
+                  borderColor="border"
+                  rounded="md"
+                  p={2}
+                  size="sm"
                   value={dueDate}
                   onChange={(date: React.SetStateAction<Date>) => {
                     setDueDate(date);
                   }}
+                  boxShadow={"0px 4px #9C9C9CFF"}
                 />
               )}
             </VStack>

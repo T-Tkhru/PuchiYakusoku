@@ -63,10 +63,30 @@ function ActionModal({
       </ModalBody>
       <ModalFooter>
         <VStack w="full" gap={2}>
-          <Button colorScheme="primary" size="sm" onClick={onConfirm}>
+          <Button
+            colorScheme="primary"
+            size="sm"
+            onClick={onConfirm}
+            boxShadow="0px 4px teal"
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "teal.800",
+              boxshadow: "none",
+            }}
+          >
             もちろん！
           </Button>
-          <Button colorScheme="gray" size="sm" onClick={onClose}>
+          <Button
+            colorScheme="gray"
+            size="sm"
+            onClick={onClose}
+            boxShadow={"0px 4px #9C9C9CFF"}
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "gray.50",
+              boxshadow: "none",
+            }}
+          >
             キャンセル
           </Button>
         </VStack>
@@ -91,7 +111,7 @@ export default function PromiseDetail() {
         <Text color="white" fontSize="2xl" fontWeight={800}>
           約束データを取得中...
         </Text>
-        <Loading color="white" fontSize="2xl" speed="0.65s" />
+        <Loading color="white" fontSize="4xl" speed="0.65s" />
       </VStack>
     );
   }
