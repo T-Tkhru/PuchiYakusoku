@@ -50,7 +50,6 @@ export type Mutation = {
 
 export type MutationAcceptPromiseArgs = {
   id: Scalars['ID']['input'];
-  receiverId: Scalars['String']['input'];
 };
 
 
@@ -153,7 +152,6 @@ export type CreatePromiseMutation = { __typename?: 'Mutation', createPromise?: {
 
 export type AcceptPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
-  receiverId: Scalars['String']['input'];
 }>;
 
 
@@ -410,8 +408,8 @@ export type CreatePromiseMutationHookResult = ReturnType<typeof useCreatePromise
 export type CreatePromiseMutationResult = Apollo.MutationResult<CreatePromiseMutation>;
 export type CreatePromiseMutationOptions = Apollo.BaseMutationOptions<CreatePromiseMutation, CreatePromiseMutationVariables>;
 export const AcceptPromiseDocument = gql`
-    mutation AcceptPromise($id: ID!, $receiverId: String!) {
-  acceptPromise(id: $id, receiverId: $receiverId) {
+    mutation AcceptPromise($id: ID!) {
+  acceptPromise(id: $id) {
     id
     content
     level
@@ -446,7 +444,6 @@ export type AcceptPromiseMutationFn = Apollo.MutationFunction<AcceptPromiseMutat
  * const [acceptPromiseMutation, { data, loading, error }] = useAcceptPromiseMutation({
  *   variables: {
  *      id: // value for 'id'
- *      receiverId: // value for 'receiverId'
  *   },
  * });
  */

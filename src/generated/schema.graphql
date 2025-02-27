@@ -23,7 +23,7 @@ enum Level {
 }
 
 type Mutation {
-  acceptPromise(id: ID!, receiverId: String!): Promise
+  acceptPromise(id: ID!): Promise
   completePromise(id: ID!): Promise
   createPromise(input: CreatePromiseInput!): Promise
   createUser(input: CreateUserInput!): User

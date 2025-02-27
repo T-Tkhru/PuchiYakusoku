@@ -159,19 +159,20 @@ builder.mutationType({
       type: promise,
       args: {
         id: t.arg.id({ required: true }),
-        receiverId: t.arg.string({ required: true }),
       },
-      resolve: async (_, args) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolve: async (_, args, context: any) => {
         const promise = await prisma.promise.findUnique({
           where: { id: args.id },
         });
         if (!promise || promise.dueDate < new Date()) {
           throw new Error("Promise is expired");
         }
+        const userId = context.get("user").userId;
         return prisma.promise.update({
           where: { id: args.id },
           data: {
-            receiver: { connect: { userId: args.receiverId } },
+            receiver: { connect: { userId: userId } },
             isAccepted: true,
           },
         });

@@ -62,8 +62,8 @@ mutation CreatePromise($input: CreatePromiseInput!) {
   }
 }
 
-mutation AcceptPromise($id: ID!, $receiverId: String!) {
-  acceptPromise(id: $id, receiverId: $receiverId) {
+mutation AcceptPromise($id: ID!) {
+  acceptPromise(id: $id) {
     id
     content
     level
