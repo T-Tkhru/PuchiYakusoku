@@ -112,7 +112,6 @@ export default function Home() {
                 rounded="full"
                 onClick={handleReverse}
                 boxShadow="0px 4px teal"
-                transition="all 0.2s ease"
                 _active={{
                   transform: "translateY(2px) scale(0.9) rotate(180deg)",
                   backgroundColor: "teal.800",
@@ -146,7 +145,6 @@ export default function Home() {
               value={importance}
               onChange={(value) => setImportance(value as Level)}
               boxShadow={"0px 4px #9C9C9CFF"}
-              transition={"all 0.2s ease"}
               _active={{
                 transform: "translateY(2px)",
                 backgroundColor: "gray.50",
@@ -197,7 +195,6 @@ export default function Home() {
             size="lg"
             fontWeight={800}
             boxShadow="0px 6px #EB777B"
-            transition="all 0.2s ease"
             _active={{
               transform: "translateY(2px)",
               backgroundColor: "pink.800",

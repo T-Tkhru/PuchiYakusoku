@@ -250,7 +250,6 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           rounded="full"
           onClick={() => setIsOpen("accept")}
           boxShadow="0px 4px teal"
-          transition="all 0.2s ease"
           _active={{
             transform: "translateY(2px) scale(0.9) rotate(180deg)",
             backgroundColor: "teal.800",
@@ -270,7 +269,6 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           fontWeight={800}
           onClick={() => setIsOpen("cancel")}
           boxShadow="0px 6px white"
-          transition={"all 0.2s ease"}
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.800",
@@ -346,7 +344,6 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           fontWeight={800}
           onClick={() => setIsOpen("cancel")}
           boxShadow="0px 6px white"
-          transition={"all 0.2s ease"}
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.800",
@@ -424,7 +421,6 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           fontWeight={800}
           onClick={() => setIsOpen("cancel")}
           boxShadow="0px 6px white"
-          transition={"all 0.2s ease"}
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.800",
@@ -495,7 +491,6 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
         fontWeight={800}
         onClick={() => {}}
         boxShadow="0px 6px white"
-        transition={"all 0.2s ease"}
         _active={{
           transform: "translateY(2px)",
           backgroundColor: "blackAlpha.800",

@@ -38,7 +38,6 @@ export default function Home() {
         onClick={() => {
           router.push("/");
         }}
-        transition="all 0.2s ease"
         justifyContent="center"
         boxShadow="0px 6px #EB777B"
         _active={{
@@ -65,7 +64,6 @@ export default function Home() {
           rounded="lg"
           h="24"
           onClick={() => {}}
-          transition="all 0.2s ease"
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "teal.800",
@@ -127,7 +125,6 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
         router.push(`/promise/${promise.id}`);
       }}
       boxShadow={"0px 4px #9C9C9CFF"}
-      transition={"all 0.2s ease"}
       _active={{
         transform: "translateY(2px)",
         backgroundColor: "gray.50",
@@ -182,7 +179,6 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
             onClick={() => {}}
             _hover={{ backgroundColor: "blackAlpha.800" }}
             boxShadow="0px 6px #2B2B2BFF"
-            transition={"all 0.2s ease"}
             _active={{
               transform: "translateY(2px)",
               backgroundColor: "blackAlpha.900",
