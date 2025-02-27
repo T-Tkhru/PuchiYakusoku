@@ -4,7 +4,7 @@ import { Avatar, Heading, HStack, VStack } from "@yamada-ui/react";
 import { useSetAtom } from "jotai";
 import React, { useEffect } from "react";
 
-import { LiffProvider, useLiff } from "@/app/providers/LiffProvider";
+import { useLiff } from "@/app/providers/LiffProvider";
 import { useGetPromisesQuery } from "@/generated/graphql";
 import { promisesListState } from "@/lib/jotai_state";
 import { PromiseSchema } from "@/lib/type";

@@ -22,6 +22,7 @@ import React, { useState } from "react";
 
 import { HomeButton } from "@/app/_components/GoBackButton";
 import { PromiseContents } from "@/app/_components/PromiseContents";
+import { ResultDialog } from "@/app/_components/ResultDialog";
 import { useLiff } from "@/app/providers/LiffProvider";
 import {
   useAcceptPromiseMutation,
@@ -164,23 +165,57 @@ interface ActionButtonProps {
 
 const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<"accept" | "cancel" | null>(null);
-  const [acceptPromise] = useAcceptPromiseMutation();
-  const [cancelPromise] = useAcceptPromiseMutation();
+  const [acceptPromise] = useAcceptPromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "成功",
+        message: "約束が正常にプチられました！",
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "約束処理中にエラーが発生しました。",
+      });
+    },
+  });
+  const [cancelPromise] = useAcceptPromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "キャンセル成功",
+        message: "約束が正常にキャンセルされました。",
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "キャンセル処理中にエラーが発生しました。",
+      });
+    },
+  });
+
+  const [resultDialog, setResultDialog] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handlePromise = async () => {
-    await acceptPromise({
-      variables: {
-        id: promise.id,
-      },
-    });
+    await acceptPromise({ variables: { id: promise.id } });
+    setIsOpen(null);
   };
 
   const handleCancel = async () => {
-    await cancelPromise({
-      variables: {
-        id: promise.id,
-      },
-    });
+    await cancelPromise({ variables: { id: promise.id } });
     setIsOpen(null);
   };
 
@@ -199,6 +234,13 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title="キャンセル"
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
+      />
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
         <Button
@@ -230,14 +272,35 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
 
 const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<"cancel" | null>(null);
-  const [cancelPromise] = useRejectPromiseMutation();
+
+  const [resultDialog, setResultDialog] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: "success", title: "", message: "" });
+
+  const [cancelPromise] = useRejectPromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "キャンセル成功",
+        message: "約束がキャンセルされました。",
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "キャンセル処理中にエラーが発生しました。",
+      });
+    },
+  });
 
   const handleCancel = async () => {
-    await cancelPromise({
-      variables: {
-        id: promise.id,
-      },
-    });
+    await cancelPromise({ variables: { id: promise.id } });
     setIsOpen(null);
   };
 
@@ -249,6 +312,13 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         title="キャンセル"
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
+      />
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
         <Button
@@ -271,7 +341,30 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
 
 const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<"cancel" | null>(null);
-  const [cancelPromise] = useAcceptPromiseMutation();
+  const [cancelPromise] = useAcceptPromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "キャンセル成功",
+        message: "約束がキャンセルされました。",
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "キャンセル処理中にエラーが発生しました。",
+      });
+    },
+  });
+  const [resultDialog, setResultDialog] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handleCancel = async () => {
     await cancelPromise({
@@ -290,6 +383,13 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         title="キャンセル"
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
+      />
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
         <Button
@@ -312,8 +412,31 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
 
 const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [resultDialog, setResultDialog] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: "success", title: "", message: "" });
+
   const handleThank = async () => {
-    await sendMessage(promise, "ありがとう！");
+    try {
+      await sendMessage(promise, "ありがとう！");
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "送信成功",
+        message: "「ありがとう！」が正常に送信されました。",
+      });
+    } catch (error) {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "メッセージ送信中にエラーが発生しました。",
+      });
+      alert(error);
+    }
     setIsOpen(false);
   };
 
@@ -325,6 +448,13 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
         title="ありがとうを伝える"
         message="お礼を言います。よろしいですか？"
         onConfirm={handleThank}
+      />
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <Button
         rounded="full"
