@@ -1,6 +1,6 @@
 import { Promise } from "./type";
 
-enum StatusEnum {
+export enum StatusEnum {
   UN_READ = "unread",
   IS_ACCEPTED = "is_accepted",
   IS_COMPLETED = "completed",
