@@ -21,6 +21,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import { PromiseContents } from "@/app/_components/PromiseContents";
+import { useLiff } from "@/app/providers/LiffProvider";
 import {
   useAcceptPromiseMutation,
   useRejectPromiseMutation,
@@ -73,6 +74,7 @@ function ActionModal({
 }
 
 export default function PromiseDetail() {
+  const { user } = useLiff();
   const promise = useAtomValue(promiseState);
   if (promise === null) {
     return (
@@ -88,7 +90,7 @@ export default function PromiseDetail() {
       </VStack>
     );
   }
-  const status = defineStatus(promise, promise.id);
+  const status = defineStatus(promise, user!);
 
   return (
     <VStack

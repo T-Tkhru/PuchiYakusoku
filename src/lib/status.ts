@@ -1,4 +1,4 @@
-import { Promise } from "./type";
+import { Promise, UserProfile } from "./type";
 
 export enum StatusEnum {
   UN_READ = "unread",
@@ -24,7 +24,7 @@ export const taskStatus: Status = {
   baseColor: statusColors[StatusEnum.UN_READ],
 };
 
-export const defineStatus = (promise: Promise, userId: string): Status => {
+export const defineStatus = (promise: Promise, user: UserProfile): Status => {
   if (promise === null || promise === undefined) {
     return {
       status: StatusEnum.UN_READ,
@@ -37,7 +37,7 @@ export const defineStatus = (promise: Promise, userId: string): Status => {
       baseColor: statusColors[StatusEnum.IS_COMPLETED],
     };
   }
-  if (promise.sender.id === userId) {
+  if (promise.sender.displayName === user.displayName) {
     return {
       status: StatusEnum.MY_PROMISE,
       baseColor: statusColors[StatusEnum.MY_PROMISE],
