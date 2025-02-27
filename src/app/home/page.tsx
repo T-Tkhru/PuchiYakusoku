@@ -181,6 +181,13 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
             rounded="lg"
             onClick={() => {}}
             _hover={{ backgroundColor: "blackAlpha.800" }}
+            boxShadow="0px 6px #2B2B2BFF"
+            transition={"all 0.2s ease"}
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "blackAlpha.900",
+              boxshadow: "none",
+            }}
           >
             達成
           </Button>
