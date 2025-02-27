@@ -46,5 +46,10 @@ export default function PromiseLayout({
     }
   }, [data, setPromise]);
 
+  if (error) {
+    console.error(error);
+    return <div>エラーが発生したみたい。詳細:{error.message}</div>;
+  }
+
   return <React.Fragment>{children}</React.Fragment>;
 }
