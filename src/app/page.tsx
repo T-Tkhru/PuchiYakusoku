@@ -263,29 +263,12 @@ export default function Home() {
                 .shareTargetPicker(
                   [
                     {
-                      type: "text",
-                      text: createMessageString(user, importance),
-                    },
-                    {
-                      type: "image",
-                      originalContentUrl:
-                        "https://i.gyazo.com/7cd231d1ef9d9ffed9d2884d321718fd.png",
-                      previewImageUrl:
-                        "https://i.gyazo.com/7cd231d1ef9d9ffed9d2884d321718fd.png",
-                    },
-                    {
-                      type: "text",
-                      text:
-                        `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
-                        `/?query=${promiseId}`,
-                    },
-                    {
                       type: "template",
                       altText: `${user.displayName}からプチ約束が届きました！`,
                       template: {
                         type: "buttons",
                         thumbnailImageUrl:
-                          "https://i.gyazo.com/fa01ff664c5cc497841e042e3f59ae25.png",
+                          "https://i.gyazo.com/7cd231d1ef9d9ffed9d2884d321718fd.png",
                         imageAspectRatio: "rectangle",
                         imageSize: "cover",
                         imageBackgroundColor: "#6ac1b7",
