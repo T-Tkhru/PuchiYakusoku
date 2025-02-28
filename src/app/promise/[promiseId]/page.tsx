@@ -628,7 +628,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
             boxShadow: "none",
           }}
         >
-          約束を達成した
+          約束を果たした
         </Button>
         <Button
           rounded="full"
