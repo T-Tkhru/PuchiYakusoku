@@ -56,7 +56,7 @@ export default function Home() {
           </HStack>
         </VStack>
       </Button>
-      <VStack w="full" gap={4}>
+      {/* <VStack w="full" gap={4}>
         <Heading fontSize="xl">最近のウゴキ</Heading>
         <Button
           colorScheme="primary"
@@ -74,7 +74,7 @@ export default function Home() {
         >
           約束する
         </Button>
-      </VStack>
+      </VStack> */}
       <VStack w="full" gap={4}>
         <HStack justifyContent="space-between" w="full">
           <Heading fontSize="xl">手持ちのプチ約束</Heading>
