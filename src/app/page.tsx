@@ -1,4 +1,5 @@
 "use client";
+import "dayjs/locale/ja";
 
 import { Calendar } from "@yamada-ui/calendar";
 import { RefreshCwIcon } from "@yamada-ui/lucide";
@@ -8,6 +9,7 @@ import {
   Container,
   Dialog,
   DialogBody,
+  FormControl,
   Heading,
   HStack,
   IconButton,
@@ -21,6 +23,7 @@ import {
   useDisclosure,
   VStack,
 } from "@yamada-ui/react";
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
@@ -29,6 +32,7 @@ import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { HomeButton } from "./_components/GoBackButton";
+import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -46,22 +50,48 @@ const dueDateItems: SelectItem[] = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const { user, liff } = useLiff();
   const { onOpen, onClose } = useDisclosure();
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
-  const [createPromise, { loading }] = useCreatePromiseMutation();
   const [dueDate, setDueDate] = useState<Date>(new Date());
-
   const [isReverse, setIsReverse] = useState(false);
+  const [resultDialog, setResultDialog] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handleReverse = () => {
     setIsReverse(!isReverse);
   };
 
+  const [createPromise, { loading }] = useCreatePromiseMutation({
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラーが発生しました",
+        message: "もう一度お試しください",
+      });
+    },
+  });
+
   return (
     <React.Fragment>
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => {
+          setResultDialog({ ...resultDialog, isOpen: false });
+          router.push("/home");
+        }}
+      />
       <Dialog
         open={loading}
         onClose={onClose}
@@ -100,7 +130,7 @@ export default function Home() {
               <UserCard user={isReverse ? user : gestUser} color="primary" />
               <Text fontSize="6xl">に</Text>
             </HStack>
-            <Center pr={20}>
+            <Center pr={16}>
               <IconButton
                 zIndex={10}
                 icon={<RefreshCwIcon />}
@@ -120,15 +150,17 @@ export default function Home() {
               />
             </Center>
           </VStack>
-          <Textarea
-            variant="filled"
-            placeholder="回らない寿司を奢る"
-            h="32"
-            focusBorderColor="teal.500"
-            ref={textContentRef}
-            border={"2px solid"}
-            borderColor="border"
-          />
+          <FormControl label="何をする？">
+            <Textarea
+              variant="filled"
+              placeholder="回らない寿司を奢る"
+              h="32"
+              focusBorderColor="teal.500"
+              ref={textContentRef}
+              border={"2px solid"}
+              borderColor="border"
+            />
+          </FormControl>
           <HStack
             w="full"
             justifyContent="space-between"
@@ -138,9 +170,13 @@ export default function Home() {
             <Text>重要度</Text>
             <SegmentedControl
               colorScheme="primary"
-              backgroundColor="gray.50"
+              backgroundColor="white"
+              border="1px solid"
+              borderColor="border"
               defaultValue="low"
+              rounded="md"
               size="sm"
+              h="9"
               items={importanceItems}
               value={importance}
               onChange={(value) => setImportance(value as Level)}
@@ -163,7 +199,7 @@ export default function Home() {
             <VStack p={"null"} m={"null"}>
               <Select
                 w="60"
-                placeholder="期限を選択"
+                placeholder="いつまでかを選択"
                 focusBorderColor="teal.500"
                 onChange={(value) => {
                   setSelectDueDateType(value);
@@ -177,10 +213,17 @@ export default function Home() {
               ></Select>
               {selectDueDateType === "other" && (
                 <Calendar
+                  locale="ja"
+                  border="2px solid"
+                  borderColor="border"
+                  rounded="md"
+                  p={2}
+                  size="sm"
                   value={dueDate}
                   onChange={(date: React.SetStateAction<Date>) => {
                     setDueDate(date);
                   }}
+                  boxShadow={"0px 4px #9C9C9CFF"}
                 />
               )}
             </VStack>
@@ -215,6 +258,7 @@ export default function Home() {
               });
               console.log(result);
               const promiseId = result.data?.createPromise?.id;
+              onClose();
               liff
                 .shareTargetPicker(
                   [
@@ -242,8 +286,15 @@ export default function Home() {
                 })
                 .catch(function (error) {
                   alert(error);
+                })
+                .finally(() => {
+                  setResultDialog({
+                    isOpen: true,
+                    type: "success",
+                    title: "友達に送信しました！",
+                    message: "相手が約束に気づきますように！",
+                  });
                 });
-              onClose();
             }}
           >
             約束する

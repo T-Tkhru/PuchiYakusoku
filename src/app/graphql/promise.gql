@@ -97,6 +97,8 @@ mutation AcceptPromise($id: ID!) {
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
   }
 }
 
@@ -112,6 +114,13 @@ mutation RejectPromise($id: ID!) {
       displayName
       pictureUrl
     }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+    isAccepted
+    completedAt
   }
 }
 
@@ -132,5 +141,7 @@ mutation CompletePromise($id: ID!) {
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
   }
 }

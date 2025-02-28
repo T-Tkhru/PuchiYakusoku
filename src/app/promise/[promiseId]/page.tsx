@@ -16,7 +16,8 @@ import {
   Text,
   VStack,
 } from "@yamada-ui/react";
-import { useAtomValue } from "jotai";
+import { handle } from "hono/vercel";
+import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -36,7 +37,7 @@ import {
   imageSource,
   StatusEnum,
 } from "@/lib/status";
-import { Promise } from "@/lib/type";
+import { Promise, PromiseSchema } from "@/lib/type";
 
 interface ActionModalProps {
   isOpen: boolean;
@@ -63,10 +64,30 @@ function ActionModal({
       </ModalBody>
       <ModalFooter>
         <VStack w="full" gap={2}>
-          <Button colorScheme="primary" size="sm" onClick={onConfirm}>
+          <Button
+            colorScheme="primary"
+            size="sm"
+            onClick={onConfirm}
+            boxShadow="0px 4px teal"
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "teal.800",
+              boxshadow: "none",
+            }}
+          >
             もちろん！
           </Button>
-          <Button colorScheme="gray" size="sm" onClick={onClose}>
+          <Button
+            colorScheme="gray"
+            size="sm"
+            onClick={onClose}
+            boxShadow={"0px 4px #9C9C9CFF"}
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "gray.50",
+              boxshadow: "none",
+            }}
+          >
             キャンセル
           </Button>
         </VStack>
@@ -91,7 +112,7 @@ export default function PromiseDetail() {
         <Text color="white" fontSize="2xl" fontWeight={800}>
           約束データを取得中...
         </Text>
-        <Loading color="white" fontSize="2xl" speed="0.65s" />
+        <Loading color="white" fontSize="4xl" speed="0.65s" />
       </VStack>
     );
   }
@@ -167,8 +188,9 @@ interface ActionButtonProps {
 }
 
 const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
+  const setPromise = useSetAtom(promiseState);
   const [isOpen, setIsOpen] = useState<"accept" | "cancel" | null>(null);
-  const [acceptPromise] = useAcceptPromiseMutation({
+  const [acceptPromise, { data }] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -194,6 +216,8 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "キャンセル成功",
         message: "約束が正常にキャンセルされました。",
       });
+      const updatePromise = PromiseSchema.parse(data?.acceptPromise);
+      setPromise(updatePromise);
     },
     onError: () => {
       setResultDialog({
@@ -252,9 +276,9 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           fontWeight={800}
           rounded="full"
           onClick={() => setIsOpen("accept")}
-          boxShadow="0px 4px teal"
+          boxShadow="0px 6px teal"
           _active={{
-            transform: "translateY(2px) scale(0.9) rotate(180deg)",
+            transform: "translateY(2px)",
             backgroundColor: "teal.800",
             boxshadow: "none",
           }}
@@ -301,7 +325,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         isOpen: true,
         type: "success",
         title: "キャンセル成功",
-        message: "約束がキャンセルされました。",
+        message: "約束がキャンセルされました...",
       });
     },
     onError: () => {
@@ -319,6 +343,27 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
     setIsOpen(null);
   };
 
+  const handleRemind = async () => {
+    try {
+      await sendMessage(promise, "もしかしたら約束...忘れてない...?");
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "リマインドしたよ！",
+        message: "相手はあなたが送ったとは気づいていません。",
+      });
+    } catch (error) {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "メッセージ送信中にエラーが発生しました。",
+      });
+      alert(error);
+    }
+    setIsOpen(null);
+  };
+
   return (
     <VStack w="full">
       <ActionModal
@@ -327,6 +372,13 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         title="キャンセル"
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
+      />
+      <ActionModal
+        isOpen={false}
+        onClose={() => setIsOpen(null)}
+        title="リマインド"
+        message="リマインドします。よろしいですか？"
+        onConfirm={handleRemind}
       />
       <ResultDialog
         isOpen={resultDialog.isOpen}
@@ -353,6 +405,25 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
             boxshadow: "none",
           }}
         >
+          リマインド
+        </Button>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="white"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="blackAlpha.300"
+          size="lg"
+          fontWeight={800}
+          onClick={() => setIsOpen("cancel")}
+          boxShadow="0px 6px white"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "blackAlpha.800",
+            boxshadow: "none",
+          }}
+        >
           キャンセルする
         </Button>
       </VStack>
@@ -361,7 +432,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
 };
 
 const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
-  const [isOpen, setIsOpen] = useState<"cancel" | null>(null);
+  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | null>(null);
   const [cancelPromise] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
@@ -396,6 +467,27 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
     setIsOpen(null);
   };
 
+  const handleRemind = async () => {
+    try {
+      await sendMessage(promise, "もしかしたら約束...忘れてない...?");
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "リマインドしたよ！",
+        message: "相手はあなたが送ったとは気づいていません。",
+      });
+    } catch (error) {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "メッセージ送信中にエラーが発生しました。",
+      });
+      alert(error);
+    }
+    setIsOpen(null);
+  };
+
   return (
     <VStack w="full">
       <ActionModal
@@ -405,6 +497,13 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
+      <ActionModal
+        isOpen={isOpen === "remind"}
+        onClose={() => setIsOpen(null)}
+        title="リマインド"
+        message="忘れてるかもしれないから、声をかけてみるよ！"
+        onConfirm={handleRemind}
+      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -413,6 +512,25 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="white"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="blackAlpha.300"
+          size="lg"
+          fontWeight={800}
+          onClick={() => setIsOpen("remind")}
+          boxShadow="0px 6px white"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "blackAlpha.800",
+            boxshadow: "none",
+          }}
+        >
+          リマインド
+        </Button>
         <Button
           rounded="full"
           variant="outline"

@@ -10,7 +10,7 @@ export enum StatusEnum {
 const statusColors: Record<StatusEnum, string> = {
   [StatusEnum.UN_READ]: "secondary",
   [StatusEnum.IS_ACCEPTED]: "primary",
-  [StatusEnum.MY_PROMISE]: "white",
+  [StatusEnum.MY_PROMISE]: "primary",
   [StatusEnum.IS_COMPLETED]: "white",
 };
 
