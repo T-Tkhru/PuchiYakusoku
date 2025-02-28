@@ -27,7 +27,7 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
-import { getDueDate } from "@/lib/control-form";
+import { createMessageString, getDueDate } from "@/lib/control-form";
 import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
@@ -123,7 +123,6 @@ export default function Home() {
           >
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
-
           <VStack alignItems="center" gap={0}>
             <HStack gap={6}>
               <UserCard user={isReverse ? user : gestUser} color="secondary" />
@@ -273,7 +272,7 @@ export default function Home() {
                         imageAspectRatio: "rectangle",
                         imageSize: "cover",
                         imageBackgroundColor: "#6ac1b7",
-                        text: `${user.displayName}からプチ約束が届きました！`,
+                        text: createMessageString(user, importance),
                         actions: [
                           {
                             type: "uri",

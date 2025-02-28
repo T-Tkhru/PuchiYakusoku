@@ -41,5 +41,5 @@ export const createMessageString = (user: UserProfile, importance: Level) => {
       messageDetail = "約束の内容を確認してみてね！";
   }
 
-  return `お疲れ様です${user.displayName}さんが約束をプチりました！ ${messageDetail} 次のリンクから約束を確認してみてね！`;
+  return `${user.displayName}さんが約束をプチりました！ ${messageDetail} 約束を確認してみてね！`;
 };
