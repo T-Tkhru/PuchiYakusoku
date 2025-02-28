@@ -549,25 +549,6 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         <Button
           rounded="full"
           variant="outline"
-          color="primary"
-          borderColor="white"
-          colorScheme="blackAlpha"
-          backgroundColor="white"
-          size="lg"
-          fontWeight={800}
-          onClick={() => setIsOpen("complete")}
-          boxShadow="0px 6px white"
-          _active={{
-            transform: "translateY(2px)",
-            backgroundColor: "white",
-            boxShadow: "none",
-          }}
-        >
-          達成した
-        </Button>
-        <Button
-          rounded="full"
-          variant="outline"
           color="white"
           borderColor="white"
           colorScheme="blackAlpha"
@@ -582,7 +563,26 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
             boxShadow: "none",
           }}
         >
-          リマインド
+          リマインドする
+        </Button>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="primary"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="white"
+          size="lg"
+          fontWeight={800}
+          onClick={() => setIsOpen("complete")}
+          boxShadow="0px 6px white"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "white",
+            boxShadow: "none",
+          }}
+        >
+          約束を達成した
         </Button>
         <Button
           rounded="full"
