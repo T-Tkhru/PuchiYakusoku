@@ -45,7 +45,7 @@ export default function Home() {
         _active={{
           transform: "translateY(2px)",
           backgroundColor: "pink.800",
-          boxshadow: "none",
+          boxShadow: "none",
         }}
       >
         <VStack gap={1} alignItems="center">
