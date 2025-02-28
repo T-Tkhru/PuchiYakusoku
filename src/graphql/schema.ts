@@ -73,27 +73,29 @@ builder.queryType({
     }),
     sentPromises: t.field({
       type: [promise],
-      args: {
-        senderId: t.arg.string({ required: true }),
-      },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").userId;
         return prisma.promise.findMany({
-          where: { sender: { userId: userId } },
+          where: {
+            sender: { userId: userId },
+            isAccepted: !false,
+            completedAt: null,
+          },
         });
       },
     }),
     receivedPromises: t.field({
       type: [promise],
-      args: {
-        receiverId: t.arg.string({ required: true }),
-      },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolve: (_, __, context: any) => {
         const userId = context.get("user").userId;
         return prisma.promise.findMany({
-          where: { receiver: { userId: userId } },
+          where: {
+            receiver: { userId: userId },
+            isAccepted: !false,
+            completedAt: null,
+          },
         });
       },
     }),

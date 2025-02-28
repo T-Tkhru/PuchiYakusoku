@@ -21,12 +21,20 @@ export default function HomeLayout({
   });
 
   useEffect(() => {
-    if (data && data?.promises !== null && data?.promises !== undefined) {
-      console.log(data.promises);
-      const promisesList = data.promises.map((promise) => {
-        const promiseData = PromiseSchema.parse(promise);
-        return promiseData;
-      });
+    if (
+      data &&
+      data?.sentPromises !== null &&
+      data?.sentPromises !== undefined &&
+      data?.receivedPromises !== null &&
+      data?.receivedPromises !== undefined
+    ) {
+      console.log(`data: ${JSON.stringify(data)}`);
+      const promisesList = [...data.sentPromises, ...data.receivedPromises].map(
+        (promise: any) => {
+          const promiseData = PromiseSchema.parse(promise);
+          return promiseData;
+        }
+      );
       if (promisesList.length === 0) {
         setPromisesList([]);
         return;

@@ -1,5 +1,24 @@
 query GetPromises {
-  promises {
+  sentPromises {
+    id
+    content
+    level
+    dueDate
+    direction
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+    isAccepted
+    completedAt
+  }
+  receivedPromises {
     id
     content
     level
@@ -41,7 +60,6 @@ query GetPromise($id: String!) {
     completedAt
   }
 }
-
 
 mutation CreatePromise($input: CreatePromiseInput!) {
   createPromise(input: $input) {
@@ -114,6 +132,5 @@ mutation CompletePromise($id: ID!) {
       displayName
       pictureUrl
     }
-    
   }
 }
