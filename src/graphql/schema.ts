@@ -63,7 +63,11 @@ builder.queryType({
       resolve: (_, __, context: any) => {
         const userId = context.get("user").userId;
         return prisma.promise.findMany({
-          where: { sender: { userId: userId } },
+          where: {
+            sender: { userId: userId },
+            isAccepted: !false,
+            completedAt: null,
+          },
         });
       },
     }),
