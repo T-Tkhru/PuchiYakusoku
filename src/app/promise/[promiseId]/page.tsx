@@ -378,13 +378,6 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
-      <ActionModal
-        isOpen={isOpen === "remind"}
-        onClose={() => setIsOpen(null)}
-        title="リマインド"
-        message="リマインドします。よろしいですか？"
-        onConfirm={handleRemind}
-      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -402,7 +395,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={() => setIsOpen("remind")}
+          onClick={handleRemind}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
@@ -530,13 +523,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
-      <ActionModal
-        isOpen={isOpen === "remind"}
-        onClose={() => setIsOpen(null)}
-        title="リマインド"
-        message="忘れてるかもしれないから、声をかけてみるよ！"
-        onConfirm={handleRemind}
-      />
+
       <ActionModal
         isOpen={isOpen === "complete"}
         onClose={() => setIsOpen(null)}
@@ -561,7 +548,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={() => setIsOpen("remind")}
+          onClick={handleRemind}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
