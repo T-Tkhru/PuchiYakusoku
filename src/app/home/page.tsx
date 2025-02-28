@@ -69,7 +69,7 @@ export default function Home() {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "teal.800",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           約束する
@@ -131,7 +131,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       _active={{
         transform: "translateY(2px)",
         backgroundColor: "gray.50",
-        boxshadow: "none",
+        boxShadow: "none",
       }}
     >
       <HStack w="full">
@@ -171,26 +171,6 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
             </Text>
           )}
         </VStack>
-        {promise.completedAt === null && promise.direction ? null : (
-          <Button
-            backgroundColor="blackAlpha.700"
-            color="white"
-            px={6}
-            size="md"
-            fontWeight={800}
-            rounded="lg"
-            onClick={() => {}}
-            _hover={{ backgroundColor: "blackAlpha.800" }}
-            boxShadow="0px 2px #2B2B2BFF"
-            _active={{
-              transform: "translateY(2px)",
-              backgroundColor: "blackAlpha.900",
-              boxshadow: "none",
-            }}
-          >
-            達成
-          </Button>
-        )}
       </HStack>
     </Button>
   );

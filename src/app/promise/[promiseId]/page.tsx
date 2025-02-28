@@ -71,7 +71,7 @@ function ActionModal({
             _active={{
               transform: "translateY(2px)",
               backgroundColor: "teal.800",
-              boxshadow: "none",
+              boxShadow: "none",
             }}
           >
             もちろん！
@@ -84,7 +84,7 @@ function ActionModal({
             _active={{
               transform: "translateY(2px)",
               backgroundColor: "gray.50",
-              boxshadow: "none",
+              boxShadow: "none",
             }}
           >
             キャンセル
@@ -279,7 +279,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "teal.800",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           約束する
@@ -298,7 +298,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.400",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           キャンセルする
