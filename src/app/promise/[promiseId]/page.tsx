@@ -18,7 +18,6 @@ import {
 } from "@yamada-ui/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { HomeButton } from "@/app/_components/GoBackButton";
@@ -325,7 +324,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         isOpen: true,
         type: "success",
         title: "キャンセル成功",
-        message: "約束がキャンセルされました。",
+        message: "約束がキャンセルされました...",
       });
     },
     onError: () => {
@@ -352,6 +351,13 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
+      <ActionModal
+        isOpen={false}
+        onClose={() => setIsOpen(null)}
+        title="リマインド"
+        message="リマインドします。よろしいですか？"
+        onConfirm={handleCancel}
+      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -360,6 +366,25 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="white"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="blackAlpha.300"
+          size="lg"
+          fontWeight={800}
+          onClick={() => setIsOpen("cancel")}
+          boxShadow="0px 6px white"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "blackAlpha.800",
+            boxshadow: "none",
+          }}
+        >
+          催促する
+        </Button>
         <Button
           rounded="full"
           variant="outline"

@@ -90,7 +90,7 @@ export const StoryLoading: React.FC<StoryLoadingProps> = ({
 
 const FirstStory: React.FC = () => {
   return (
-    <VStack h="full" gap={32} py={24} fontSize="32" fontWeight="800">
+    <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
       <Image src="/logo_icon.png" alt="loading" width={300} height={300} />
       <VStack gap={4}>
         <Text>約束で困ったを無くす</Text>
@@ -102,7 +102,7 @@ const FirstStory: React.FC = () => {
 
 const SecondStory: React.FC = () => {
   return (
-    <VStack h="full" gap={32} py={24} fontSize="32" fontWeight="800">
+    <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
       <Image src="/mail.svg" alt="loading" width={300} height={300} />
       <VStack gap={4}>
         <Text>さあ、約束をプチろう</Text>
