@@ -309,7 +309,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
 };
 
 const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
-  const [isOpen, setIsOpen] = useState<"cancel" | null>(null);
+  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | null>(null);
 
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
@@ -373,7 +373,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         onConfirm={handleCancel}
       />
       <ActionModal
-        isOpen={false}
+        isOpen={isOpen === "remind"}
         onClose={() => setIsOpen(null)}
         title="リマインド"
         message="リマインドします。よろしいですか？"
@@ -396,7 +396,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={() => setIsOpen("cancel")}
+          onClick={() => setIsOpen("remind")}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
