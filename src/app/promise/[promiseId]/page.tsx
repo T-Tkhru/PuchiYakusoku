@@ -6,6 +6,7 @@ import {
   Button,
   Divider,
   HStack,
+  Image,
   Loading,
   Modal,
   ModalBody,
@@ -16,9 +17,7 @@ import {
   Text,
   VStack,
 } from "@yamada-ui/react";
-import { handle } from "hono/vercel";
 import { useAtomValue, useSetAtom } from "jotai";
-import Image from "next/image";
 import React, { useState } from "react";
 
 import { HomeButton } from "@/app/_components/GoBackButton";
@@ -112,7 +111,7 @@ export default function PromiseDetail() {
         <Text color="white" fontSize="2xl" fontWeight={800}>
           約束データを取得中...
         </Text>
-        <Loading color="white" fontSize="4xl" speed="0.65s" />
+        <Image src="/loading_icon.png" alt="loading" width={200} height={200} />
       </VStack>
     );
   }
@@ -298,7 +297,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.800",
+            backgroundColor: "blackAlpha.400",
             boxshadow: "none",
           }}
         >
@@ -401,7 +400,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.800",
+            backgroundColor: "blackAlpha.400",
             boxshadow: "none",
           }}
         >
@@ -420,7 +419,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.800",
+            backgroundColor: "blackAlpha.400",
             boxshadow: "none",
           }}
         >
@@ -525,7 +524,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.800",
+            backgroundColor: "blackAlpha.400",
             boxshadow: "none",
           }}
         >
@@ -544,7 +543,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.800",
+            backgroundColor: "blackAlpha.400",
             boxshadow: "none",
           }}
         >
@@ -614,7 +613,7 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
         boxShadow="0px 6px white"
         _active={{
           transform: "translateY(2px)",
-          backgroundColor: "blackAlpha.800",
+          backgroundColor: "blackAlpha.400",
           boxshadow: "none",
         }}
       >

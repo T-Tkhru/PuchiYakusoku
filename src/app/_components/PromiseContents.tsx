@@ -43,7 +43,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       justifyContent="center"
     >
       <Container
-        py={2}
+        py={1}
         px={4}
         bgColor={color}
         color="white"
