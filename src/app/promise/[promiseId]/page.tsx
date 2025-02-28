@@ -313,7 +313,9 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
 };
 
 const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
-  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | null>(null);
+  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
+    null
+  );
   const router = useRouter();
 
   const [resultDialog, setResultDialog] = useState<{
@@ -322,6 +324,26 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
     title: string;
     message: string;
   }>({ isOpen: false, type: "success", title: "", message: "" });
+
+  const [completePromise] = useCompletePromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "約束達成！",
+        message: "約束が達成されました！",
+      });
+      router.push("/home");
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "達成処理中にエラーが発生しました。",
+      });
+    },
+  });
 
   const [cancelPromise] = useRejectPromiseMutation({
     onCompleted: () => {
@@ -342,6 +364,11 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
       });
     },
   });
+
+  const handleComplete = async () => {
+    await completePromise({ variables: { id: promise.id } });
+    setIsOpen(null);
+  };
 
   const handleCancel = async () => {
     await cancelPromise({ variables: { id: promise.id } });
@@ -385,6 +412,13 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         message={resultDialog.message}
         onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
+      />
       <VStack>
         <Button
           rounded="full"
@@ -404,6 +438,25 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           }}
         >
           リマインド
+        </Button>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="primary"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="white"
+          size="lg"
+          fontWeight={800}
+          onClick={handleComplete}
+          boxShadow="0px 6px teal"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "white",
+            boxShadow: "none",
+          }}
+        >
+          約束を果たした
         </Button>
         <Button
           rounded="full"
