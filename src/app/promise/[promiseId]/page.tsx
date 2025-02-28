@@ -158,8 +158,8 @@ export default function PromiseDetail() {
         <Divider orientation="horizontal" />
       </VStack>
       <PromiseContents
-        sender={promise.sender}
-        receiver={promise.receiver}
+        sender={promise.direction ? promise.sender : promise.receiver}
+        receiver={promise.direction ? promise.receiver : promise.sender}
         content={promise.content as string}
         deadline={promise.dueDate}
         level={promise.level as Level}

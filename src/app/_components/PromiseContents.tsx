@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/utils";
 import { UserCard } from "./Card";
 
 interface PromiseContentsProps {
-  sender: UserProfile;
+  sender: UserProfile | null;
   receiver: UserProfile | null;
   content: string;
   deadline: string | null;
