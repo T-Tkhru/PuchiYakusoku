@@ -99,16 +99,6 @@ export type QueryPromiseArgs = {
   id: Scalars['String']['input'];
 };
 
-
-export type QueryReceivedPromisesArgs = {
-  receiverId: Scalars['String']['input'];
-};
-
-
-export type QuerySentPromisesArgs = {
-  senderId: Scalars['String']['input'];
-};
-
 export type User = {
   __typename?: 'User';
   displayName: Scalars['String']['output'];
@@ -134,7 +124,7 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPromisesQuery = { __typename?: 'Query', promises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
+export type GetPromisesQuery = { __typename?: 'Query', sentPromises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null, receivedPromises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
 
 export type GetPromiseQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -252,7 +242,26 @@ export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const GetPromisesDocument = gql`
     query GetPromises {
-  promises {
+  sentPromises {
+    id
+    content
+    level
+    dueDate
+    direction
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+    isAccepted
+    completedAt
+  }
+  receivedPromises {
     id
     content
     level
