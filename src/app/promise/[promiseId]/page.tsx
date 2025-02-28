@@ -301,7 +301,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
             boxShadow: "none",
           }}
         >
-          キャンセルする
+          約束しない
         </Button>
       </VStack>
     </VStack>
