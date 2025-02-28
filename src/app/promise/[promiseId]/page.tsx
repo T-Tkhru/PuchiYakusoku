@@ -423,7 +423,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
             boxShadow: "none",
           }}
         >
-          キャンセルする
+          約束をキャンセルする
         </Button>
       </VStack>
     </VStack>
@@ -563,7 +563,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
             boxShadow: "none",
           }}
         >
-          達成
+          達成した
         </Button>
         <Button
           rounded="full"
@@ -601,7 +601,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
             boxShadow: "none",
           }}
         >
-          キャンセルする
+          約束をキャンセルする
         </Button>
       </VStack>
     </VStack>
