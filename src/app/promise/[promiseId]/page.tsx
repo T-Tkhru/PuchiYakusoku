@@ -25,6 +25,7 @@ import { ResultDialog } from "@/app/_components/ResultDialog";
 import { useLiff } from "@/app/providers/LiffProvider";
 import {
   useAcceptPromiseMutation,
+  useCompletePromiseMutation,
   useRejectPromiseMutation,
 } from "@/generated/graphql";
 import { promiseState } from "@/lib/jotai_state";
@@ -430,7 +431,9 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
 };
 
 const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
-  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | null>(null);
+  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
+    null
+  );
   const [cancelPromise] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
@@ -446,6 +449,24 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         type: "error",
         title: "エラー",
         message: "キャンセル処理中にエラーが発生しました。",
+      });
+    },
+  });
+  const [completePromise] = useCompletePromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "約束達成！",
+        message: "約束が達成されました！",
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "達成処理中にエラーが発生しました。",
       });
     },
   });
@@ -465,6 +486,14 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
     setIsOpen(null);
   };
 
+  const handleComplete = async () => {
+    await completePromise({
+      variables: {
+        id: promise.id,
+      },
+    });
+    setIsOpen(null);
+  };
   const handleRemind = async () => {
     try {
       await sendMessage(promise, "もしかしたら約束...忘れてない...?");
@@ -502,6 +531,13 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         message="忘れてるかもしれないから、声をかけてみるよ！"
         onConfirm={handleRemind}
       />
+      <ActionModal
+        isOpen={isOpen === "complete"}
+        onClose={() => setIsOpen(null)}
+        title="約束達成？！"
+        message="約束...達成した？"
+        onConfirm={handleComplete}
+      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -510,6 +546,25 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="primary"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="white"
+          size="lg"
+          fontWeight={800}
+          onClick={() => setIsOpen("complete")}
+          boxShadow="0px 6px white"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "white",
+            boxShadow: "none",
+          }}
+        >
+          達成
+        </Button>
         <Button
           rounded="full"
           variant="outline"
