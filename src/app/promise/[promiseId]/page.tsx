@@ -16,6 +16,7 @@ import {
   Text,
   VStack,
 } from "@yamada-ui/react";
+import { handle } from "hono/vercel";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -466,6 +467,27 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
     setIsOpen(null);
   };
 
+  const handleRemind = async () => {
+    try {
+      await sendMessage(promise, "もしかしたら約束...忘れてない...?");
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "リマインドしたよ！",
+        message: "相手はあなたが送ったとは気づいていません。",
+      });
+    } catch (error) {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "メッセージ送信中にエラーが発生しました。",
+      });
+      alert(error);
+    }
+    setIsOpen(null);
+  };
+
   return (
     <VStack w="full">
       <ActionModal
@@ -480,7 +502,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setIsOpen(null)}
         title="リマインド"
         message="忘れてるかもしれないから、声をかけてみるよ！"
-        onConfirm={handleCancel}
+        onConfirm={handleRemind}
       />
       <ResultDialog
         isOpen={resultDialog.isOpen}
@@ -499,7 +521,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={() => setIsOpen("cancel")}
+          onClick={() => setIsOpen("remind")}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
