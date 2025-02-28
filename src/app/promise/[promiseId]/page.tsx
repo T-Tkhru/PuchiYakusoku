@@ -207,7 +207,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
       });
     },
   });
-  const [cancelPromise] = useAcceptPromiseMutation({
+  const [cancelPromise] = useRejectPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -434,7 +434,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
     null
   );
-  const [cancelPromise] = useAcceptPromiseMutation({
+  const [cancelPromise] = useRejectPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
