@@ -31,6 +31,7 @@ import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";
 import { HomeButton } from "./_components/GoBackButton";
+import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
 
 const importanceItems: SegmentedControlItem[] = [
@@ -53,17 +54,47 @@ export default function Home() {
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
-  const [createPromise, { loading }] = useCreatePromiseMutation();
   const [dueDate, setDueDate] = useState<Date>(new Date());
-
   const [isReverse, setIsReverse] = useState(false);
+  const [resultDialog, setResultDialog] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handleReverse = () => {
     setIsReverse(!isReverse);
   };
 
+  const [createPromise, { loading }] = useCreatePromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "友達に送信しました！",
+        message: "相手が約束に気づきますように！",
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラーが発生しました",
+        message: "もう一度お試しください",
+      });
+    },
+  });
+
   return (
     <React.Fragment>
+      <ResultDialog
+        isOpen={resultDialog.isOpen}
+        type={resultDialog.type}
+        title={resultDialog.title}
+        message={resultDialog.message}
+        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
+      />
       <Dialog
         open={loading}
         onClose={onClose}
@@ -259,6 +290,7 @@ export default function Home() {
                   alert(error);
                 });
               onClose();
+              resultDialog.isOpen = true;
             }}
           >
             約束する
