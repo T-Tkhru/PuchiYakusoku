@@ -126,9 +126,9 @@ export default function Home() {
 
           <VStack alignItems="center" gap={0}>
             <HStack gap={6}>
-              <UserCard user={isReverse ? gestUser : user} color="primary" />
-              <Text fontSize="6xl">が</Text>
               <UserCard user={isReverse ? user : gestUser} color="secondary" />
+              <Text fontSize="6xl">が</Text>
+              <UserCard user={isReverse ? gestUser : user} color="primary" />
               <Text fontSize="6xl">に</Text>
             </HStack>
             <Center pr={16}>
