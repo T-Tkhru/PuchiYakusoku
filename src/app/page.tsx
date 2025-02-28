@@ -267,6 +267,13 @@ export default function Home() {
                       text: createMessageString(user, importance),
                     },
                     {
+                      type: "image",
+                      originalContentUrl:
+                        "https://i.gyazo.com/7cd231d1ef9d9ffed9d2884d321718fd.png",
+                      previewImageUrl:
+                        "https://i.gyazo.com/7cd231d1ef9d9ffed9d2884d321718fd.png",
+                    },
+                    {
                       type: "text",
                       text:
                         `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
