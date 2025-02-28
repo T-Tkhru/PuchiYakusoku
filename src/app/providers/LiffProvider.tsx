@@ -9,6 +9,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { exampleUser2 } from "@/lib/mockData";
 import { UserProfile } from "@/lib/type";
 
+import { slides, StoryLoading } from "../_components/Welcome";
+
 interface LiffContextType {
   liff: typeof liff | null;
   user: UserProfile | null;
@@ -21,11 +23,11 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   const [liffObject, setLiffObject] = useState<typeof liff | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
-  const { screen } = useLoading();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function initLiff() {
-      screen.start();
+      setLoading(true);
       if (process.env.NODE_ENV === "development") {
         const liffModule = await import("@line/liff");
         liffModule.default.use(new LiffMockPlugin());
@@ -38,7 +40,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         setLiffObject(liffModule.default);
         liffModule.liff.login();
         setUser(exampleUser2);
-        screen.finish();
+        setLoading(false);
         return;
       }
       try {
@@ -82,7 +84,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         console.error(`liff.init() failed: ${error}`);
         setLiffError(error instanceof Error ? error.message : String(error));
       } finally {
-        screen.finish();
+        setLoading(false);
       }
     }
 
@@ -93,7 +95,8 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <LiffContext.Provider value={{ liff: liffObject, user, error: liffError }}>
-      {children}
+      {/* {loading ? <StoryLoading slides={slides} interval={3000} /> : children} */}
+      <StoryLoading slides={slides} interval={3000} />
     </LiffContext.Provider>
   );
 };

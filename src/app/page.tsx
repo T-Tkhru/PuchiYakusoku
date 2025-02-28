@@ -23,6 +23,7 @@ import {
   useDisclosure,
   VStack,
 } from "@yamada-ui/react";
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
@@ -49,6 +50,7 @@ const dueDateItems: SelectItem[] = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const { user, liff } = useLiff();
   const { onOpen, onClose } = useDisclosure();
   const [importance, setImportance] = useState<Level>(Level.Low);
@@ -93,7 +95,10 @@ export default function Home() {
         type={resultDialog.type}
         title={resultDialog.title}
         message={resultDialog.message}
-        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
+        onClose={() => {
+          setResultDialog({ ...resultDialog, isOpen: false });
+          router.push("/home");
+        }}
       />
       <Dialog
         open={loading}
