@@ -160,6 +160,7 @@ export default function PromiseDetail() {
       <PromiseContents
         sender={promise.sender}
         receiver={promise.receiver}
+        direction={!promise.direction}
         content={promise.content as string}
         deadline={promise.dueDate}
         level={promise.level as Level}
