@@ -10,6 +10,7 @@ import { UserCard } from "./Card";
 interface PromiseContentsProps {
   sender: UserProfile | null;
   receiver: UserProfile | null;
+  direction: boolean;
   content: string;
   deadline: string | null;
   level: Level;
@@ -30,6 +31,7 @@ const strImportance = (level: Level) => {
 export const PromiseContents: React.FC<PromiseContentsProps> = ({
   sender,
   receiver,
+  direction,
   content,
   deadline,
   level,
@@ -57,11 +59,11 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       </Container>
       <Container color="white" gap={16} alignItems="center">
         <HStack>
-          <UserCard user={sender} color="white" />
+          <UserCard user={direction ? sender : receiver} color="white" />
           <Text fontSize="5xl" fontWeight={800}>
             が
           </Text>
-          <UserCard user={receiver} color="white" />
+          <UserCard user={receiver ? receiver : sender} color="white" />
           <Text fontSize="5xl" fontWeight={800}>
             に
           </Text>
