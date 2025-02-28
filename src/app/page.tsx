@@ -57,7 +57,7 @@ export default function Home() {
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [dueDate, setDueDate] = useState<Date>(new Date());
-  const [isReverse, setIsReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(true);
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
     type: "success" | "error";
