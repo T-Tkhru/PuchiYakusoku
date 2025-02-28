@@ -16,8 +16,9 @@ import {
   Text,
   VStack,
 } from "@yamada-ui/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { HomeButton } from "@/app/_components/GoBackButton";
@@ -36,7 +37,7 @@ import {
   imageSource,
   StatusEnum,
 } from "@/lib/status";
-import { Promise } from "@/lib/type";
+import { Promise, PromiseSchema } from "@/lib/type";
 
 interface ActionModalProps {
   isOpen: boolean;
@@ -187,8 +188,9 @@ interface ActionButtonProps {
 }
 
 const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
+  const setPromise = useSetAtom(promiseState);
   const [isOpen, setIsOpen] = useState<"accept" | "cancel" | null>(null);
-  const [acceptPromise] = useAcceptPromiseMutation({
+  const [acceptPromise, { data }] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -214,6 +216,8 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "キャンセル成功",
         message: "約束が正常にキャンセルされました。",
       });
+      const updatePromise = PromiseSchema.parse(data?.acceptPromise);
+      setPromise(updatePromise);
     },
     onError: () => {
       setResultDialog({
@@ -274,7 +278,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           onClick={() => setIsOpen("accept")}
           boxShadow="0px 4px teal"
           _active={{
-            transform: "translateY(2px) scale(0.9) rotate(180deg)",
+            transform: "translateY(2px)",
             backgroundColor: "teal.800",
             boxshadow: "none",
           }}
