@@ -17,6 +17,7 @@ import {
   VStack,
 } from "@yamada-ui/react";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { HomeButton } from "@/app/_components/GoBackButton";
@@ -187,6 +188,7 @@ interface ActionButtonProps {
 }
 
 const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
+  const router = useRouter();
   const setPromise = useSetAtom(promiseState);
   const [isOpen, setIsOpen] = useState<"accept" | "cancel" | null>(null);
   const [acceptPromise, { data }] = useAcceptPromiseMutation({
@@ -197,6 +199,8 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "成功",
         message: "約束が正常にプチられました！",
       });
+      const updatePromise = PromiseSchema.parse(data?.acceptPromise);
+      setPromise(updatePromise);
     },
     onError: () => {
       setResultDialog({
@@ -215,8 +219,8 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "キャンセル成功",
         message: "約束が正常にキャンセルされました。",
       });
-      const updatePromise = PromiseSchema.parse(data?.acceptPromise);
-      setPromise(updatePromise);
+
+      router.push("/home");
     },
     onError: () => {
       setResultDialog({
@@ -310,6 +314,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
 
 const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<"cancel" | "remind" | null>(null);
+  const router = useRouter();
 
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
@@ -326,6 +331,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "キャンセル成功",
         message: "約束がキャンセルされました...",
       });
+      router.push("/home");
     },
     onError: () => {
       setResultDialog({
