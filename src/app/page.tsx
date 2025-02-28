@@ -70,14 +70,6 @@ export default function Home() {
   };
 
   const [createPromise, { loading }] = useCreatePromiseMutation({
-    onCompleted: () => {
-      setResultDialog({
-        isOpen: true,
-        type: "success",
-        title: "友達に送信しました！",
-        message: "相手が約束に気づきますように！",
-      });
-    },
     onError: () => {
       setResultDialog({
         isOpen: true,
@@ -266,6 +258,7 @@ export default function Home() {
               });
               console.log(result);
               const promiseId = result.data?.createPromise?.id;
+              onClose();
               liff
                 .shareTargetPicker(
                   [
@@ -293,9 +286,15 @@ export default function Home() {
                 })
                 .catch(function (error) {
                   alert(error);
+                })
+                .finally(() => {
+                  setResultDialog({
+                    isOpen: true,
+                    type: "success",
+                    title: "友達に送信しました！",
+                    message: "相手が約束に気づきますように！",
+                  });
                 });
-              onClose();
-              resultDialog.isOpen = true;
             }}
           >
             約束する

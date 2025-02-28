@@ -95,8 +95,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <LiffContext.Provider value={{ liff: liffObject, user, error: liffError }}>
-      {/* {loading ? <StoryLoading slides={slides} interval={3000} /> : children} */}
-      <StoryLoading slides={slides} interval={3000} />
+      {loading ? <StoryLoading slides={slides} interval={3000} /> : children}
     </LiffContext.Provider>
   );
 };
