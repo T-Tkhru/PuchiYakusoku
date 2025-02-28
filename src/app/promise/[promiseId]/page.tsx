@@ -7,7 +7,6 @@ import {
   Divider,
   HStack,
   Image,
-  Loading,
   Modal,
   ModalBody,
   ModalCloseButton,
