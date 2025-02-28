@@ -27,7 +27,7 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 import { Level, useCreatePromiseMutation } from "@/generated/graphql";
-import { createMessageString, getDueDate } from "@/lib/control-form";
+import { getDueDate } from "@/lib/control-form";
 import { gestUser } from "@/lib/mockData";
 
 import { UserCard } from "./_components/Card";

@@ -30,6 +30,7 @@ export default function HomeLayout({
     ) {
       console.log(`data: ${JSON.stringify(data)}`);
       const promisesList = [...data.sentPromises, ...data.receivedPromises].map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (promise: any) => {
           const promiseData = PromiseSchema.parse(promise);
           return promiseData;
