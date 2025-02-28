@@ -102,21 +102,29 @@ const FirstStory: React.FC = () => {
 
 const SecondStory: React.FC = () => {
   return (
-    <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
+    <VStack
+      h="full"
+      gap={32}
+      py={12}
+      fontSize="32"
+      fontWeight="800"
+      backgroundColor="secondary"
+    >
       <Image src="/mail.svg" alt="loading" width={300} height={300} />
       <VStack gap={4}>
         <Text>さあ、約束をプチろう</Text>
         <Button
           py={4}
-          colorScheme="secondary"
+          colorScheme="blackAlpha"
           rounded="full"
+          backgroundColor="white"
           size="lg"
           fontWeight={800}
           boxShadow="0px 6px #EB777B"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "pink.800",
-            boxshadow: "none",
+            backgroundColor: "white",
+            boxShadow: "none",
           }}
         >
           今すぐ始める

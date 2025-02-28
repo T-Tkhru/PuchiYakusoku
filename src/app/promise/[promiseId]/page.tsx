@@ -581,7 +581,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           size="lg"
           fontWeight={800}
           onClick={() => setIsOpen("complete")}
-          boxShadow="0px 6px white"
+          boxShadow="0px 6px teal"
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "white",
