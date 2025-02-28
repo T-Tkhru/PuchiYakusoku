@@ -1,5 +1,6 @@
 "use client";
 
+import { Text } from "@yamada-ui/react";
 import { useSetAtom } from "jotai";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -49,7 +50,7 @@ export default function PromiseLayout({
   if (error) {
     console.error(error);
     alert(error);
-    return <div>エラーが発生したみたい。詳細:{error.message}</div>;
+    return <Text>エラーが発生したみたい。詳細:{error.message}</Text>;
   }
 
   return <React.Fragment>{children}</React.Fragment>;
