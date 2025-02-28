@@ -23,6 +23,8 @@ import { promisesListState } from "@/lib/jotai_state";
 import { Promise } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 
+import { useLiff } from "../providers/LiffProvider";
+
 export default function Home() {
   const PromiseList = useAtomValue(promisesListState);
   const router = useRouter();
@@ -113,6 +115,7 @@ export default function Home() {
 }
 
 const EachPromiseCard = ({ promise }: { promise: Promise }) => {
+  const { user } = useLiff();
   const router = useRouter();
   return (
     <Button
@@ -132,7 +135,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       }}
     >
       <HStack w="full">
-        {promise.direction ? (
+        {promise.sender?.displayName === user?.displayName ? (
           <Avatar
             src={promise.receiver?.pictureUrl as string}
             size="lg"

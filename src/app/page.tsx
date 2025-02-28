@@ -123,11 +123,12 @@ export default function Home() {
           >
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
+
           <VStack alignItems="center" gap={0}>
             <HStack gap={6}>
               <UserCard user={isReverse ? gestUser : user} color="primary" />
               <Text fontSize="6xl">が</Text>
-              <UserCard user={isReverse ? user : gestUser} color="primary" />
+              <UserCard user={isReverse ? user : gestUser} color="secondary" />
               <Text fontSize="6xl">に</Text>
             </HStack>
             <Center pr={16}>
@@ -145,7 +146,7 @@ export default function Home() {
                 _active={{
                   transform: "translateY(2px) scale(0.9) rotate(180deg)",
                   backgroundColor: "teal.800",
-                  boxshadow: "none",
+                  boxShadow: "none",
                 }}
               />
             </Center>
@@ -184,7 +185,7 @@ export default function Home() {
               _active={{
                 transform: "translateY(2px)",
                 backgroundColor: "gray.50",
-                boxshadow: "none",
+                boxShadow: "none",
               }}
             ></SegmentedControl>
           </HStack>
@@ -208,7 +209,7 @@ export default function Home() {
                 boxShadow={"0px 4px #9C9C9CFF"}
                 _active={{
                   backgroundColor: "gray.50",
-                  boxshadow: "none",
+                  boxShadow: "none",
                 }}
               ></Select>
               {selectDueDateType === "other" && (
@@ -240,7 +241,7 @@ export default function Home() {
             _active={{
               transform: "translateY(2px)",
               backgroundColor: "pink.800",
-              boxshadow: "none",
+              boxShadow: "none",
             }}
             onClick={async () => {
               if (!liff) return;

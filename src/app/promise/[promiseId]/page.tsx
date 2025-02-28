@@ -400,7 +400,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.400",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           リマインド
@@ -419,7 +419,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.400",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           キャンセルする
@@ -524,7 +524,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.400",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           リマインド
@@ -543,7 +543,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "blackAlpha.400",
-            boxshadow: "none",
+            boxShadow: "none",
           }}
         >
           キャンセルする
@@ -613,7 +613,7 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
         _active={{
           transform: "translateY(2px)",
           backgroundColor: "blackAlpha.400",
-          boxshadow: "none",
+          boxShadow: "none",
         }}
       >
         お礼を言う
