@@ -279,6 +279,28 @@ export default function Home() {
                         `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
                         `/?query=${promiseId}`,
                     },
+                    {
+                      type: "template",
+                      altText: `${user.displayName}からプチ約束が届きました！`,
+                      template: {
+                        type: "buttons",
+                        thumbnailImageUrl:
+                          "https://i.gyazo.com/fa01ff664c5cc497841e042e3f59ae25.png",
+                        imageAspectRatio: "rectangle",
+                        imageSize: "cover",
+                        imageBackgroundColor: "#6ac1b7",
+                        text: `${user.displayName}からプチ約束が届きました！`,
+                        actions: [
+                          {
+                            type: "uri",
+                            label: "プチ約束を確認する",
+                            uri:
+                              `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
+                              `/?query=${promiseId}`,
+                          },
+                        ],
+                      },
+                    },
                   ],
                   {
                     isMultiple: true,
