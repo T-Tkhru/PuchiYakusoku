@@ -275,7 +275,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
           fontWeight={800}
           rounded="full"
           onClick={() => setIsOpen("accept")}
-          boxShadow="0px 4px teal"
+          boxShadow="0px 6px teal"
           _active={{
             transform: "translateY(2px)",
             backgroundColor: "teal.800",
@@ -342,6 +342,27 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
     setIsOpen(null);
   };
 
+  const handleRemind = async () => {
+    try {
+      await sendMessage(promise, "もしかしたら約束...忘れてない...?");
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "リマインドしたよ！",
+        message: "相手はあなたが送ったとは気づいていません。",
+      });
+    } catch (error) {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "メッセージ送信中にエラーが発生しました。",
+      });
+      alert(error);
+    }
+    setIsOpen(null);
+  };
+
   return (
     <VStack w="full">
       <ActionModal
@@ -356,7 +377,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setIsOpen(null)}
         title="リマインド"
         message="リマインドします。よろしいですか？"
-        onConfirm={handleCancel}
+        onConfirm={handleRemind}
       />
       <ResultDialog
         isOpen={resultDialog.isOpen}
@@ -383,7 +404,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
             boxshadow: "none",
           }}
         >
-          催促する
+          リマインド
         </Button>
         <Button
           rounded="full"
@@ -410,7 +431,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
 };
 
 const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
-  const [isOpen, setIsOpen] = useState<"cancel" | null>(null);
+  const [isOpen, setIsOpen] = useState<"cancel" | "remind" | null>(null);
   const [cancelPromise] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
@@ -454,6 +475,13 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
+      <ActionModal
+        isOpen={isOpen === "remind"}
+        onClose={() => setIsOpen(null)}
+        title="リマインド"
+        message="忘れてるかもしれないから、声をかけてみるよ！"
+        onConfirm={handleCancel}
+      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -462,6 +490,25 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
       <VStack>
+        <Button
+          rounded="full"
+          variant="outline"
+          color="white"
+          borderColor="white"
+          colorScheme="blackAlpha"
+          backgroundColor="blackAlpha.300"
+          size="lg"
+          fontWeight={800}
+          onClick={() => setIsOpen("cancel")}
+          boxShadow="0px 6px white"
+          _active={{
+            transform: "translateY(2px)",
+            backgroundColor: "blackAlpha.800",
+            boxshadow: "none",
+          }}
+        >
+          リマインド
+        </Button>
         <Button
           rounded="full"
           variant="outline"

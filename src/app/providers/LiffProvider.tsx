@@ -2,7 +2,6 @@
 
 import type liff from "@line/liff";
 import { LiffMockPlugin } from "@line/liff-mock";
-import { useLoading } from "@yamada-ui/react";
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
