@@ -126,8 +126,6 @@ export default function PromiseDetail() {
       gap={8}
       alignItems="center"
     >
-      <Text>{promise.sender.displayName}</Text>
-      <Text>{promise.receiver?.displayName}</Text>
       <HomeButton color="white" />
       <Image
         src={imageSource(status)}
