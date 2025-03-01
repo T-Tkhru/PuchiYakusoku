@@ -63,7 +63,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           <Text fontSize="5xl" fontWeight={800}>
             が
           </Text>
-          <UserCard user={receiver ? receiver : sender} color="white" />
+          <UserCard user={direction ? receiver : sender} color="white" />
           <Text fontSize="5xl" fontWeight={800}>
             に
           </Text>
