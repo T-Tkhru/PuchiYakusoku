@@ -2,7 +2,7 @@ import { Level } from "@prisma/client";
 
 import { UserProfile } from "./type";
 
-export function getDueDate(value: string | null): string | null {
+export function getDueDate(value: string): string | undefined | null {
   const today = new Date();
 
   switch (value) {
@@ -16,9 +16,9 @@ export function getDueDate(value: string | null): string | null {
       today.setMonth(today.getMonth() + 1);
       break;
     case "none":
-    case "other":
-    default:
       return null;
+    case "other":
+      return undefined;
   }
 
   return today.toISOString();

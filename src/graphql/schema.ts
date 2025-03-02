@@ -17,7 +17,7 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
   fields: (t) => ({
     content: t.string({ required: true }),
     level: t.field({ type: LevelEnum, required: true }),
-    dueDate: t.string({ required: true }),
+    dueDate: t.string({ required: false }),
     direction: t.boolean({ required: true }),
   }),
 });
@@ -35,7 +35,7 @@ const promise = builder.prismaObject("Promise", {
     id: t.exposeID("id", { nullable: false }),
     content: t.exposeString("content", { nullable: false }),
     level: t.expose("level", { type: LevelEnum, nullable: false }),
-    dueDate: t.expose("dueDate", { type: "DateTime", nullable: false }),
+    dueDate: t.expose("dueDate", { type: "DateTime", nullable: true }),
     sender: t.relation("sender", { nullable: false }),
     receiver: t.relation("receiver"),
     direction: t.exposeBoolean("direction", { nullable: false }),
@@ -142,7 +142,7 @@ builder.mutationType({
           data: {
             content: args.input.content,
             level: args.input.level,
-            dueDate: new Date(args.input.dueDate),
+            dueDate: args.input.dueDate ? new Date(args.input.dueDate) : null,
             direction: args.input.direction,
             sender: { connect: { userId: userId } },
           },
@@ -171,7 +171,7 @@ builder.mutationType({
         const promise = await prisma.promise.findUnique({
           where: { id: args.id },
         });
-        if (!promise || promise.dueDate < new Date()) {
+        if (!promise || !promise.dueDate || promise.dueDate < new Date()) {
           throw new Error("Promise is expired");
         }
         const userId = context.get("user").userId;
@@ -204,7 +204,7 @@ builder.mutationType({
         const promise = await prisma.promise.findUnique({
           where: { id: args.id },
         });
-        if (!promise || promise.dueDate < new Date()) {
+        if (!promise || !promise.dueDate || promise.dueDate < new Date()) {
           throw new Error("Promise is expired");
         }
         return prisma.promise.update({
