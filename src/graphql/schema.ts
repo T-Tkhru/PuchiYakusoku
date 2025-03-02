@@ -107,6 +107,7 @@ builder.queryType({
       resolve: async (_, args) => {
         const foundPromise = await prisma.promise.findUnique({
           where: { id: args.id },
+          include: { sender: true, receiver: true },
         });
         if (!foundPromise) {
           throw new Error("Promise not found");
