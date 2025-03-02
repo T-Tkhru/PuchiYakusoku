@@ -63,6 +63,7 @@ export default function Home() {
     type: "success" | "error";
     title: string;
     message: string;
+    isInvalidError?: boolean;
   }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handleReverse = () => {
@@ -89,7 +90,7 @@ export default function Home() {
         message={resultDialog.message}
         onClose={() => {
           setResultDialog({ ...resultDialog, isOpen: false });
-          router.push("/home");
+          !resultDialog.isInvalidError && router.push("/home");
         }}
       />
       <Dialog
@@ -244,6 +245,16 @@ export default function Home() {
             }}
             onClick={async () => {
               if (!liff) return;
+              if (!textContentRef.current?.value) {
+                setResultDialog({
+                  isOpen: true,
+                  type: "error",
+                  title: "内容がないよう、、、",
+                  message: "約束の内容を入力してください",
+                  isInvalidError: true,
+                });
+                return;
+              }
               onOpen();
               const result = await createPromise({
                 variables: {

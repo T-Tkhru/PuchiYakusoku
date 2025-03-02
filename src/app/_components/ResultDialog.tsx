@@ -20,7 +20,7 @@ export const ResultDialog: React.FC<ResultDialogProps> = ({
   message,
   onClose,
 }) => {
-  const headerBg = type === "success" ? "primary" : "danger";
+  const headerBg = type === "success" ? "primary" : "#ff8c93";
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogHeader bg={headerBg} color="white" fontWeight="bold" pb={2}>
@@ -30,7 +30,7 @@ export const ResultDialog: React.FC<ResultDialogProps> = ({
       <DialogFooter>
         <Button
           onClick={onClose}
-          colorScheme={type === "success" ? "primary" : "danger"}
+          colorScheme={type === "success" ? "primary" : "warning"}
         >
           OK
         </Button>
