@@ -34,7 +34,7 @@ type Promise {
   completedAt: DateTime
   content: String!
   direction: Boolean!
-  dueDate: DateTime!
+  dueDate: DateTime
   id: ID!
   isAccepted: Boolean
   level: Level!
