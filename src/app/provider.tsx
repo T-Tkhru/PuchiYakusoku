@@ -14,16 +14,16 @@ import { PromiseNavigator } from "./providers/promiseNavigator";
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense fallback={null}>
-      <PromiseNavigator>
-        <UIProvider theme={theme}>
-          <ApolloProvider client={client}>
-            <NextAuthSessionProvider>
-              <LiffProvider>{children}</LiffProvider>
-            </NextAuthSessionProvider>
-          </ApolloProvider>
-        </UIProvider>
-      </PromiseNavigator>
-    </Suspense>
+    <LiffProvider>
+      <ApolloProvider client={client}>
+        <Suspense fallback={null}>
+          <PromiseNavigator>
+            <UIProvider theme={theme}>
+              <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+            </UIProvider>
+          </PromiseNavigator>
+        </Suspense>
+      </ApolloProvider>
+    </LiffProvider>
   );
 };
