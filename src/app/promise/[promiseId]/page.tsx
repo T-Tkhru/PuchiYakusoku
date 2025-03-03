@@ -167,7 +167,7 @@ export default function PromiseDetail() {
         color={`${status.baseColor}.500`}
       />
       <VStack w="full">
-        {status.status === StatusEnum.UN_READ && (
+        {status.status === StatusEnum.IS_PENDING && (
           <UnReadStatusButtons promise={promise} />
         )}
         {status.status === StatusEnum.IS_ACCEPTED && user && (

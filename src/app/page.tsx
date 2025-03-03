@@ -2,7 +2,7 @@
 import "dayjs/locale/ja";
 
 import { Calendar } from "@yamada-ui/calendar";
-import { RefreshCwIcon } from "@yamada-ui/lucide";
+import { ActivityIcon, RefreshCwIcon } from "@yamada-ui/lucide";
 import {
   Button,
   Center,
@@ -15,6 +15,7 @@ import {
   IconButton,
   Image,
   SegmentedControl,
+  SegmentedControlButton,
   SegmentedControlItem,
   Select,
   SelectItem,
@@ -58,6 +59,7 @@ export default function Home() {
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [dueDate, setDueDate] = useState<Date>(new Date());
   const [isReverse, setIsReverse] = useState(true);
+  const [isShare, setIsShare] = useState(false);
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
     type: "success" | "error";
@@ -126,24 +128,54 @@ export default function Home() {
           >
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
+          <SegmentedControl
+            colorScheme={isShare ? "secondary" : "primary"}
+            backgroundColor="white"
+            border="1px solid"
+            borderColor="border"
+            defaultValue="low"
+            rounded="md"
+            size="sm"
+            h="9"
+            value={isShare ? "IsShare" : "IsDirect"}
+            onChange={(value) => setIsShare(value === "IsShare")}
+            boxShadow={"0px 4px #9C9C9CFF"}
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "gray.50",
+              boxShadow: "none",
+            }}
+          >
+            <SegmentedControlButton value="IsDirect">
+              片方が約束
+            </SegmentedControlButton>
+            <SegmentedControlButton value="IsShare">
+              お互いが約束
+            </SegmentedControlButton>
+          </SegmentedControl>
           <VStack alignItems="center" gap={0}>
             <HStack gap={6}>
               <UserCard user={isReverse ? user : gestUser} color="secondary" />
-              <Text fontSize="6xl">が</Text>
-              <UserCard user={isReverse ? gestUser : user} color="primary" />
-              <Text fontSize="6xl">に</Text>
+              <Text fontSize="6xl">{isShare ? "と" : "が"}</Text>
+              <UserCard
+                user={isReverse ? gestUser : user}
+                color={isShare ? "secondary" : "primary"}
+              />
+
+              <Text fontSize="6xl">{isShare ? "が" : "に"}</Text>
             </HStack>
             <Center pr={16}>
               <IconButton
                 zIndex={10}
-                icon={<RefreshCwIcon />}
+                icon={isShare ? <ActivityIcon /> : <RefreshCwIcon />}
                 aria-label="left-right"
                 fontSize="24"
-                colorScheme="primary"
+                colorScheme={isShare ? "secondary" : "primary"}
                 h="12"
                 w="12"
                 rounded="full"
                 onClick={handleReverse}
+                disabled={isShare}
                 boxShadow="0px 4px teal"
                 _active={{
                   transform: "translateY(2px) scale(0.9) rotate(180deg)",
