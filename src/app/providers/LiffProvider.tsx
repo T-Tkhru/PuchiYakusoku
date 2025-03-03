@@ -6,11 +6,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { exampleUser2 } from "@/lib/mockData";
-import {
-  UserProfile,
-  UserProfileSchema,
-  UserSimpleProfileSchema,
-} from "@/lib/type";
+import { UserProfile } from "@/lib/type";
 
 import { slides, StoryLoading } from "../_components/Welcome";
 

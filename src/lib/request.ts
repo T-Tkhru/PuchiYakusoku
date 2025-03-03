@@ -12,7 +12,6 @@ export const sendMessage = async (
   isReminder: boolean
 ): Promise<void | Error> => {
   try {
-
     const receiver = await prisma.user.findFirst({
         where: { id: promise.receiver?.id },
     });
@@ -24,6 +23,9 @@ export const sendMessage = async (
       user.id === promise.sender.id ? receiver : sender;
     const messageFrom = user;
     console.log(`messageTo: ${messageTo?.id}`);
+    console.log(`receiver: ${receiver}`);
+    console.log(`sender: ${sender}`);
+    console.log(`messageTo: ${messageTo}`);
     const response = await fetch(
       `https://api.line.me/v2/bot/message/multicast`,
       {
