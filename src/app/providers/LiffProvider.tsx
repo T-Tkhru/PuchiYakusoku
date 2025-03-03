@@ -6,7 +6,11 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { exampleUser2 } from "@/lib/mockData";
-import { UserProfile, UserProfileSchema } from "@/lib/type";
+import {
+  UserProfile,
+  UserProfileSchema,
+  UserSimpleProfileSchema,
+} from "@/lib/type";
 
 import { slides, StoryLoading } from "../_components/Welcome";
 
@@ -58,7 +62,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         }
         // ユーザーがログインしている場合にプロフィール情報を取得
         if (liffModule.default.isLoggedIn()) {
-          // ログインAPIを呼び出してサーバー側でのログイン処理を行う
+          const profile = await liffModule.default.getProfile();
           const response = await axios.post(
             "/api/login",
             {},
@@ -68,13 +72,14 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
               },
             }
           );
-          const user = UserProfileSchema.parse(response);
-          setUser({
-            id: user.id,
-            displayName: user.displayName,
-            pictureUrl: user.pictureUrl ?? "",
-          });
+          console.log(response);
+
           if (response.status === 200) {
+            setUser({
+              id: response.data.id,
+              displayName: profile.displayName,
+              pictureUrl: profile.pictureUrl ?? "",
+            });
             console.log("login success");
           }
         }

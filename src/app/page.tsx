@@ -90,7 +90,9 @@ export default function Home() {
         message={resultDialog.message}
         onClose={() => {
           setResultDialog({ ...resultDialog, isOpen: false });
-          !resultDialog.isInvalidError && router.push("/home");
+          if (!resultDialog.isInvalidError) {
+            router.push("/home");
+          }
         }}
       />
       <Dialog

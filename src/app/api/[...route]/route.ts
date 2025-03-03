@@ -110,7 +110,7 @@ app.use("/userProfile", async (c) => {
   const session = await auth();
   console.log(session);
   const user = UserSimpleProfileSchema.parse(session?.user);
-  return c.json({ name: user.name, image: user.image, id: user.id });
+  return c.json({ id: user.id });
 });
 
 app.use(
