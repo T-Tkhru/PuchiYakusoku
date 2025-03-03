@@ -182,11 +182,6 @@ export default function Home() {
               value={importance}
               onChange={(value) => setImportance(value as Level)}
               boxShadow={"0px 4px #9C9C9CFF"}
-              _active={{
-                transform: "translateY(2px)",
-                backgroundColor: "gray.50",
-                boxShadow: "none",
-              }}
             ></SegmentedControl>
           </HStack>
 
@@ -327,4 +322,3 @@ export default function Home() {
     </React.Fragment>
   );
 }
-
