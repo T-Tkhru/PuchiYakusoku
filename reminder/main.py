@@ -3,6 +3,7 @@ from supabase import Client, create_client
 from dotenv import load_dotenv
 from datetime import datetime
 from dataclasses import dataclass
+from reminder import send_message
 
 load_dotenv()
 
