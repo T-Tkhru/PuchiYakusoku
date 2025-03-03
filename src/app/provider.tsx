@@ -12,19 +12,18 @@ import { LiffProvider } from "./providers/LiffProvider";
 import { PromiseNavigator } from "./providers/promiseNavigator";
 
 
-
 export const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <PromiseNavigator>
-      <UIProvider theme={theme}>
-        <ApolloProvider client={client}>
-          <NextAuthSessionProvider>
-            <LiffProvider>
-              <Suspense fallback={null}>{children}</Suspense>
-            </LiffProvider>
-          </NextAuthSessionProvider>
-        </ApolloProvider>
-      </UIProvider>
-    </PromiseNavigator>
+    <Suspense fallback={null}>
+      <PromiseNavigator>
+        <UIProvider theme={theme}>
+          <ApolloProvider client={client}>
+            <NextAuthSessionProvider>
+              <LiffProvider>{children}</LiffProvider>
+            </NextAuthSessionProvider>
+          </ApolloProvider>
+        </UIProvider>
+      </PromiseNavigator>
+    </Suspense>
   );
 };
