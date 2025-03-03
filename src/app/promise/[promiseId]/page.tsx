@@ -694,6 +694,7 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
         message="お礼を言います。よろしいですか？"
         onConfirm={handleThank}
       />
+
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
