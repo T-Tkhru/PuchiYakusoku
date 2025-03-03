@@ -115,18 +115,6 @@ builder.queryType({
         return foundPromise;
       },
     }),
-    userByUserId: t.field({
-      type: user,
-      nullable: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      resolve: async (_, __, context: any) => {
-        const userId = context.get("user").userId;
-        const foundUser = await prisma.user.findUnique({
-          where: { userId: userId },
-        });
-        return foundUser;
-      },
-    }),
   }),
 });
 

@@ -103,14 +103,14 @@ app.post("/login", async (c) => {
   if (!user) {
     return c.json({ message: "Failed to fetch user info" }, 500);
   }
-  return c.json({ message: "Login successful" }, 200);
+  return c.json({ name: user.displayName, image: user.pictureUrl, id: user.id }, 200);
 });
 
 app.use("/userProfile", async (c) => {
   const session = await auth();
   console.log(session);
   const user = UserSimpleProfileSchema.parse(session?.user);
-  return c.json({ name: user.name, image: user.image, id: user.id });
+  return c.json({ id: user.id });
 });
 
 app.use(

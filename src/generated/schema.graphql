@@ -47,7 +47,6 @@ type Query {
   promises: [Promise!]
   receivedPromises: [Promise!]
   sentPromises: [Promise!]
-  userByUserId: User
 }
 
 type User {

@@ -722,6 +722,7 @@ const IsCompletedStatusButtons = ({
         message="お礼を言います。よろしいですか？"
         onConfirm={() => handleThank(user)}
       />
+
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
