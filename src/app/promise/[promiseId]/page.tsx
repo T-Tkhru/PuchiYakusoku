@@ -37,7 +37,7 @@ import {
   imageSource,
   StatusEnum,
 } from "@/lib/status";
-import { Promise, PromiseSchema } from "@/lib/type";
+import { Promise, PromiseSchema, UserProfile } from "@/lib/type";
 
 interface ActionModalProps {
   isOpen: boolean;
@@ -170,14 +170,14 @@ export default function PromiseDetail() {
         {status.status === StatusEnum.UN_READ && (
           <UnReadStatusButtons promise={promise} />
         )}
-        {status.status === StatusEnum.IS_ACCEPTED && (
-          <IsAcceptedStatusButtons promise={promise} />
+        {status.status === StatusEnum.IS_ACCEPTED && user && (
+          <IsAcceptedStatusButtons promise={promise} user={user} />
         )}
-        {status.status === StatusEnum.MY_PROMISE && (
-          <MyPromiseButtons promise={promise} />
+        {status.status === StatusEnum.MY_PROMISE && user && (
+          <MyPromiseButtons promise={promise} user={user} />
         )}
-        {status.status === StatusEnum.IS_COMPLETED && (
-          <IsCompletedStatusButtons promise={promise} />
+        {status.status === StatusEnum.IS_COMPLETED && user && (
+          <IsCompletedStatusButtons promise={promise} user={user} />
         )}
       </VStack>
     </VStack>
@@ -313,7 +313,13 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
   );
 };
 
-const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
+const IsAcceptedStatusButtons = ({
+  promise,
+  user,
+}: {
+  promise: Promise;
+  user: UserProfile;
+}) => {
   const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
     null
   );
@@ -376,9 +382,14 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
     setIsOpen(null);
   };
 
-  const handleRemind = async () => {
+  const handleRemind = async (user: UserProfile, promise: Promise) => {
     try {
-      await sendMessage(promise, "もしかしたら約束...忘れてない...?");
+      await sendMessage(
+        user,
+        promise,
+        "もしかしたら約束...忘れてない...?",
+        true
+      );
       setResultDialog({
         isOpen: true,
         type: "success",
@@ -430,7 +441,7 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={handleRemind}
+          onClick={() => handleRemind(user, promise)}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
@@ -483,7 +494,13 @@ const IsAcceptedStatusButtons = ({ promise }: ActionButtonProps) => {
   );
 };
 
-const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
+const MyPromiseButtons = ({
+  promise,
+  user,
+}: {
+  promise: Promise;
+  user: UserProfile;
+}) => {
   const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
     null
   );
@@ -547,9 +564,14 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
     });
     setIsOpen(null);
   };
-  const handleRemind = async () => {
+  const handleRemind = async (user: UserProfile, promise: Promise) => {
     try {
-      await sendMessage(promise, "もしかしたら約束...忘れてない...?");
+      await sendMessage(
+        user,
+        promise,
+        "もしかしたら約束...忘れてない...?",
+        true
+      );
       setResultDialog({
         isOpen: true,
         type: "success",
@@ -602,7 +624,7 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={handleRemind}
+          onClick={() => handleRemind(user, promise)}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
@@ -655,7 +677,13 @@ const MyPromiseButtons = ({ promise }: ActionButtonProps) => {
   );
 };
 
-const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
+const IsCompletedStatusButtons = ({
+  promise,
+  user,
+}: {
+  promise: Promise;
+  user: UserProfile;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
@@ -664,9 +692,9 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
     message: string;
   }>({ isOpen: false, type: "success", title: "", message: "" });
 
-  const handleThank = async () => {
+  const handleThank = async (user: UserProfile) => {
     try {
-      await sendMessage(promise, "ありがとう！");
+      await sendMessage(user, promise, "ありがとう！", false);
       setResultDialog({
         isOpen: true,
         type: "success",
@@ -692,7 +720,7 @@ const IsCompletedStatusButtons = ({ promise }: ActionButtonProps) => {
         onClose={() => setIsOpen(false)}
         title="ありがとうを伝える"
         message="お礼を言います。よろしいですか？"
-        onConfirm={handleThank}
+        onConfirm={() => handleThank(user)}
       />
 
       <ResultDialog

@@ -131,7 +131,7 @@ export type GetPromiseQueryVariables = Exact<{
 }>;
 
 
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, userId: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
@@ -145,21 +145,21 @@ export type AcceptPromiseMutationVariables = Exact<{
 }>;
 
 
-export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type RejectPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } } | null };
+export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CompletePromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 
 export const GetUserByUserIdDocument = gql`
@@ -324,11 +324,13 @@ export const GetPromiseDocument = gql`
     direction
     sender {
       id
+      userId
       displayName
       pictureUrl
     }
     receiver {
       id
+      userId
       displayName
       pictureUrl
     }
@@ -434,6 +436,8 @@ export const AcceptPromiseDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
   }
 }
     `;
@@ -476,6 +480,13 @@ export const RejectPromiseDocument = gql`
       displayName
       pictureUrl
     }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+    isAccepted
+    completedAt
   }
 }
     `;
@@ -523,6 +534,8 @@ export const CompletePromiseDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
   }
 }
     `;
