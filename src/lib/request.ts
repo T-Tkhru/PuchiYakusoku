@@ -23,9 +23,11 @@ export const sendMessage = async (
       user.id === promise.sender.id ? receiver : sender;
     const messageFrom = user;
     console.log(`messageTo: ${messageTo?.id}`);
-    console.log(`receiver: ${receiver}`);
-    console.log(`sender: ${sender}`);
-    console.log(`messageTo: ${messageTo}`);
+    console.log(`messageTo userId: ${messageTo?.userId}`);
+    console.log(`receiver userId: ${receiver?.userId}`);
+    console.log(`receiver displayName: ${receiver?.displayName}`);
+    console.log(`sender userId: ${sender?.userId}`);
+    console.log(`sender displayName: ${sender?.displayName}`);
     const response = await fetch(
       `https://api.line.me/v2/bot/message/multicast`,
       {
