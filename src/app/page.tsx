@@ -35,6 +35,11 @@ import { HomeButton } from "./_components/GoBackButton";
 import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
 
+const oneWayItems: SegmentedControlItem[] = [
+  { label: "片方が約束", value: "true" },
+  { label: "お互いが約束", value: "false" },
+];
+
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: Level.Low },
   { label: "少し重要", value: Level.Medium },
@@ -53,6 +58,7 @@ export default function Home() {
   const router = useRouter();
   const { user, liff } = useLiff();
   const { onOpen, onClose } = useDisclosure();
+  const [oneWay, setOneWay] = useState<boolean>(true);
   const [importance, setImportance] = useState<Level>(Level.Low);
   const textContentRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
@@ -68,6 +74,10 @@ export default function Home() {
 
   const handleReverse = () => {
     setIsReverse(!isReverse);
+  };
+
+  const handleOneWay = (value: string) => {
+    setOneWay(value === "true");
   };
 
   const [createPromise, { loading }] = useCreatePromiseMutation({
@@ -124,33 +134,74 @@ export default function Home() {
           >
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
-          <VStack alignItems="center" gap={0}>
-            <HStack gap={6}>
-              <UserCard user={isReverse ? user : gestUser} color="secondary" />
-              <Text fontSize="6xl">が</Text>
-              <UserCard user={isReverse ? gestUser : user} color="primary" />
-              <Text fontSize="6xl">に</Text>
-            </HStack>
-            <Center pr={16}>
-              <IconButton
-                zIndex={10}
-                icon={<RefreshCwIcon />}
-                aria-label="left-right"
-                fontSize="24"
-                colorScheme="primary"
-                h="12"
-                w="12"
-                rounded="full"
-                onClick={handleReverse}
-                boxShadow="0px 4px teal"
-                _active={{
-                  transform: "translateY(2px) scale(0.9) rotate(180deg)",
-                  backgroundColor: "teal.800",
-                  boxShadow: "none",
-                }}
-              />
-            </Center>
-          </VStack>
+          <HStack
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+            p={2}
+          >
+            <Text>方向</Text>
+            <SegmentedControl
+              colorScheme="primary"
+              backgroundColor="white"
+              border="1px solid"
+              borderColor="border"
+              defaultValue="low"
+              rounded="md"
+              size="sm"
+              h="9"
+              items={oneWayItems}
+              value={oneWay ? "true" : "false"}
+              onChange={(value) => handleOneWay(value as string)}
+              boxShadow={"0px 4px #9C9C9CFF"}
+            ></SegmentedControl>
+          </HStack>
+          {oneWay ? (
+            <VStack alignItems="center" gap={0}>
+              <HStack gap={6}>
+                <UserCard
+                  user={isReverse ? user : gestUser}
+                  color="secondary"
+                />
+                <Text fontSize="6xl">が</Text>
+                <UserCard user={isReverse ? gestUser : user} color="primary" />
+                <Text fontSize="6xl">に</Text>
+              </HStack>
+              <Center pr={16}>
+                <IconButton
+                  zIndex={10}
+                  icon={<RefreshCwIcon />}
+                  aria-label="left-right"
+                  fontSize="24"
+                  colorScheme="primary"
+                  h="12"
+                  w="12"
+                  rounded="full"
+                  onClick={handleReverse}
+                  boxShadow="0px 4px teal"
+                  _active={{
+                    transform: "translateY(2px) scale(0.9) rotate(180deg)",
+                    backgroundColor: "teal.800",
+                    boxShadow: "none",
+                  }}
+                />
+              </Center>
+            </VStack>
+          ) : (
+            <VStack alignItems="center" gap={0}>
+              <HStack gap={6}>
+                <UserCard
+                  user={isReverse ? user : gestUser}
+                  color="secondary"
+                />
+                <Text fontSize="6xl">と</Text>
+                <UserCard user={isReverse ? gestUser : user} color="primary" />
+                <Text fontSize="6xl">は</Text>
+              </HStack>
+              <Center pr={16} minH="48px"></Center>
+            </VStack>
+          )}
+
           <FormControl label="何をする？">
             <Textarea
               variant="filled"
