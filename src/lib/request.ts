@@ -1,5 +1,6 @@
 "use server";
 
+import { prisma } from "./prisma";
 import { Promise as PromiseType, UserProfile } from "./type";
 
 const lineToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
@@ -11,10 +12,18 @@ export const sendMessage = async (
   isReminder: boolean
 ): Promise<void | Error> => {
   try {
+
+    const receiver = await prisma.user.findFirst({
+        where: { id: promise.receiver?.id },
+    });
+    const sender = await prisma.user.findFirst({
+        where: { id: promise.sender?.id },
+    });
+    
     const messageTo =
-      user.id === promise.sender.userId ? promise.receiver : promise.sender;
+      user.id === promise.sender.id ? receiver : sender;
     const messageFrom = user;
-    console.log(`messageTo: ${messageTo?.userId}`);
+    console.log(`messageTo: ${messageTo?.id}`);
     const response = await fetch(
       `https://api.line.me/v2/bot/message/multicast`,
       {

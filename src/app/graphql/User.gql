@@ -1,11 +1,4 @@
-query GetUserByUserId {
-  userByUserId{
-    id
-    userId
-    displayName
-    pictureUrl
-  }
-}
+
 
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {

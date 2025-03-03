@@ -103,7 +103,7 @@ app.post("/login", async (c) => {
   if (!user) {
     return c.json({ message: "Failed to fetch user info" }, 500);
   }
-  return c.json({ message: "Login successful" }, 200);
+  return c.json({ name: user.displayName, image: user.pictureUrl, id: user.id }, 200);
 });
 
 app.use("/userProfile", async (c) => {

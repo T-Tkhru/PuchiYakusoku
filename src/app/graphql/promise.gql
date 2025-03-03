@@ -48,13 +48,11 @@ query GetPromise($id: String!) {
     direction
     sender {
       id
-      userId
       displayName
       pictureUrl
     }
     receiver {
       id
-      userId
       displayName
       pictureUrl
     }
