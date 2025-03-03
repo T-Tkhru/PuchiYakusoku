@@ -33,6 +33,7 @@ export const PromiseNavigator = ({
   useEffect(() => {
     if (data && data?.promise !== null && data?.promise !== undefined) {
       console.log(data.promise);
+      alert(data.promise);
       const promise = PromiseSchema.parse(data.promise);
       if (
         user?.displayName !== promise.sender.displayName &&
@@ -52,7 +53,7 @@ export const PromiseNavigator = ({
       }
       router.replace(`/promise/${promise.id}`);
     }
-  }, [query, setPromise]);
+  }, [data, query, router, setPromise, user]);
 
   if (query === null) {
     return <React.Fragment>{children}</React.Fragment>;
