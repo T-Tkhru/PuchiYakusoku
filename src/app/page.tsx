@@ -1,6 +1,7 @@
 "use client";
 import "dayjs/locale/ja";
 
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Calendar } from "@yamada-ui/calendar";
 import { ActivityIcon, RefreshCwIcon } from "@yamada-ui/lucide";
 import {
@@ -66,6 +67,7 @@ export default function Home() {
     title: string;
     message: string;
     isInvalidError?: boolean;
+    animeComponent?: React.ReactNode;
   }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handleReverse = () => {
@@ -350,6 +352,13 @@ export default function Home() {
                     type: "success",
                     title: "友達に送信しました！",
                     message: "相手が約束に気づきますように！",
+                    animeComponent: (
+                      <DotLottieReact
+                        src="https://lottie.host/4e721a35-465e-4da7-914f-9d458fac914a/vz5fVwWwVC.lottie"
+                        loop
+                        autoplay
+                      />
+                    ),
                   });
                 });
             }}
