@@ -39,7 +39,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
 }) => {
   return (
     <VStack
-      backgroundColor={color ?? "blackAlpha.300"}
+      backgroundColor={color || "blackAlpha.300"}
       rounded="lg"
       p={4}
       justifyContent="center"
@@ -47,7 +47,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       <Container
         py={1}
         px={4}
-        bgColor={color ?? "primary"}
+        bgColor={color || "primary"}
         color="white"
         rounded="lg"
         alignItems="center"
@@ -75,7 +75,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
         <VStack>
           <HStack>
             <Tag
-              bgColor={color ?? "primary"}
+              bgColor={color || "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
@@ -88,7 +88,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           </HStack>
           <HStack>
             <Tag
-              bgColor={color ?? "primary"}
+              bgColor={color || "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}

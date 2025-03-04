@@ -49,7 +49,7 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
 export const headerMessage = (senderName: string, status: Status) => {
   switch (status.status) {
     case StatusEnum.IS_ACCEPTED:
-      return ["約束はまだ心の中...", "深呼吸しましょう...スー..."];
+      return ["約束はまだ心の中...", "深呼吸しましょう..."];
     case StatusEnum.IS_COMPLETED:
       return ["約束は達成されました！", "おめでとうございます！"];
     case StatusEnum.CANCELED:

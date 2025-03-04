@@ -33,13 +33,13 @@ response = (
     supabase.table("Promise")
     .select("*")
     .not_.is_("completedAt", "null")
-    .lte("dueDate", current_time) 
+    .lte("dueDate", current_time)
     .eq("isAccepted", True)
     .execute()
 )
 
 for row in response.data:
-    promise = Promise (
+    promise = Promise(
         id=row["id"],
         content=row["content"],
         level=row["level"],
@@ -49,10 +49,10 @@ for row in response.data:
         created_at=row["createdAt"],
         updated_at=row["updatedAt"],
         receiverUserId=row["receiverUserId"],
-        senderUserId=row["senderUserId"]
+        senderUserId=row["senderUserId"],
     )
-    print(promise)
 
-
-print("Filtered Promises:", response.data)
-send_line_message(user_id=promise.receiverUserId, messages=["約束...忘れてない？"])
+    if random.random() < 0.2:
+        send_line_message(
+            user_id=promise.receiverUserId, messages=["約束...忘れてない？"]
+        )
