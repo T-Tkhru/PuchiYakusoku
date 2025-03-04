@@ -14,7 +14,7 @@ interface PromiseContentsProps {
   content: string;
   deadline: string | null;
   level: Level;
-  color: string;
+  color: string | null;
 }
 
 const strImportance = (level: Level) => {
@@ -41,7 +41,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
 
   return (
     <VStack
-      backgroundColor={haveBaseColor ? "blackAlpha.300" : "white"}
+      backgroundColor="blackAlpha.300"
       rounded="lg"
       p={4}
       justifyContent="center"
@@ -61,7 +61,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       </Container>
       <Container color="white" gap={16} alignItems="center">
         <HStack>
-          <UserCard user={direction ? receiver : sender} />
+          <UserCard user={direction ? receiver : sender} color="white" />
           <Text
             fontSize="5xl"
             fontWeight={800}
@@ -88,7 +88,11 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
             >
               内容
             </Tag>
-            <Text fontSize="lg" fontWeight={600}>
+            <Text
+              fontSize="lg"
+              fontWeight={600}
+              color={haveBaseColor ? "white" : "black"}
+            >
               {content}
             </Text>
           </HStack>
@@ -106,7 +110,11 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
                 期限なし
               </Text>
             ) : (
-              <Text fontSize="lg" fontWeight={600}>
+              <Text
+                fontSize="lg"
+                fontWeight={600}
+                color={haveBaseColor ? "white" : "black"}
+              >
                 {formatDate(deadline)}まで
               </Text>
             )}
@@ -120,7 +128,11 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
             >
               重要度
             </Tag>
-            <Text fontSize="lg" fontWeight={600}>
+            <Text
+              fontSize="lg"
+              fontWeight={600}
+              color={haveBaseColor ? "white" : "black"}
+            >
               {strImportance(level)}
             </Text>
           </HStack>

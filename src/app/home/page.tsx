@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  AlarmClockIcon,
-  ArrowRightIcon,
-  CirclePlusIcon,
-} from "@yamada-ui/lucide";
+import { AlarmClockIcon, CirclePlusIcon } from "@yamada-ui/lucide";
 import {
   Avatar,
   Button,
   Heading,
   HStack,
   Image,
-  Loading,
   Text,
   VStack,
 } from "@yamada-ui/react";
@@ -49,48 +44,16 @@ export default function Home() {
         }}
       >
         <VStack gap={1} alignItems="center">
-          <Image src="/logo_puchi_only.svg" size="16" />
+          <Image src="/logo_puchi_only.svg" size="16" alt="プチ約束ロゴ" />
           <HStack gap={2}>
             <CirclePlusIcon fontSize="xl" />
             <Text>新しいプチ約束</Text>
           </HStack>
         </VStack>
       </Button>
-      {/* <VStack w="full" gap={4}>
-        <Heading fontSize="xl">最近のウゴキ</Heading>
-        <Button
-          colorScheme="primary"
-          boxShadow="0px 6px teal"
-          size="md"
-          fontWeight={800}
-          rounded="lg"
-          h="24"
-          onClick={() => {}}
-          _active={{
-            transform: "translateY(2px)",
-            backgroundColor: "teal.800",
-            boxShadow: "none",
-          }}
-        >
-          約束する
-        </Button>
-      </VStack> */}
       <VStack w="full" gap={4}>
         <HStack justifyContent="space-between" w="full">
           <Heading fontSize="xl">手持ちのプチ約束</Heading>
-          <Button
-            colorScheme="gray.300"
-            variant="ghost"
-            size="md"
-            rounded="lg"
-            fontSize="md"
-            h="12"
-            rightIcon={<ArrowRightIcon />}
-            onClick={() => {}}
-            fontWeight={600}
-          >
-            すべて見る
-          </Button>
         </HStack>
         <VStack w="full" gap={4}>
           {PromiseList.length === 0 ? (

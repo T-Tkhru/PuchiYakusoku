@@ -158,7 +158,9 @@ export default function Home() {
                 disabled={isShare}
                 boxShadow="0px 4px teal"
                 _active={{
-                  transform: "translateY(2px) scale(0.9) rotate(180deg)",
+                  transform: isShare
+                    ? "none"
+                    : "translateY(2px) scale(0.9) rotate(180deg)",
                   backgroundColor: "teal.800",
                   boxShadow: "none",
                 }}
