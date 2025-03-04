@@ -7,6 +7,6 @@ export const semantics: ThemeSemantics = {
   },
   colorSchemes: {
     primary: "teal",
-    secondary: "orange",
+    secondary: "pink",
   },
 };

@@ -41,7 +41,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
 
   return (
     <VStack
-      backgroundColor={haveBaseColor ? color : "blackAlpha.300"}
+      backgroundColor={haveBaseColor ? "blackAlpha.300" : "white"}
       rounded="lg"
       p={4}
       justifyContent="center"
@@ -79,7 +79,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           </Text>
         </HStack>
         <VStack>
-          <HStack>
+          <HStack gap="10">
             <Tag
               bgColor={haveBaseColor ? color : "primary"}
               color="white"
@@ -92,7 +92,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
               {content}
             </Text>
           </HStack>
-          <HStack>
+          <HStack gap="10">
             <Tag
               bgColor={haveBaseColor ? color : "primary"}
               color="white"
@@ -111,7 +111,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
               </Text>
             )}
           </HStack>
-          <HStack>
+          <HStack gap="5">
             <Tag
               bgColor={haveBaseColor ? color : "primary"}
               color="white"

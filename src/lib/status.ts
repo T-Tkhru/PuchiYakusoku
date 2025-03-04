@@ -12,7 +12,7 @@ const statusColors: Record<StatusEnum, string | null> = {
   [StatusEnum.PENDING_SENDER]: null,
   [StatusEnum.PENDING_RECEIVER]: "secondary",
   [StatusEnum.IS_ACCEPTED]: "primary",
-  [StatusEnum.IS_COMPLETED]: null,
+  [StatusEnum.IS_COMPLETED]: "orange",
   [StatusEnum.CANCELED]: "gray",
 };
 
@@ -51,7 +51,7 @@ export const headerMessage = (senderName: string, status: Status) => {
     case StatusEnum.IS_ACCEPTED:
       return ["約束はまだ心の中...", "深呼吸しましょう..."];
     case StatusEnum.IS_COMPLETED:
-      return ["約束は達成されました！", "おめでとうございます！"];
+      return ["約束が達成されたよ！", "おめでとう！！"];
     case StatusEnum.CANCELED:
       return ["約束はキャンセルされました", "また挑戦しましょう！"];
     case StatusEnum.PENDING_SENDER:

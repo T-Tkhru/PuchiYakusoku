@@ -4,7 +4,6 @@ import { Level } from "@prisma/client";
 import {
   Avatar,
   Button,
-  Divider,
   HStack,
   Image,
   Modal,
@@ -13,6 +12,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Separator,
   Text,
   VStack,
 } from "@yamada-ui/react";
@@ -99,6 +99,7 @@ function ActionModal({
 export default function PromiseDetail() {
   const { user } = useLiff();
   const promise = useAtomValue(promiseState);
+  console.log(promise);
   if (promise === null) {
     return (
       <VStack
@@ -159,7 +160,7 @@ export default function PromiseDetail() {
         </VStack>
       </HStack>
       <VStack alignItems="center">
-        <Divider orientation="horizontal" />
+        <Separator orientation="horizontal" size="lg" />
       </VStack>
       <PromiseContents
         sender={promise.sender}
@@ -328,6 +329,7 @@ const IsAcceptedStatusButtons = ({
     null
   );
   const router = useRouter();
+  const serPromise = useSetAtom(promiseState);
 
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
@@ -344,7 +346,9 @@ const IsAcceptedStatusButtons = ({
         title: "約束達成！",
         message: "約束が達成されました！",
       });
-      router.push("/home");
+      const updatePromise = PromiseSchema.parse(promise);
+      updatePromise.completedAt = new Date().toISOString();
+      serPromise(updatePromise);
     },
     onError: () => {
       setResultDialog({

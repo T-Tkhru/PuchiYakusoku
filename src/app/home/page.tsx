@@ -15,11 +15,11 @@ import {
   Text,
   VStack,
 } from "@yamada-ui/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { promisesListState } from "@/lib/jotai_state";
+import { promisesListState, promiseState } from "@/lib/jotai_state";
 import { Promise } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 
@@ -95,9 +95,8 @@ export default function Home() {
         <VStack w="full" gap={4}>
           {PromiseList.length === 0 ? (
             <VStack w="full" gap={4} alignItems="center" p="8">
-              <Loading variant="circles" fontSize="4xl" speed="0.65s" />
               <Text fontSize="sm" fontWeight={600}>
-                プチ約束を読み込み中...
+                プチ約束はありません
               </Text>
             </VStack>
           ) : null}
@@ -117,6 +116,7 @@ export default function Home() {
 const EachPromiseCard = ({ promise }: { promise: Promise }) => {
   const { user } = useLiff();
   const router = useRouter();
+  const setPromise = useSetAtom(promiseState);
   return (
     <Button
       key={promise.id}
@@ -125,6 +125,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       rounded="lg"
       h="20"
       onClick={() => {
+        setPromise(promise);
         router.push(`/promise/${promise.id}`);
       }}
       boxShadow={"0px 4px #9C9C9CFF"}
