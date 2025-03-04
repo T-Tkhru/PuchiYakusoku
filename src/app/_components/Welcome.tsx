@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Image, Progress, Text, VStack } from "@yamada-ui/react";
+import { Box, Image, Progress, Text, VStack } from "@yamada-ui/react";
 import React, { memo, useEffect, useState } from "react";
 
 type StoryLoadingProps = {

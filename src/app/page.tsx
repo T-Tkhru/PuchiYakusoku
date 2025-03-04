@@ -37,10 +37,6 @@ import { HomeButton } from "./_components/GoBackButton";
 import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
 
-const oneWayItems: SegmentedControlItem[] = [
-  { label: "片方が約束", value: "true" },
-  { label: "お互いが約束", value: "false" },
-];
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: Level.Low },
@@ -135,31 +131,7 @@ export default function Home() {
           >
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
-          <SegmentedControl
-            colorScheme={isShare ? "secondary" : "primary"}
-            backgroundColor="white"
-            border="1px solid"
-            borderColor="border"
-            defaultValue="low"
-            rounded="md"
-            size="sm"
-            h="9"
-            value={isShare ? "IsShare" : "IsDirect"}
-            onChange={(value) => setIsShare(value === "IsShare")}
-            boxShadow={"0px 4px #9C9C9CFF"}
-            _active={{
-              transform: "translateY(2px)",
-              backgroundColor: "gray.50",
-              boxShadow: "none",
-            }}
-          >
-            <SegmentedControlButton value="IsDirect">
-              片方が約束
-            </SegmentedControlButton>
-            <SegmentedControlButton value="IsShare">
-              お互いが約束
-            </SegmentedControlButton>
-          </SegmentedControl>
+
           <VStack alignItems="center" gap={0}>
             <HStack gap={6}>
               <UserCard user={isReverse ? user : gestUser} color="secondary" />
@@ -192,7 +164,33 @@ export default function Home() {
               />
             </Center>
           </VStack>
-          <FormControl label="何をする？">
+          <HStack
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+            p={2}
+          >
+            <Text>誰が？</Text>
+            <SegmentedControl
+              colorScheme={isShare ? "secondary" : "primary"}
+              border="2px solid"
+              borderColor="border"
+              defaultValue="low"
+              rounded="md"
+              size="sm"
+              h="9"
+              value={isShare ? "IsShare" : "IsDirect"}
+              onChange={(value) => setIsShare(value === "IsShare")}
+            >
+              <SegmentedControlButton value="IsDirect">
+                片方が約束
+              </SegmentedControlButton>
+              <SegmentedControlButton value="IsShare">
+                お互いが約束
+              </SegmentedControlButton>
+            </SegmentedControl>
+          </HStack>
+          <FormControl label="何をする？" p={2}>
             <Textarea
               variant="filled"
               placeholder="回らない寿司を奢る"
@@ -212,8 +210,7 @@ export default function Home() {
             <Text>重要度</Text>
             <SegmentedControl
               colorScheme="primary"
-              backgroundColor="white"
-              border="1px solid"
+              border="2px solid"
               borderColor="border"
               defaultValue="low"
               rounded="md"
@@ -222,7 +219,6 @@ export default function Home() {
               items={importanceItems}
               value={importance}
               onChange={(value) => setImportance(value as Level)}
-              boxShadow={"0px 4px #9C9C9CFF"}
             ></SegmentedControl>
           </HStack>
 
@@ -354,7 +350,7 @@ export default function Home() {
                     message: "相手が約束に気づきますように！",
                     animeComponent: (
                       <DotLottieReact
-                        src="https://lottie.host/4e721a35-465e-4da7-914f-9d458fac914a/vz5fVwWwVC.lottie"
+                        src="https://lottie.host/7742fea3-2f40-4632-a879-d5c7fe603a3f/U8GUc469w2.lottie"
                         loop
                         autoplay
                       />
