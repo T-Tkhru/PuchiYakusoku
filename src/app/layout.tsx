@@ -19,7 +19,7 @@ export default function RootLayout({
             p="0"
             backgroundColor="red.50"
           >
-            <Box w="100%" maxW="480px" backgroundColor="white" minH="100vh">
+            <Box w="100%" maxW="480px" backgroundColor="#FFFFFF" minH="100vh">
               {children}
             </Box>
           </Container>
