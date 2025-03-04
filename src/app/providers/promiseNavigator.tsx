@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
 import { useGetPromiseQuery } from "@/generated/graphql";
+import { usePromiseList } from "@/hooks/usePromiseList";
 import { promiseState } from "@/lib/jotai_state";
 import { PromiseSchema, UserProfileSchema } from "@/lib/type";
 
@@ -15,6 +16,7 @@ export const PromiseNavigator = ({
 }: {
   children: React.ReactNode;
 }) => {
+  usePromiseList();
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
   const { user } = useLiff();
