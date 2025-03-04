@@ -37,9 +37,11 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
   level,
   color,
 }) => {
+  const haveBaseColor = color != null;
+
   return (
     <VStack
-      backgroundColor={color || "blackAlpha.300"}
+      backgroundColor={haveBaseColor ? color : "blackAlpha.300"}
       rounded="lg"
       p={4}
       justifyContent="center"
@@ -47,7 +49,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       <Container
         py={1}
         px={4}
-        bgColor={color || "primary"}
+        bgColor={haveBaseColor ? color : "primary"}
         color="white"
         rounded="lg"
         alignItems="center"
@@ -63,19 +65,23 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           <Text
             fontSize="5xl"
             fontWeight={800}
-            color={color ? "white" : "black"}
+            color={haveBaseColor ? "white" : "black"}
           >
             が
           </Text>
           <UserCard user={direction ? sender : receiver} color="white" />
-          <Text fontSize="5xl" fontWeight={800}>
+          <Text
+            fontSize="5xl"
+            fontWeight={800}
+            color={haveBaseColor ? "white" : "black"}
+          >
             に
           </Text>
         </HStack>
         <VStack>
           <HStack>
             <Tag
-              bgColor={color || "primary"}
+              bgColor={haveBaseColor ? color : "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
@@ -88,7 +94,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           </HStack>
           <HStack>
             <Tag
-              bgColor={color || "primary"}
+              bgColor={haveBaseColor ? color : "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
@@ -107,7 +113,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           </HStack>
           <HStack>
             <Tag
-              bgColor={color ?? "primary"}
+              bgColor={haveBaseColor ? color : "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
