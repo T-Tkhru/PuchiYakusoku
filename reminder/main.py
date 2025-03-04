@@ -1,9 +1,11 @@
 import os
-from supabase import Client, create_client
-from dotenv import load_dotenv
-from datetime import datetime
 from dataclasses import dataclass
-from reminder import send_message
+from datetime import datetime
+
+from dotenv import load_dotenv
+from line.send_message import send_line_message
+
+from supabase import Client, create_client
 
 load_dotenv()
 
@@ -19,7 +21,6 @@ class Promise:
     updated_at: datetime
     receiverUserId: str
     senderUserId: str
-
 
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -53,4 +54,5 @@ for row in response.data:
     print(promise)
 
 
-# print("Filtered Promises:", response.data)
+print("Filtered Promises:", response.data)
+send_line_message(user_id=promise.receiverUserId, messages=["約束...忘れてない？"])
