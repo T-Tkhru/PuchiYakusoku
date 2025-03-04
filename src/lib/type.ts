@@ -28,7 +28,6 @@ export const PromiseSchema = z.object({
   content: z.string().nullable(),
   isAccepted: z.boolean().nullable(),
   completedAt: DateTimeSchema.nullable(),
-  cancelAt: DateTimeSchema.nullable(),
   dueDate: DateTimeSchema.nullable(),
   level: LevelEnum,
   sender: UserProfileSchema,

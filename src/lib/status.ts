@@ -1,38 +1,29 @@
 import { Promise, UserProfile } from "./type";
 
 export enum StatusEnum {
-  IS_PENDING = "pending",         // 承認待ち
-  IS_ACCEPTED = "is_accepted",    // 承認済み
-  IS_COMPLETED = "completed",      // 完了
+  PENDING_SENDER = "pending_sender",      // 承認待ち（送信側）
+  PENDING_RECEIVER = "pending_receiver",  // 承認待ち（受信側）
+  IS_ACCEPTED  = "is_accepted",   // 承認済み
+  IS_COMPLETED = "completed",     // 完了
   CANCELED = "canceled",          // 取り消し済み
-  MY_PROMISE = "my_promise",      // 自分の約束
-  MY_PENDING = "my_pending",      // 自分が送ったが未承認の約束
 }
 
-const statusColors: Record<StatusEnum, string> = {
-  [StatusEnum.IS_PENDING]: "white",
+const statusColors: Record<StatusEnum, string | null> = {
+  [StatusEnum.PENDING_SENDER]: null,
+  [StatusEnum.PENDING_RECEIVER]: "secondary",
   [StatusEnum.IS_ACCEPTED]: "primary",
-  [StatusEnum.IS_COMPLETED]: "white",
+  [StatusEnum.IS_COMPLETED]: null,
   [StatusEnum.CANCELED]: "gray",
-  [StatusEnum.MY_PROMISE]: "primary",
-  [StatusEnum.MY_PENDING]: "white",
 };
 
 interface Status {
   status: StatusEnum;
-  baseColor: string;
+  baseColor: string | null;
 }
 
 
 export const defineStatus = (promise: Promise, user: UserProfile): Status => {
   const isMyPromise = promise.sender.displayName === user.displayName;
-
-  if (promise.cancelAt) {
-    return {
-      status: StatusEnum.CANCELED,
-      baseColor: statusColors[StatusEnum.CANCELED],
-    };
-  }
 
   if (promise.completedAt) {
     return {
@@ -41,29 +32,18 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
     };
   }
 
-  if (isMyPromise) {
-    return {
-      status: promise.isAccepted ? StatusEnum.MY_PROMISE : StatusEnum.MY_PENDING,
-      baseColor: statusColors[promise.isAccepted ? StatusEnum.MY_PROMISE : StatusEnum.MY_PENDING],
-    };
-  }
-
   return {
-    status: promise.isAccepted ? StatusEnum.IS_ACCEPTED : StatusEnum.IS_PENDING,
-    baseColor: statusColors[promise.isAccepted ? StatusEnum.IS_ACCEPTED : StatusEnum.IS_PENDING],
+    status: isMyPromise ? StatusEnum.PENDING_SENDER : StatusEnum.PENDING_RECEIVER,
+    baseColor: statusColors[isMyPromise ? StatusEnum.PENDING_SENDER : StatusEnum.PENDING_RECEIVER],
   };
+
 };
 
 export const headerMessage = (senderName: string, status: Status) => {
   switch (status.status) {
-    case StatusEnum.MY_PROMISE:
-      return ["約束の達成は", "あなた次第だ！"];
-    case StatusEnum.MY_PENDING:
-      return ["相手の承認待ち...", "しばらく待ちましょう"];
     case StatusEnum.IS_ACCEPTED:
       return ["約束はまだ心の中...", "深呼吸しましょう...スー..."];
     case StatusEnum.IS_COMPLETED:
-    case StatusEnum.IS_PENDING:
       return ["約束は達成されました！", "おめでとうございます！"];
     case StatusEnum.CANCELED:
       return ["約束はキャンセルされました", "また挑戦しましょう！"];
@@ -74,12 +54,9 @@ export const headerMessage = (senderName: string, status: Status) => {
 
 export const imageSource = (status: Status) => {
   switch (status.status) {
-    case StatusEnum.MY_PROMISE:
     case StatusEnum.IS_ACCEPTED:
-    case StatusEnum.MY_PENDING:
       return "/message.svg";
     case StatusEnum.IS_COMPLETED:
-    case StatusEnum.IS_PENDING:
     case StatusEnum.CANCELED:
       return "/mail.svg";
     default:

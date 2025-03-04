@@ -142,7 +142,11 @@ export default function PromiseDetail() {
           borderColor="white"
         />
         <VStack alignItems="flex-start" gap={2}>
-          <Text fontWeight={600} fontSize="2xl">
+          <Text
+            fontWeight={600}
+            fontSize="2xl"
+            color={status.baseColor ? "black" : "white"}
+          >
             {headerMessage(promise.sender.displayName, status).map(
               (line, index) => (
                 <React.Fragment key={index}>
@@ -167,13 +171,13 @@ export default function PromiseDetail() {
         color={`${status.baseColor}.500`}
       />
       <VStack w="full">
-        {status.status === StatusEnum.IS_PENDING && (
+        {status.status === StatusEnum.PENDING_RECEIVER && (
           <UnReadStatusButtons promise={promise} />
         )}
         {status.status === StatusEnum.IS_ACCEPTED && user && (
           <IsAcceptedStatusButtons promise={promise} user={user} />
         )}
-        {status.status === StatusEnum.MY_PROMISE && user && (
+        {status.status === StatusEnum.PENDING_SENDER && user && (
           <MyPromiseButtons promise={promise} user={user} />
         )}
         {status.status === StatusEnum.IS_COMPLETED && user && (

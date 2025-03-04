@@ -99,6 +99,7 @@ export default function Home() {
             router.push("/home");
           }
         }}
+        animeComponent={resultDialog.animeComponent}
       />
       <Dialog
         open={loading}
