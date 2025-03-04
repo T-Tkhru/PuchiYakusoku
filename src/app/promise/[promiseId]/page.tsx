@@ -120,7 +120,7 @@ export default function PromiseDetail() {
 
   return (
     <VStack
-      bgColor={status.baseColor ? status.baseColor : "white"}
+      bgColor={status.baseColor ? "white" : status.baseColor}
       p={8}
       minH="100vh"
       gap={8}
