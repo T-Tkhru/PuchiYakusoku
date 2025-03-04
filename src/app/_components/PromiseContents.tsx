@@ -63,40 +63,32 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
           <Text
             fontSize="5xl"
             fontWeight={800}
-            color={color ? "blackAlpha.300" : "white"}
+            color={color ? "white" : "black"}
           >
             が
           </Text>
           <UserCard user={direction ? sender : receiver} color="white" />
-          <Text
-            fontSize="5xl"
-            fontWeight={800}
-            color={color ? "blackAlpha.300" : "white"}
-          >
+          <Text fontSize="5xl" fontWeight={800}>
             に
           </Text>
         </HStack>
         <VStack>
           <HStack>
             <Tag
-              bgColor={color ?? "blackAlpha.800"}
+              bgColor={color ?? "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
             >
               内容
             </Tag>
-            <Text
-              fontSize="lg"
-              fontWeight={600}
-              color={color ? "black" : "white"}
-            >
+            <Text fontSize="lg" fontWeight={600}>
               {content}
             </Text>
           </HStack>
           <HStack>
             <Tag
-              bgColor={color ?? "blackAlpha.800"}
+              bgColor={color ?? "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
@@ -108,29 +100,21 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
                 期限なし
               </Text>
             ) : (
-              <Text
-                fontSize="lg"
-                fontWeight={600}
-                color={color ? "black" : "white"}
-              >
+              <Text fontSize="lg" fontWeight={600}>
                 {formatDate(deadline)}まで
               </Text>
             )}
           </HStack>
           <HStack>
             <Tag
-              bgColor={color ?? "blackAlpha.800"}
+              bgColor={color ?? "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
             >
               重要度
             </Tag>
-            <Text
-              fontSize="lg"
-              fontWeight={600}
-              color={color ? "black" : "white"}
-            >
+            <Text fontSize="lg" fontWeight={600}>
               {strImportance(level)}
             </Text>
           </HStack>

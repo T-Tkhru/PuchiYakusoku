@@ -47,8 +47,13 @@ export const headerMessage = (senderName: string, status: Status) => {
       return ["約束は達成されました！", "おめでとうございます！"];
     case StatusEnum.CANCELED:
       return ["約束はキャンセルされました", "また挑戦しましょう！"];
+    case StatusEnum.PENDING_SENDER:
+      return ["約束を送信しました", "相手の承認を待とう！"];
+    case StatusEnum.PENDING_RECEIVER:
+      return [`${senderName}さんから`, "約束が届いています！"];
     default:
       return [`${senderName}さんから`, "約束が届いています！"];
+      
   }
 };
 

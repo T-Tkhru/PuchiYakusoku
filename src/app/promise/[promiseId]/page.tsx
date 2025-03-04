@@ -120,7 +120,7 @@ export default function PromiseDetail() {
 
   return (
     <VStack
-      bgColor={`${status.baseColor}.500`}
+      bgColor={status.baseColor ? status.baseColor : "white"}
       p={8}
       minH="100vh"
       gap={8}
@@ -145,7 +145,7 @@ export default function PromiseDetail() {
           <Text
             fontWeight={600}
             fontSize="2xl"
-            color={status.baseColor ? "black" : "white"}
+            color={status.baseColor ? "white" : "black"}
           >
             {headerMessage(promise.sender.displayName, status).map(
               (line, index) => (
