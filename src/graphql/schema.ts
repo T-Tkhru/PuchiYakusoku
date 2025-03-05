@@ -217,13 +217,23 @@ builder.mutationType({
           data: { canceledAt: new Date() },
         }),
     }),
+    deletePromise: t.field({
+      type: promise,
+      args: {
+        id: t.arg.id({ required: true }),
+      },
+      resolve: (_, args) =>
+        prisma.promise.delete({
+          where: { id: args.id },
+        }),
+    }),
   }),
 });
 
 export const schema = builder.toSchema();
 
 const schemaAsString = printSchema(lexicographicSortSchema(schema));
-if (process.env.NODE_ENV === "development") {
-  const schemaPath = path.join(process.cwd(), "src/generated/schema.graphql");
-  writeFileSync(schemaPath, schemaAsString);
-}
+// if (process.env.NODE_ENV === "development") {
+const schemaPath = path.join(process.cwd(), "src/generated/schema.graphql");
+writeFileSync(schemaPath, schemaAsString);
+// }

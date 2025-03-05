@@ -167,3 +167,9 @@ mutation CancelPromise($id: ID!) {
     completedAt
   }
 }
+
+mutation DeletePromise($id: ID!) {
+  deletePromise(id: $id) {
+    id
+  }
+}
