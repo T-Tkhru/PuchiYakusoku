@@ -11,7 +11,7 @@ interface CardProps {
 export const UserCard = ({
   user,
   size = "lg",
-  color = "orange.400",
+  color = "pink.400",
 }: CardProps) => {
   return (
     <Tooltip

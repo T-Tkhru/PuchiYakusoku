@@ -4,7 +4,6 @@ import { Level } from "@prisma/client";
 import {
   Avatar,
   Button,
-  Divider,
   HStack,
   Image,
   Modal,
@@ -13,6 +12,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Separator,
   Text,
   VStack,
 } from "@yamada-ui/react";
@@ -99,6 +99,7 @@ function ActionModal({
 export default function PromiseDetail() {
   const { user } = useLiff();
   const promise = useAtomValue(promiseState);
+  console.log(promise);
   if (promise === null) {
     return (
       <VStack
@@ -120,7 +121,7 @@ export default function PromiseDetail() {
 
   return (
     <VStack
-      bgColor={`${status.baseColor}.500`}
+      bgColor={status.baseColor || "white"}
       p={8}
       minH="100vh"
       gap={8}
@@ -142,7 +143,11 @@ export default function PromiseDetail() {
           borderColor="white"
         />
         <VStack alignItems="flex-start" gap={2}>
-          <Text fontWeight={600} fontSize="2xl">
+          <Text
+            fontWeight={600}
+            fontSize="2xl"
+            color={status.baseColor == null ? "black" : "white"}
+          >
             {headerMessage(promise.sender.displayName, status).map(
               (line, index) => (
                 <React.Fragment key={index}>
@@ -155,7 +160,7 @@ export default function PromiseDetail() {
         </VStack>
       </HStack>
       <VStack alignItems="center">
-        <Divider orientation="horizontal" />
+        <Separator orientation="horizontal" size="lg" />
       </VStack>
       <PromiseContents
         sender={promise.sender}
@@ -167,13 +172,13 @@ export default function PromiseDetail() {
         color={`${status.baseColor}.500`}
       />
       <VStack w="full">
-        {status.status === StatusEnum.UN_READ && (
+        {status.status === StatusEnum.PENDING_RECEIVER && (
           <UnReadStatusButtons promise={promise} />
         )}
         {status.status === StatusEnum.IS_ACCEPTED && user && (
           <IsAcceptedStatusButtons promise={promise} user={user} />
         )}
-        {status.status === StatusEnum.MY_PROMISE && user && (
+        {status.status === StatusEnum.PENDING_SENDER && user && (
           <MyPromiseButtons promise={promise} user={user} />
         )}
         {status.status === StatusEnum.IS_COMPLETED && user && (
@@ -324,6 +329,7 @@ const IsAcceptedStatusButtons = ({
     null
   );
   const router = useRouter();
+  const serPromise = useSetAtom(promiseState);
 
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
@@ -340,7 +346,9 @@ const IsAcceptedStatusButtons = ({
         title: "約束達成！",
         message: "約束が達成されました！",
       });
-      router.push("/home");
+      const updatePromise = PromiseSchema.parse(promise);
+      updatePromise.completedAt = new Date().toISOString();
+      serPromise(updatePromise);
     },
     onError: () => {
       setResultDialog({

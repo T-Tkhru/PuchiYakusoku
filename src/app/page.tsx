@@ -1,8 +1,9 @@
 "use client";
 import "dayjs/locale/ja";
 
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Calendar } from "@yamada-ui/calendar";
-import { RefreshCwIcon } from "@yamada-ui/lucide";
+import { ActivityIcon, RefreshCwIcon } from "@yamada-ui/lucide";
 import {
   Button,
   Center,
@@ -15,6 +16,7 @@ import {
   IconButton,
   Image,
   SegmentedControl,
+  SegmentedControlButton,
   SegmentedControlItem,
   Select,
   SelectItem,
@@ -34,6 +36,7 @@ import { UserCard } from "./_components/Card";
 import { HomeButton } from "./_components/GoBackButton";
 import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
+
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: Level.Low },
@@ -58,12 +61,14 @@ export default function Home() {
   const [selectDueDateType, setSelectDueDateType] = useState<string>("none");
   const [dueDate, setDueDate] = useState<Date>(new Date());
   const [isReverse, setIsReverse] = useState(true);
+  const [isShare, setIsShare] = useState(false);
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
     type: "success" | "error";
     title: string;
     message: string;
     isInvalidError?: boolean;
+    animeComponent?: React.ReactNode;
   }>({ isOpen: false, type: "success", title: "", message: "" });
 
   const handleReverse = () => {
@@ -94,6 +99,7 @@ export default function Home() {
             router.push("/home");
           }
         }}
+        animeComponent={resultDialog.animeComponent}
       />
       <Dialog
         open={loading}
@@ -126,24 +132,30 @@ export default function Home() {
           >
             <Text fontWeight={800}>約束の内容は？</Text>
           </Container>
+
           <VStack alignItems="center" gap={0}>
             <HStack gap={6}>
               <UserCard user={isReverse ? user : gestUser} color="secondary" />
-              <Text fontSize="6xl">が</Text>
-              <UserCard user={isReverse ? gestUser : user} color="primary" />
-              <Text fontSize="6xl">に</Text>
+              <Text fontSize="6xl">{isShare ? "と" : "が"}</Text>
+              <UserCard
+                user={isReverse ? gestUser : user}
+                color={isShare ? "secondary" : "primary"}
+              />
+
+              <Text fontSize="6xl">{isShare ? "が" : "に"}</Text>
             </HStack>
             <Center pr={16}>
               <IconButton
                 zIndex={10}
-                icon={<RefreshCwIcon />}
+                icon={isShare ? <ActivityIcon /> : <RefreshCwIcon />}
                 aria-label="left-right"
                 fontSize="24"
-                colorScheme="primary"
+                colorScheme={isShare ? "secondary" : "primary"}
                 h="12"
                 w="12"
                 rounded="full"
                 onClick={handleReverse}
+                disabled={isShare}
                 boxShadow="0px 4px teal"
                 _active={{
                   transform: "translateY(2px) scale(0.9) rotate(180deg)",
@@ -153,7 +165,33 @@ export default function Home() {
               />
             </Center>
           </VStack>
-          <FormControl label="何をする？">
+          <HStack
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+            p={2}
+          >
+            <Text>誰が？</Text>
+            <SegmentedControl
+              colorScheme={isShare ? "secondary" : "primary"}
+              border="2px solid"
+              borderColor="border"
+              defaultValue="low"
+              rounded="md"
+              size="sm"
+              h="9"
+              value={isShare ? "IsShare" : "IsDirect"}
+              onChange={(value) => setIsShare(value === "IsShare")}
+            >
+              <SegmentedControlButton value="IsDirect">
+                片方が約束
+              </SegmentedControlButton>
+              <SegmentedControlButton value="IsShare">
+                お互いが約束
+              </SegmentedControlButton>
+            </SegmentedControl>
+          </HStack>
+          <FormControl label="何をする？" p={2}>
             <Textarea
               variant="filled"
               placeholder="回らない寿司を奢る"
@@ -173,8 +211,7 @@ export default function Home() {
             <Text>重要度</Text>
             <SegmentedControl
               colorScheme="primary"
-              backgroundColor="white"
-              border="1px solid"
+              border="2px solid"
               borderColor="border"
               defaultValue="low"
               rounded="md"
@@ -183,12 +220,6 @@ export default function Home() {
               items={importanceItems}
               value={importance}
               onChange={(value) => setImportance(value as Level)}
-              boxShadow={"0px 4px #9C9C9CFF"}
-              _active={{
-                transform: "translateY(2px)",
-                backgroundColor: "gray.50",
-                boxShadow: "none",
-              }}
             ></SegmentedControl>
           </HStack>
 
@@ -318,6 +349,13 @@ export default function Home() {
                     type: "success",
                     title: "友達に送信しました！",
                     message: "相手が約束に気づきますように！",
+                    animeComponent: (
+                      <DotLottieReact
+                        src="https://lottie.host/7742fea3-2f40-4632-a879-d5c7fe603a3f/U8GUc469w2.lottie"
+                        loop
+                        autoplay
+                      />
+                    ),
                   });
                 });
             }}
@@ -329,4 +367,3 @@ export default function Home() {
     </React.Fragment>
   );
 }
-
