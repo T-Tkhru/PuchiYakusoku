@@ -24,6 +24,7 @@ enum Level {
 
 type Mutation {
   acceptPromise(id: ID!): Promise
+  cancelPromise(id: ID!): Promise
   completePromise(id: ID!): Promise
   createPromise(input: CreatePromiseInput!): Promise
   createUser(input: CreateUserInput!): User
@@ -31,6 +32,7 @@ type Mutation {
 }
 
 type Promise {
+  canceledAt: DateTime
   completedAt: DateTime
   content: String!
   direction: Boolean!
