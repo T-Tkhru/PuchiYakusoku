@@ -24,7 +24,7 @@ model Promise {
   id          String   @id @default(uuid())
   content     String
   level       Level
-  dueDate     DateTime
+  dueDate     DateTime?
   senderUserId    String
   sender      User   @relation(fields: [senderUserId], references: [userId], name: "sender")
   receiverUserId  String?

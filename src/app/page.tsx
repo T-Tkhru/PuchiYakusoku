@@ -302,7 +302,9 @@ export default function Home() {
                     content: textContentRef.current?.value ?? "",
                     level: importance,
                     dueDate:
-                      getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+                      getDueDate(selectDueDateType) === undefined
+                        ? dueDate.toISOString()
+                        : getDueDate(selectDueDateType),
                     isShare: isShare,
                   },
                 },

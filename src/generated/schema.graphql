@@ -1,7 +1,7 @@
 input CreatePromiseInput {
   content: String!
   direction: Boolean!
-  dueDate: String!
+  dueDate: String
   isShare: Boolean
   level: Level!
 }

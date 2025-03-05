@@ -17,7 +17,7 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
   fields: (t) => ({
     content: t.string({ required: true }),
     level: t.field({ type: LevelEnum, required: true }),
-    dueDate: t.string({ required: true }),
+    dueDate: t.string({ required: false }),
     direction: t.boolean({ required: true }),
     isShare: t.boolean({ required: false }),
   }),
@@ -134,7 +134,7 @@ builder.mutationType({
           data: {
             content: args.input.content,
             level: args.input.level,
-            dueDate: new Date(args.input.dueDate),
+            dueDate: args.input.dueDate ? new Date(args.input.dueDate) : null,
             direction: args.input.direction,
             sender: { connect: { userId: userId } },
             isShare: args.input.isShare ?? false,
