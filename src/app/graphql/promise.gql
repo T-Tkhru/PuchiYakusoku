@@ -145,3 +145,25 @@ mutation CompletePromise($id: ID!) {
     completedAt
   }
 }
+
+mutation CancelPromise($id: ID!) {
+  cancelPromise(id: $id) {
+    id
+    content
+    level
+    dueDate
+    direction
+    sender {
+      id
+      displayName
+      pictureUrl
+    }
+    receiver {
+      id
+      displayName
+      pictureUrl
+    }
+    isAccepted
+    completedAt
+  }
+}
