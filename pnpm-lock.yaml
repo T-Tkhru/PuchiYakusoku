@@ -26,6 +26,9 @@ dependencies:
   '@line/liff-mock':
     specifier: ^1.0.3
     version: 1.0.3(@line/liff@2.25.1)
+  '@lottiefiles/dotlottie-react':
+    specifier: ^0.13.0
+    version: 0.13.0(react@19.0.0)
   '@pothos/core':
     specifier: ^4.4.0
     version: 4.4.0(graphql@16.10.0)
@@ -3016,6 +3019,19 @@ packages:
     transitivePeerDependencies:
       - debug
       - supports-color
+    dev: false
+
+  /@lottiefiles/dotlottie-react@0.13.0(react@19.0.0):
+    resolution: {integrity: sha512-zSOqA/P6MAOjHWTBiQd2T/NAbIFDVM2rsCSVHjjBHvYZ1yB5ehdggUBVnj83Fb99xAgCdcHYWTC1c9Yl70zxMg==}
+    peerDependencies:
+      react: ^17 || ^18 || ^19
+    dependencies:
+      '@lottiefiles/dotlottie-web': 0.40.1
+      react: 19.0.0
+    dev: false
+
+  /@lottiefiles/dotlottie-web@0.40.1:
+    resolution: {integrity: sha512-iNz1rr8zRTSJ0xCZEPeoCX6YnaNhBdkF7gJWhSa8bwB4NTrYZm0vAuC0jF/aLLhU7q9nf6ykxffrz0Sf4JPSPg==}
     dev: false
 
   /@next/env@15.1.7:

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Image, Progress, Text, VStack } from "@yamada-ui/react";
+import { Box, Image, Progress, Text, VStack } from "@yamada-ui/react";
 import React, { memo, useEffect, useState } from "react";
 
 type StoryLoadingProps = {
@@ -104,24 +104,9 @@ const FirstStory: React.FC = () => {
 const SecondStory: React.FC = () => {
   return (
     <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
-      <Image src="/mail.svg" alt="loading" width={300} height={300} />
+      <Image src="/status/excited.svg" alt="loading" width={300} height={300} />
       <VStack gap={4}>
         <Text>さあ、約束をプチろう</Text>
-        <Button
-          py={4}
-          colorScheme="secondary"
-          rounded="full"
-          size="lg"
-          fontWeight={800}
-          boxShadow="0px 6px #EB777B"
-          _active={{
-            transform: "translateY(2px)",
-            backgroundColor: "pink.800",
-            boxShadow: "none",
-          }}
-        >
-          今すぐ始める
-        </Button>
       </VStack>
     </VStack>
   );

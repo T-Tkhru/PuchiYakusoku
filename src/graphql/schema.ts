@@ -19,6 +19,7 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
     level: t.field({ type: LevelEnum, required: true }),
     dueDate: t.string({ required: false }),
     direction: t.boolean({ required: true }),
+    isShare: t.boolean({ required: false }),
   }),
 });
 
@@ -41,6 +42,8 @@ const promise = builder.prismaObject("Promise", {
     direction: t.exposeBoolean("direction", { nullable: false }),
     isAccepted: t.exposeBoolean("isAccepted"),
     completedAt: t.expose("completedAt", { type: "DateTime" }),
+    canceledAt: t.expose("canceledAt", { type: "DateTime", nullable: true }),
+    isShare: t.exposeBoolean("isShare", { nullable: false }),
   }),
 });
 
@@ -107,23 +110,12 @@ builder.queryType({
       resolve: async (_, args) => {
         const foundPromise = await prisma.promise.findUnique({
           where: { id: args.id },
+          include: { sender: true, receiver: true },
         });
         if (!foundPromise) {
           throw new Error("Promise not found");
         }
         return foundPromise;
-      },
-    }),
-    userByUserId: t.field({
-      type: user,
-      nullable: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      resolve: async (_, __, context: any) => {
-        const userId = context.get("user").userId;
-        const foundUser = await prisma.user.findUnique({
-          where: { userId: userId },
-        });
-        return foundUser;
       },
     }),
   }),
@@ -145,6 +137,7 @@ builder.mutationType({
             dueDate: args.input.dueDate ? new Date(args.input.dueDate) : null,
             direction: args.input.direction,
             sender: { connect: { userId: userId } },
+            isShare: args.input.isShare ?? false,
           },
         });
       },
@@ -212,6 +205,27 @@ builder.mutationType({
           data: { completedAt: new Date() },
         });
       },
+    }),
+    cancelPromise: t.field({
+      type: promise,
+      args: {
+        id: t.arg.id({ required: true }),
+      },
+      resolve: (_, args) =>
+        prisma.promise.update({
+          where: { id: args.id },
+          data: { canceledAt: new Date() },
+        }),
+    }),
+    deletePromise: t.field({
+      type: promise,
+      args: {
+        id: t.arg.id({ required: true }),
+      },
+      resolve: (_, args) =>
+        prisma.promise.delete({
+          where: { id: args.id },
+        }),
     }),
   }),
 });

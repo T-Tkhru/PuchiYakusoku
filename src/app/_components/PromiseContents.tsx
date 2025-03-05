@@ -14,7 +14,7 @@ interface PromiseContentsProps {
   content: string;
   deadline: string | null;
   level: Level;
-  color: string;
+  color: string | null;
 }
 
 const strImportance = (level: Level) => {
@@ -37,6 +37,8 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
   level,
   color,
 }) => {
+  const haveBaseColor = color != null;
+
   return (
     <VStack
       backgroundColor="blackAlpha.300"
@@ -47,7 +49,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       <Container
         py={1}
         px={4}
-        bgColor={color}
+        bgColor={haveBaseColor ? color : "primary"}
         color="white"
         rounded="lg"
         alignItems="center"
@@ -60,25 +62,47 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
       <Container color="white" gap={16} alignItems="center">
         <HStack>
           <UserCard user={direction ? receiver : sender} color="white" />
-          <Text fontSize="5xl" fontWeight={800}>
+          <Text
+            fontSize="5xl"
+            fontWeight={800}
+            color={haveBaseColor ? "white" : "black"}
+          >
             が
           </Text>
           <UserCard user={direction ? sender : receiver} color="white" />
-          <Text fontSize="5xl" fontWeight={800}>
+          <Text
+            fontSize="5xl"
+            fontWeight={800}
+            color={haveBaseColor ? "white" : "black"}
+          >
             に
           </Text>
         </HStack>
         <VStack>
-          <HStack>
-            <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
+          <HStack gap="10">
+            <Tag
+              bgColor={haveBaseColor ? color : "primary"}
+              color="white"
+              fontSize="lg"
+              fontWeight={800}
+            >
               内容
             </Tag>
-            <Text fontSize="lg" fontWeight={600}>
+            <Text
+              fontSize="lg"
+              fontWeight={600}
+              color={haveBaseColor ? "white" : "black"}
+            >
               {content}
             </Text>
           </HStack>
-          <HStack>
-            <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
+          <HStack gap="10">
+            <Tag
+              bgColor={haveBaseColor ? color : "primary"}
+              color="white"
+              fontSize="lg"
+              fontWeight={800}
+            >
               期限
             </Tag>
             {deadline === null ? (
@@ -86,16 +110,29 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
                 期限なし
               </Text>
             ) : (
-              <Text fontSize="lg" fontWeight={600}>
+              <Text
+                fontSize="lg"
+                fontWeight={600}
+                color={haveBaseColor ? "white" : "black"}
+              >
                 {formatDate(deadline)}まで
               </Text>
             )}
           </HStack>
-          <HStack>
-            <Tag bgColor={color} color="white" fontSize="lg" fontWeight={800}>
+          <HStack gap="5">
+            <Tag
+              bgColor={haveBaseColor ? color : "primary"}
+              color="white"
+              fontSize="lg"
+              fontWeight={800}
+            >
               重要度
             </Tag>
-            <Text fontSize="lg" fontWeight={600}>
+            <Text
+              fontSize="lg"
+              fontWeight={600}
+              color={haveBaseColor ? "white" : "black"}
+            >
               {strImportance(level)}
             </Text>
           </HStack>

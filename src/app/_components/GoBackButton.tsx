@@ -22,7 +22,7 @@ export function HomeButton({ color }: HomeButtonProps) {
         onClick={handleClick}
         icon={<Icon as={HouseIcon} color={color ? color : "neutral.500"} />}
         _active={{
-          backgroundColor: "blackAlpha.200",
+          backgroundColor: "blackAlpha.700",
         }}
       ></IconButton>
     </HStack>

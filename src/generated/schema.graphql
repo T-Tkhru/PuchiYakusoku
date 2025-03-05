@@ -2,6 +2,7 @@ input CreatePromiseInput {
   content: String!
   direction: Boolean!
   dueDate: String
+  isShare: Boolean
   level: Level!
 }
 
@@ -24,19 +25,23 @@ enum Level {
 
 type Mutation {
   acceptPromise(id: ID!): Promise
+  cancelPromise(id: ID!): Promise
   completePromise(id: ID!): Promise
   createPromise(input: CreatePromiseInput!): Promise
   createUser(input: CreateUserInput!): User
+  deletePromise(id: ID!): Promise
   rejectPromise(id: ID!): Promise
 }
 
 type Promise {
+  canceledAt: DateTime
   completedAt: DateTime
   content: String!
   direction: Boolean!
-  dueDate: DateTime!
+  dueDate: DateTime
   id: ID!
   isAccepted: Boolean
+  isShare: Boolean!
   level: Level!
   receiver: User
   sender: User!
@@ -47,7 +52,6 @@ type Query {
   promises: [Promise!]
   receivedPromises: [Promise!]
   sentPromises: [Promise!]
-  userByUserId: User
 }
 
 type User {

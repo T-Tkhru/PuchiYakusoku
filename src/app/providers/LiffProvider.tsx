@@ -59,13 +59,6 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         // ユーザーがログインしている場合にプロフィール情報を取得
         if (liffModule.default.isLoggedIn()) {
           const profile = await liffModule.default.getProfile();
-          setUser({
-            id: profile.userId,
-            displayName: profile.displayName,
-            pictureUrl: profile.pictureUrl ?? "",
-          });
-
-          // ログインAPIを呼び出してサーバー側でのログイン処理を行う
           const response = await axios.post(
             "/api/login",
             {},
@@ -75,7 +68,14 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
               },
             }
           );
+          console.log(response);
+
           if (response.status === 200) {
+            setUser({
+              id: response.data.id,
+              displayName: profile.displayName,
+              pictureUrl: profile.pictureUrl ?? "",
+            });
             console.log("login success");
           }
         }

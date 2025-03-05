@@ -1,25 +1,20 @@
 "use client";
 
-import {
-  AlarmClockIcon,
-  ArrowRightIcon,
-  CirclePlusIcon,
-} from "@yamada-ui/lucide";
+import { AlarmClockIcon, CirclePlusIcon } from "@yamada-ui/lucide";
 import {
   Avatar,
   Button,
   Heading,
   HStack,
   Image,
-  Loading,
   Text,
   VStack,
 } from "@yamada-ui/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { promisesListState } from "@/lib/jotai_state";
+import { promisesListState, promiseState } from "@/lib/jotai_state";
 import { Promise } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 
@@ -49,55 +44,22 @@ export default function Home() {
         }}
       >
         <VStack gap={1} alignItems="center">
-          <Image src="/logo_puchi_only.svg" size="16" />
+          <Image src="/logo_puchi_only.svg" size="16" alt="プチ約束ロゴ" />
           <HStack gap={2}>
             <CirclePlusIcon fontSize="xl" />
             <Text>新しいプチ約束</Text>
           </HStack>
         </VStack>
       </Button>
-      {/* <VStack w="full" gap={4}>
-        <Heading fontSize="xl">最近のウゴキ</Heading>
-        <Button
-          colorScheme="primary"
-          boxShadow="0px 6px teal"
-          size="md"
-          fontWeight={800}
-          rounded="lg"
-          h="24"
-          onClick={() => {}}
-          _active={{
-            transform: "translateY(2px)",
-            backgroundColor: "teal.800",
-            boxShadow: "none",
-          }}
-        >
-          約束する
-        </Button>
-      </VStack> */}
       <VStack w="full" gap={4}>
         <HStack justifyContent="space-between" w="full">
           <Heading fontSize="xl">手持ちのプチ約束</Heading>
-          <Button
-            colorScheme="gray.300"
-            variant="ghost"
-            size="md"
-            rounded="lg"
-            fontSize="md"
-            h="12"
-            rightIcon={<ArrowRightIcon />}
-            onClick={() => {}}
-            fontWeight={600}
-          >
-            すべて見る
-          </Button>
         </HStack>
         <VStack w="full" gap={4}>
           {PromiseList.length === 0 ? (
             <VStack w="full" gap={4} alignItems="center" p="8">
-              <Loading variant="circles" fontSize="4xl" speed="0.65s" />
               <Text fontSize="sm" fontWeight={600}>
-                プチ約束を読み込み中...
+                プチ約束はありません
               </Text>
             </VStack>
           ) : null}
@@ -117,6 +79,7 @@ export default function Home() {
 const EachPromiseCard = ({ promise }: { promise: Promise }) => {
   const { user } = useLiff();
   const router = useRouter();
+  const setPromise = useSetAtom(promiseState);
   return (
     <Button
       key={promise.id}
@@ -125,6 +88,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       rounded="lg"
       h="20"
       onClick={() => {
+        setPromise(promise);
         router.push(`/promise/${promise.id}`);
       }}
       boxShadow={"0px 4px #9C9C9CFF"}

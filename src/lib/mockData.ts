@@ -25,7 +25,7 @@ export const exampleUser2: UserProfile = {
 export const gestUser: UserProfile = {
   id: "",
   displayName: "ともだち",
-  pictureUrl: "https://i.gyazo.com/e298f1a889752ff1d9dd1087ed2bb440.png",
+  pictureUrl: "https://i.gyazo.com/e0b8d96b303094a01ebd5fc4aa530ed4.jpg",
 };
 
 export const exampleLiffProfile: Profile = {

@@ -25,6 +25,7 @@
     "@line/liff": "2.25.1",
     "@line/liff-inspector": "^1.0.2",
     "@line/liff-mock": "^1.0.3",
+    "@lottiefiles/dotlottie-react": "^0.13.0",
     "@pothos/core": "^4.4.0",
     "@pothos/plugin-prisma": "^4.4.0",
     "@prisma/client": "^6.4.1",
