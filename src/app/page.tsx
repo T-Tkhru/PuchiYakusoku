@@ -353,6 +353,7 @@ export default function Home() {
                         },
                       });
                     console.log("TargetPicker was closed!");
+                    return;
                   }
                 })
                 .catch(function (error) {
