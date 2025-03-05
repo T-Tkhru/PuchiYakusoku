@@ -37,7 +37,6 @@ import { HomeButton } from "./_components/GoBackButton";
 import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
 
-
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: Level.Low },
   { label: "少し重要", value: Level.Medium },
@@ -299,6 +298,7 @@ export default function Home() {
                     level: importance,
                     dueDate:
                       getDueDate(selectDueDateType) ?? dueDate.toISOString(),
+                    isShare: isShare,
                   },
                 },
               });
