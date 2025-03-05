@@ -160,7 +160,9 @@ builder.mutationType({
         const promise = await prisma.promise.findUnique({
           where: { id: args.id },
         });
-        if (!promise || !promise.dueDate || promise.dueDate < new Date()) {
+        if (!promise || promise === null) {
+          throw new Error("Promise not found");
+        } else if (promise.dueDate !== null && promise.dueDate < new Date()) {
           throw new Error("Promise is expired");
         }
         const userId = context.get("user").userId;
@@ -193,7 +195,9 @@ builder.mutationType({
         const promise = await prisma.promise.findUnique({
           where: { id: args.id },
         });
-        if (!promise || !promise.dueDate || promise.dueDate < new Date()) {
+        if (!promise || promise === null) {
+          throw new Error("Promise not found");
+        } else if (promise.dueDate !== null && promise.dueDate < new Date()) {
           throw new Error("Promise is expired");
         }
         return prisma.promise.update({
