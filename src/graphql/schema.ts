@@ -19,6 +19,7 @@ const createPromiseInput = builder.inputType("CreatePromiseInput", {
     level: t.field({ type: LevelEnum, required: true }),
     dueDate: t.string({ required: true }),
     direction: t.boolean({ required: true }),
+    isShare: t.boolean({ required: false }),
   }),
 });
 
@@ -42,6 +43,7 @@ const promise = builder.prismaObject("Promise", {
     isAccepted: t.exposeBoolean("isAccepted"),
     completedAt: t.expose("completedAt", { type: "DateTime" }),
     canceledAt: t.expose("canceledAt", { type: "DateTime", nullable: true }),
+    isShare: t.exposeBoolean("isShare", { nullable: false }),
   }),
 });
 
@@ -135,6 +137,7 @@ builder.mutationType({
             dueDate: new Date(args.input.dueDate),
             direction: args.input.direction,
             sender: { connect: { userId: userId } },
+            isShare: args.input.isShare ?? false,
           },
         });
       },
@@ -220,7 +223,7 @@ builder.mutationType({
 export const schema = builder.toSchema();
 
 const schemaAsString = printSchema(lexicographicSortSchema(schema));
-if (process.env.NODE_ENV === "development") {
-  const schemaPath = path.join(process.cwd(), "src/generated/schema.graphql");
-  writeFileSync(schemaPath, schemaAsString);
-}
+// if (process.env.NODE_ENV === "development") {
+const schemaPath = path.join(process.cwd(), "src/generated/schema.graphql");
+writeFileSync(schemaPath, schemaAsString);
+// }
