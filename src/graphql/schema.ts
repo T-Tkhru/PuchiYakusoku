@@ -83,7 +83,6 @@ builder.queryType({
           where: {
             sender: { userId: userId },
             isAccepted: !false,
-            completedAt: null,
           },
         });
       },
@@ -97,7 +96,6 @@ builder.queryType({
           where: {
             receiver: { userId: userId },
             isAccepted: !false,
-            completedAt: null,
           },
         });
       },
