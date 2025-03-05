@@ -45,6 +45,7 @@ export type Mutation = {
   completePromise?: Maybe<Promise>;
   createPromise?: Maybe<Promise>;
   createUser?: Maybe<User>;
+  deletePromise?: Maybe<Promise>;
   rejectPromise?: Maybe<Promise>;
 };
 
@@ -74,6 +75,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeletePromiseArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationRejectPromiseArgs = {
   id: Scalars['ID']['input'];
 };
@@ -84,7 +90,7 @@ export type Promise = {
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   content: Scalars['String']['output'];
   direction: Scalars['Boolean']['output'];
-  dueDate: Scalars['DateTime']['output'];
+  dueDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   isAccepted?: Maybe<Scalars['Boolean']['output']>;
   level: Level;
@@ -125,49 +131,56 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typ
 export type GetPromisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPromisesQuery = { __typename?: 'Query', sentPromises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null, receivedPromises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
+export type GetPromisesQuery = { __typename?: 'Query', sentPromises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null, receivedPromises?: Array<{ __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null }> | null };
 
 export type GetPromiseQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type GetPromiseQuery = { __typename?: 'Query', promise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CreatePromiseMutationVariables = Exact<{
   input: CreatePromiseInput;
 }>;
 
 
-export type CreatePromiseMutation = { __typename?: 'Mutation', createPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type CreatePromiseMutation = { __typename?: 'Mutation', createPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type AcceptPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type AcceptPromiseMutation = { __typename?: 'Mutation', acceptPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type RejectPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type RejectPromiseMutation = { __typename?: 'Mutation', rejectPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CompletePromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type CompletePromiseMutation = { __typename?: 'Mutation', completePromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type CancelPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CancelPromiseMutation = { __typename?: 'Mutation', cancelPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate: string, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type CancelPromiseMutation = { __typename?: 'Mutation', cancelPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+
+export type DeletePromiseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeletePromiseMutation = { __typename?: 'Mutation', deletePromise?: { __typename?: 'Promise', id: string } | null };
 
 
 export const CreateUserDocument = gql`
@@ -578,3 +591,36 @@ export function useCancelPromiseMutation(baseOptions?: Apollo.MutationHookOption
 export type CancelPromiseMutationHookResult = ReturnType<typeof useCancelPromiseMutation>;
 export type CancelPromiseMutationResult = Apollo.MutationResult<CancelPromiseMutation>;
 export type CancelPromiseMutationOptions = Apollo.BaseMutationOptions<CancelPromiseMutation, CancelPromiseMutationVariables>;
+export const DeletePromiseDocument = gql`
+    mutation DeletePromise($id: ID!) {
+  deletePromise(id: $id) {
+    id
+  }
+}
+    `;
+export type DeletePromiseMutationFn = Apollo.MutationFunction<DeletePromiseMutation, DeletePromiseMutationVariables>;
+
+/**
+ * __useDeletePromiseMutation__
+ *
+ * To run a mutation, you first call `useDeletePromiseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePromiseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePromiseMutation, { data, loading, error }] = useDeletePromiseMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePromiseMutation(baseOptions?: Apollo.MutationHookOptions<DeletePromiseMutation, DeletePromiseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePromiseMutation, DeletePromiseMutationVariables>(DeletePromiseDocument, options);
+      }
+export type DeletePromiseMutationHookResult = ReturnType<typeof useDeletePromiseMutation>;
+export type DeletePromiseMutationResult = Apollo.MutationResult<DeletePromiseMutation>;
+export type DeletePromiseMutationOptions = Apollo.BaseMutationOptions<DeletePromiseMutation, DeletePromiseMutationVariables>;

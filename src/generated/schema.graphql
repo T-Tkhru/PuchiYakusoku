@@ -28,6 +28,7 @@ type Mutation {
   completePromise(id: ID!): Promise
   createPromise(input: CreatePromiseInput!): Promise
   createUser(input: CreateUserInput!): User
+  deletePromise(id: ID!): Promise
   rejectPromise(id: ID!): Promise
 }
 
@@ -36,7 +37,7 @@ type Promise {
   completedAt: DateTime
   content: String!
   direction: Boolean!
-  dueDate: DateTime!
+  dueDate: DateTime
   id: ID!
   isAccepted: Boolean
   level: Level!

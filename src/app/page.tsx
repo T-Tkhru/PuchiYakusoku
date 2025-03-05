@@ -28,7 +28,11 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
-import { Level, useCreatePromiseMutation } from "@/generated/graphql";
+import {
+  Level,
+  useCreatePromiseMutation,
+  useDeletePromiseMutation,
+} from "@/generated/graphql";
 import { createMessageString, getDueDate } from "@/lib/control-form";
 import { gestUser } from "@/lib/mockData";
 
@@ -36,7 +40,6 @@ import { UserCard } from "./_components/Card";
 import { HomeButton } from "./_components/GoBackButton";
 import { ResultDialog } from "./_components/ResultDialog";
 import { useLiff } from "./providers/LiffProvider";
-
 
 const importanceItems: SegmentedControlItem[] = [
   { label: "軽い約束", value: Level.Low },
@@ -85,6 +88,7 @@ export default function Home() {
       });
     },
   });
+  const [deletePromise] = useDeletePromiseMutation();
 
   return (
     <React.Fragment>
@@ -337,6 +341,12 @@ export default function Home() {
                   if (res) {
                     console.log(`[${res.status}] Message sent!`);
                   } else {
+                    promiseId &&
+                      deletePromise({
+                        variables: {
+                          id: promiseId,
+                        },
+                      });
                     console.log("TargetPicker was closed!");
                   }
                 })

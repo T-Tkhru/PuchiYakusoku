@@ -214,6 +214,16 @@ builder.mutationType({
           data: { canceledAt: new Date() },
         }),
     }),
+    deletePromise: t.field({
+      type: promise,
+      args: {
+        id: t.arg.id({ required: true }),
+      },
+      resolve: (_, args) =>
+        prisma.promise.delete({
+          where: { id: args.id },
+        }),
+    }),
   }),
 });
 
