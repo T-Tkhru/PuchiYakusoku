@@ -1,0 +1,5 @@
+requests
+supabase
+google-auth
+python-dotenv
+google-cloud-scheduler
