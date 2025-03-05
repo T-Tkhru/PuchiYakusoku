@@ -32,6 +32,7 @@ export const PromiseSchema = z.object({
   level: LevelEnum,
   sender: UserProfileSchema,
   receiver: UserProfileSchema.nullable(),
+  isShare: z.boolean(),
 });
 
 export type Promise = z.infer<typeof PromiseSchema>;

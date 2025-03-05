@@ -117,7 +117,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
         <VStack gap={2}>
           <Text size="sm" h="4" fontWeight={500} fontSize="sm">
             {promise.receiver ? promise.receiver.displayName : "ともだち"}
-            {promise.direction ? "から" : "に"}
+            {promise.isShare ? "と" : promise.direction ? "に" : "から"}
           </Text>
           <Text size="md" h="4" fontWeight={500}>
             {promise.content}

@@ -82,8 +82,6 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             sender: { userId: userId },
-            isAccepted: !false,
-            completedAt: null,
           },
         });
       },
@@ -96,8 +94,6 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             receiver: { userId: userId },
-            isAccepted: !false,
-            completedAt: null,
           },
         });
       },
