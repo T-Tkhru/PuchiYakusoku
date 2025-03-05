@@ -15,6 +15,7 @@ interface PromiseContentsProps {
   deadline: string | null;
   level: Level;
   color: string | null;
+  isShare?: boolean;
 }
 
 const strImportance = (level: Level) => {
@@ -36,6 +37,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
   deadline,
   level,
   color,
+  isShare,
 }) => {
   const haveBaseColor = color != null;
 
@@ -67,7 +69,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
             fontWeight={800}
             color={haveBaseColor ? "white" : "black"}
           >
-            が
+            {isShare ? "と" : "が"}
           </Text>
           <UserCard user={direction ? sender : receiver} color="white" />
           <Text
@@ -75,7 +77,7 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
             fontWeight={800}
             color={haveBaseColor ? "white" : "black"}
           >
-            に
+            {isShare ? "は" : "に"}
           </Text>
         </HStack>
         <VStack>

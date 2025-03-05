@@ -173,6 +173,7 @@ export default function PromiseDetail() {
         deadline={promise.dueDate}
         level={promise.level as Level}
         color={status.baseColor == null ? null : `${status.baseColor}.500`}
+        isShare={promise.isShare}
       />
       <VStack w="full">
         {status.status === StatusEnum.PENDING_RECEIVER && (
