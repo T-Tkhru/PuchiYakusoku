@@ -34,7 +34,6 @@ export const PromiseNavigator = ({
 
   useEffect(() => {
     if (data && data?.promise !== null && data?.promise !== undefined) {
-      console.log(data.promise);
       const promise = PromiseSchema.parse(data.promise);
       if (
         user?.displayName !== promise.sender.displayName &&

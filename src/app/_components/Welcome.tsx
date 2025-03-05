@@ -104,7 +104,7 @@ const FirstStory: React.FC = () => {
 const SecondStory: React.FC = () => {
   return (
     <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
-      <Image src="/mail.svg" alt="loading" width={300} height={300} />
+      <Image src="/status/excited.svg" alt="loading" width={300} height={300} />
       <VStack gap={4}>
         <Text>さあ、約束をプチろう</Text>
       </VStack>

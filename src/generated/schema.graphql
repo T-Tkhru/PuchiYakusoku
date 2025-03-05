@@ -2,6 +2,7 @@ input CreatePromiseInput {
   content: String!
   direction: Boolean!
   dueDate: String!
+  isShare: Boolean
   level: Level!
 }
 
@@ -40,6 +41,7 @@ type Promise {
   dueDate: DateTime
   id: ID!
   isAccepted: Boolean
+  isShare: Boolean!
   level: Level!
   receiver: User
   sender: User!

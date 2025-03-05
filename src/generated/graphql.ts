@@ -23,6 +23,7 @@ export type CreatePromiseInput = {
   content: Scalars['String']['input'];
   direction: Scalars['Boolean']['input'];
   dueDate: Scalars['String']['input'];
+  isShare?: InputMaybe<Scalars['Boolean']['input']>;
   level: Level;
 };
 
@@ -93,6 +94,7 @@ export type Promise = {
   dueDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   isAccepted?: Maybe<Scalars['Boolean']['output']>;
+  isShare: Scalars['Boolean']['output'];
   level: Level;
   receiver?: Maybe<User>;
   sender: User;

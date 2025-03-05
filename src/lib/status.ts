@@ -67,11 +67,14 @@ export const headerMessage = (senderName: string, status: Status) => {
 export const imageSource = (status: Status) => {
   switch (status.status) {
     case StatusEnum.IS_ACCEPTED:
-      return "/message.svg";
+      return "/status/stable.svg";
     case StatusEnum.IS_COMPLETED:
     case StatusEnum.CANCELED:
-      return "/mail.svg";
+    case StatusEnum.PENDING_RECEIVER:
+      return "/status/excited.svg";
+    case StatusEnum.PENDING_SENDER:
+      return "/status/calm.svg";
     default:
-      return "/mail.svg";
+      return "/status/excited.svg";
   }
 };

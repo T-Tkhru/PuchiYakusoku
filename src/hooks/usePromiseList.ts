@@ -32,8 +32,13 @@ export const usePromiseList = () => {
     setPromises((prev) => prev.filter((promise:Promise) => promise.id !== id));
   };
 
+  const addPromise = (newPromise: Promise) => {
+    setPromises((prev) => [...prev, newPromise]);
+  };
+
   return {
     promises,
     removePromiseById,
+    addPromise,
   };
 };

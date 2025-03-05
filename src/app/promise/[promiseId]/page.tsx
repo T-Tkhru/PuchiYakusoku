@@ -29,6 +29,7 @@ import {
   useCompletePromiseMutation,
   useRejectPromiseMutation,
 } from "@/generated/graphql";
+import { usePromiseList } from "@/hooks/usePromiseList";
 import { promiseState } from "@/lib/jotai_state";
 import { sendMessage } from "@/lib/request";
 import {
@@ -37,7 +38,7 @@ import {
   imageSource,
   StatusEnum,
 } from "@/lib/status";
-import { Promise, PromiseSchema, UserProfile } from "@/lib/type";
+import { Promise as TypePromise, PromiseSchema, UserProfile } from "@/lib/type";
 
 interface ActionModalProps {
   isOpen: boolean;
@@ -99,18 +100,17 @@ function ActionModal({
 export default function PromiseDetail() {
   const { user } = useLiff();
   const promise = useAtomValue(promiseState);
-  console.log(promise);
   if (promise === null) {
     return (
       <VStack
-        bgColor="primary"
+        bgColor="white"
         px={12}
         py={12}
         minH="100vh"
         gap={8}
         alignItems="center"
       >
-        <Text color="white" fontSize="2xl" fontWeight={800}>
+        <Text fontSize="2xl" fontWeight={800}>
           約束データを取得中...
         </Text>
         <Image src="/loading_icon.png" alt="loading" width={200} height={200} />
@@ -122,19 +122,22 @@ export default function PromiseDetail() {
   return (
     <VStack
       bgColor={status.baseColor || "white"}
-      p={8}
+      px={8}
+      py={4}
       minH="100vh"
       gap={8}
       alignItems="center"
     >
-      <HomeButton color="white" />
-      <Image
-        src={imageSource(status)}
-        alt="mail icon"
-        width={200}
-        height={200}
-        objectFit="contain"
-      />
+      <VStack gap={0} alignItems="center">
+        <HomeButton color={status.baseColor == null ? "black" : "white"} />
+        <Image
+          src={imageSource(status)}
+          alt="mail icon"
+          width={200}
+          height={200}
+          objectFit="contain"
+        />
+      </VStack>
       <HStack color="white" gap={4}>
         <Avatar
           src={promise.sender?.pictureUrl as string}
@@ -169,7 +172,7 @@ export default function PromiseDetail() {
         content={promise.content as string}
         deadline={promise.dueDate}
         level={promise.level as Level}
-        color={`${status.baseColor}.500`}
+        color={status.baseColor == null ? null : `${status.baseColor}.500`}
       />
       <VStack w="full">
         {status.status === StatusEnum.PENDING_RECEIVER && (
@@ -179,7 +182,7 @@ export default function PromiseDetail() {
           <IsAcceptedStatusButtons promise={promise} user={user} />
         )}
         {status.status === StatusEnum.PENDING_SENDER && user && (
-          <MyPromiseButtons promise={promise} user={user} />
+          <MyPromiseButtons promise={promise} />
         )}
         {status.status === StatusEnum.IS_COMPLETED && user && (
           <IsCompletedStatusButtons promise={promise} user={user} />
@@ -190,30 +193,40 @@ export default function PromiseDetail() {
 }
 
 interface ActionButtonProps {
-  promise: Promise;
+  promise: TypePromise;
 }
 
 const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
   const router = useRouter();
   const setPromise = useSetAtom(promiseState);
   const [isOpen, setIsOpen] = useState<"accept" | "cancel" | null>(null);
-  const [acceptPromise, { data }] = useAcceptPromiseMutation({
+  const { removePromiseById, addPromise } = usePromiseList();
+
+  const [acceptPromise, { data, error }] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
         type: "success",
         title: "成功",
         message: "約束が正常にプチられました！",
+        onClose: () => {
+          const updatePromise = PromiseSchema.parse(data?.acceptPromise);
+          setPromise(updatePromise);
+          addPromise(updatePromise);
+          setIsOpen(null);
+        },
       });
-      const updatePromise = PromiseSchema.parse(data?.acceptPromise);
-      setPromise(updatePromise);
     },
     onError: () => {
+      alert(error);
       setResultDialog({
         isOpen: true,
         type: "error",
         title: "エラー",
         message: "約束処理中にエラーが発生しました。",
+        onClose: () => {
+          setIsOpen(null);
+        },
       });
     },
   });
@@ -223,10 +236,12 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         isOpen: true,
         type: "success",
         title: "キャンセル成功",
-        message: "約束が正常にキャンセルされました。",
+        message: "約束がキャンセルされました...",
+        onClose: () => {
+          removePromiseById(promise.id);
+          router.push("/home");
+        },
       });
-
-      router.push("/home");
     },
     onError: () => {
       setResultDialog({
@@ -234,6 +249,9 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         type: "error",
         title: "エラー",
         message: "キャンセル処理中にエラーが発生しました。",
+        onClose: () => {
+          setIsOpen(null);
+        },
       });
     },
   });
@@ -243,16 +261,21 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
     type: "success" | "error";
     title: string;
     message: string;
-  }>({ isOpen: false, type: "success", title: "", message: "" });
+    onClose: () => void;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: "",
+    onClose: () => {},
+  });
 
   const handlePromise = async () => {
     await acceptPromise({ variables: { id: promise.id } });
-    setIsOpen(null);
   };
 
   const handleCancel = async () => {
     await cancelPromise({ variables: { id: promise.id } });
-    setIsOpen(null);
   };
 
   return (
@@ -276,7 +299,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         type={resultDialog.type}
         title={resultDialog.title}
         message={resultDialog.message}
-        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
+        onClose={resultDialog.onClose}
       />
       <VStack>
         <Button
@@ -322,21 +345,31 @@ const IsAcceptedStatusButtons = ({
   promise,
   user,
 }: {
-  promise: Promise;
+  promise: TypePromise;
   user: UserProfile;
 }) => {
   const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
     null
   );
   const router = useRouter();
-  const serPromise = useSetAtom(promiseState);
+  const setPromise = useSetAtom(promiseState);
+  const { removePromiseById } = usePromiseList();
 
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
     type: "success" | "error";
     title: string;
     message: string;
-  }>({ isOpen: false, type: "success", title: "", message: "" });
+    onClose: () => void;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: "",
+    onClose: () => {
+      setIsOpen(null);
+    },
+  });
 
   const [completePromise] = useCompletePromiseMutation({
     onCompleted: () => {
@@ -345,10 +378,14 @@ const IsAcceptedStatusButtons = ({
         type: "success",
         title: "約束達成！",
         message: "約束が達成されました！",
+        onClose: () => {
+          setIsOpen(null);
+          removePromiseById(promise.id);
+          const updatePromise = PromiseSchema.parse(promise);
+          updatePromise.completedAt = new Date().toISOString();
+          setPromise(updatePromise);
+        },
       });
-      const updatePromise = PromiseSchema.parse(promise);
-      updatePromise.completedAt = new Date().toISOString();
-      serPromise(updatePromise);
     },
     onError: () => {
       setResultDialog({
@@ -356,6 +393,9 @@ const IsAcceptedStatusButtons = ({
         type: "error",
         title: "エラー",
         message: "達成処理中にエラーが発生しました。",
+        onClose: () => {
+          setIsOpen(null);
+        },
       });
     },
   });
@@ -367,30 +407,37 @@ const IsAcceptedStatusButtons = ({
         type: "success",
         title: "キャンセル成功",
         message: "約束がキャンセルされました...",
+        onClose: () => {
+          removePromiseById(promise.id);
+          router.push("/home");
+        },
       });
-      router.push("/home");
     },
     onError: () => {
       setResultDialog({
         isOpen: true,
         type: "error",
         title: "エラー",
-        message: "キャンセル処理中にエラーが発生しました。",
+        message: "キャンセルしようとしたらエラーが発生しました。",
+        onClose: () => {
+          setIsOpen(null);
+        },
       });
     },
   });
 
   const handleComplete = async () => {
     await completePromise({ variables: { id: promise.id } });
-    setIsOpen(null);
   };
 
   const handleCancel = async () => {
     await cancelPromise({ variables: { id: promise.id } });
+    removePromiseById(promise.id);
+    router.push("/home");
     setIsOpen(null);
   };
 
-  const handleRemind = async (user: UserProfile, promise: Promise) => {
+  const handleRemind = async (user: UserProfile, promise: TypePromise) => {
     try {
       await sendMessage(
         user,
@@ -403,6 +450,7 @@ const IsAcceptedStatusButtons = ({
         type: "success",
         title: "リマインドしたよ！",
         message: "相手はあなたが送ったとは気づいていません。",
+        onClose: () => {},
       });
     } catch (error) {
       setResultDialog({
@@ -410,6 +458,7 @@ const IsAcceptedStatusButtons = ({
         type: "error",
         title: "エラー",
         message: "メッセージ送信中にエラーが発生しました。",
+        onClose: () => {},
       });
       alert(error);
     }
@@ -430,14 +479,7 @@ const IsAcceptedStatusButtons = ({
         type={resultDialog.type}
         title={resultDialog.title}
         message={resultDialog.message}
-        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
-      />
-      <ResultDialog
-        isOpen={resultDialog.isOpen}
-        type={resultDialog.type}
-        title={resultDialog.title}
-        message={resultDialog.message}
-        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
+        onClose={resultDialog.onClose}
       />
       <VStack>
         <Button
@@ -502,16 +544,12 @@ const IsAcceptedStatusButtons = ({
   );
 };
 
-const MyPromiseButtons = ({
-  promise,
-  user,
-}: {
-  promise: Promise;
-  user: UserProfile;
-}) => {
+const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState<"cancel" | "remind" | "complete" | null>(
     null
   );
+  const { removePromiseById } = usePromiseList();
   const [cancelPromise] = useRejectPromiseMutation({
     onCompleted: () => {
       setResultDialog({
@@ -519,6 +557,10 @@ const MyPromiseButtons = ({
         type: "success",
         title: "キャンセル成功",
         message: "約束がキャンセルされました。",
+        onClose() {
+          removePromiseById(promise.id);
+          setIsOpen(null);
+        },
       });
     },
     onError: () => {
@@ -527,24 +569,9 @@ const MyPromiseButtons = ({
         type: "error",
         title: "エラー",
         message: "キャンセル処理中にエラーが発生しました。",
-      });
-    },
-  });
-  const [completePromise] = useCompletePromiseMutation({
-    onCompleted: () => {
-      setResultDialog({
-        isOpen: true,
-        type: "success",
-        title: "約束達成！",
-        message: "約束が達成されました！",
-      });
-    },
-    onError: () => {
-      setResultDialog({
-        isOpen: true,
-        type: "error",
-        title: "エラー",
-        message: "達成処理中にエラーが発生しました。",
+        onClose() {
+          setIsOpen(null);
+        },
       });
     },
   });
@@ -553,7 +580,14 @@ const MyPromiseButtons = ({
     type: "success" | "error";
     title: string;
     message: string;
-  }>({ isOpen: false, type: "success", title: "", message: "" });
+    onClose: () => void;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: "",
+    onClose: () => {},
+  });
 
   const handleCancel = async () => {
     await cancelPromise({
@@ -561,41 +595,9 @@ const MyPromiseButtons = ({
         id: promise.id,
       },
     });
+    removePromiseById(promise.id);
     setIsOpen(null);
-  };
-
-  const handleComplete = async () => {
-    await completePromise({
-      variables: {
-        id: promise.id,
-      },
-    });
-    setIsOpen(null);
-  };
-  const handleRemind = async (user: UserProfile, promise: Promise) => {
-    try {
-      await sendMessage(
-        user,
-        promise,
-        "もしかしたら約束...忘れてない...?",
-        true
-      );
-      setResultDialog({
-        isOpen: true,
-        type: "success",
-        title: "リマインドしたよ！",
-        message: "相手はあなたが送ったとは気づいていません。",
-      });
-    } catch (error) {
-      setResultDialog({
-        isOpen: true,
-        type: "error",
-        title: "エラー",
-        message: "メッセージ送信中にエラーが発生しました。",
-      });
-      alert(error);
-    }
-    setIsOpen(null);
+    router.push("/home");
   };
 
   return (
@@ -608,73 +610,27 @@ const MyPromiseButtons = ({
         onConfirm={handleCancel}
       />
 
-      <ActionModal
-        isOpen={isOpen === "complete"}
-        onClose={() => setIsOpen(null)}
-        title="約束達成？！"
-        message="約束...達成した？"
-        onConfirm={handleComplete}
-      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
         title={resultDialog.title}
         message={resultDialog.message}
-        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
+        onClose={resultDialog.onClose}
       />
       <VStack>
         <Button
           rounded="full"
-          variant="outline"
+          variant="solid"
           color="white"
-          borderColor="white"
-          colorScheme="blackAlpha"
-          backgroundColor="blackAlpha.300"
-          size="lg"
-          fontWeight={800}
-          onClick={() => handleRemind(user, promise)}
-          boxShadow="0px 6px white"
-          _active={{
-            transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.400",
-            boxShadow: "none",
-          }}
-        >
-          リマインドする
-        </Button>
-        <Button
-          rounded="full"
-          variant="outline"
-          color="primary"
-          borderColor="white"
-          colorScheme="blackAlpha"
-          backgroundColor="white"
-          size="lg"
-          fontWeight={800}
-          onClick={() => setIsOpen("complete")}
-          boxShadow="0px 6px teal"
-          _active={{
-            transform: "translateY(2px)",
-            backgroundColor: "white",
-            boxShadow: "none",
-          }}
-        >
-          約束を果たした
-        </Button>
-        <Button
-          rounded="full"
-          variant="outline"
-          color="white"
-          borderColor="white"
-          colorScheme="blackAlpha"
-          backgroundColor="blackAlpha.300"
+          colorScheme="teal"
+          backgroundColor="teal.500"
           size="lg"
           fontWeight={800}
           onClick={() => setIsOpen("cancel")}
-          boxShadow="0px 6px white"
+          boxShadow="0px 6px teal"
           _active={{
             transform: "translateY(2px)",
-            backgroundColor: "blackAlpha.400",
+            backgroundColor: "teal.600",
             boxShadow: "none",
           }}
         >
@@ -689,7 +645,7 @@ const IsCompletedStatusButtons = ({
   promise,
   user,
 }: {
-  promise: Promise;
+  promise: TypePromise;
   user: UserProfile;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
