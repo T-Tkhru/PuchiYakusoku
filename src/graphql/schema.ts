@@ -82,6 +82,14 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             sender: { userId: userId },
+            OR: [
+              { completedAt: { not: null } },
+              {
+                dueDate: {
+                  gte: new Date(),
+                },
+              },
+            ],
           },
         });
       },
@@ -94,6 +102,14 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             receiver: { userId: userId },
+            OR: [
+              { completedAt: { not: null } },
+              {
+                dueDate: {
+                  gte: new Date(),
+                },
+              },
+            ],
           },
         });
       },
