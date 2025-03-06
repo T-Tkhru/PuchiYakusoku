@@ -1,11 +1,12 @@
 import { Promise, UserProfile } from "./type";
 
 export enum StatusEnum {
-  PENDING_SENDER = "pending_sender",      // 承認待ち（送信側）
-  PENDING_RECEIVER = "pending_receiver",  // 承認待ち（受信側）
-  IS_ACCEPTED  = "is_accepted",   // 承認済み
-  IS_COMPLETED = "completed",     // 完了
-  CANCELED = "canceled",          // 取り消し済み
+  PENDING_SENDER = "pending_sender", // 承認待ち（送信側）
+  PENDING_RECEIVER = "pending_receiver", // 承認待ち（受信側）
+  IS_ACCEPTED = "is_accepted", // 承認済み
+  IS_COMPLETED = "completed", // 完了
+  CANCELED = "canceled", // 取り消し済み
+  EXPIRED = "expired", // 期限切れ
 }
 
 const statusColors: Record<StatusEnum, string | null> = {
@@ -14,6 +15,7 @@ const statusColors: Record<StatusEnum, string | null> = {
   [StatusEnum.IS_ACCEPTED]: "primary",
   [StatusEnum.IS_COMPLETED]: "amber",
   [StatusEnum.CANCELED]: "gray",
+  [StatusEnum.EXPIRED]: "gray",
 };
 
 interface Status {
@@ -32,6 +34,14 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
       baseColor: statusColors[StatusEnum.IS_COMPLETED],
       textColor: "black",
       bgImage: "/background/bg_yellow_wai.svg",
+    };
+  }
+
+  if (promise.dueDate && new Date(promise.dueDate) < new Date()) {
+    return {
+      status: StatusEnum.EXPIRED,
+      baseColor: statusColors[StatusEnum.EXPIRED],
+      textColor: "white",
     };
   }
 
