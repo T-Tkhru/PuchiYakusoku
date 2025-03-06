@@ -10,12 +10,14 @@ export const summarize = (
     (p) => p.completedAt === null && p.canceledAt === null
   ).length;
   const sent = promiseList.filter((p) => p.sender.id === userId).length;
-  const friends =
-    promiseList.length === 0
-      ? []
-      : (promiseList
-          .map((p) => p.receiver)
-          .filter((p) => p !== null && p.id !== userId) as UserProfile[]);
+  const friends = Array.from(
+    new Map(
+      promiseList
+        .map((p) => p.receiver)
+        .filter((p): p is UserProfile => p !== null && p.id !== userId)
+        .map((p) => [p.id, p])
+    ).values()
+  );
 
   const result: SummarizeResult = {
     total,
