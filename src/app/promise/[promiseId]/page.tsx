@@ -226,12 +226,13 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "エラー",
         message: "約束処理中にエラーが発生しました。",
         onClose: () => {
+          setResultDialog({ ...resultDialog, isOpen: false });
           setIsOpen(null);
         },
       });
     },
   });
-  const [cancelPromise] = useRejectPromiseMutation({
+  const [cancelPromise] = useCancelPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -251,6 +252,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "エラー",
         message: "キャンセル処理中にエラーが発生しました。",
         onClose: () => {
+          setResultDialog({ ...resultDialog, isOpen: false });
           setIsOpen(null);
         },
       });
@@ -385,6 +387,7 @@ const IsAcceptedStatusButtons = ({
           const updatePromise = PromiseSchema.parse(promise);
           updatePromise.completedAt = new Date().toISOString();
           setPromise(updatePromise);
+          setResultDialog({ ...resultDialog, isOpen: false });
         },
       });
     },
@@ -396,12 +399,13 @@ const IsAcceptedStatusButtons = ({
         message: "達成処理中にエラーが発生しました。",
         onClose: () => {
           setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
         },
       });
     },
   });
 
-  const [cancelPromise] = useRejectPromiseMutation({
+  const [cancelPromise] = useCancelPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -422,6 +426,7 @@ const IsAcceptedStatusButtons = ({
         message: "キャンセルしようとしたらエラーが発生しました。",
         onClose: () => {
           setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
         },
       });
     },
@@ -551,7 +556,7 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
     null
   );
   const { removePromiseById } = usePromiseList();
-  const [cancelPromise] = useRejectPromiseMutation({
+  const [cancelPromise] = useCancelPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -561,6 +566,7 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
         onClose() {
           removePromiseById(promise.id);
           setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
         },
       });
     },
@@ -572,6 +578,7 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
         message: "キャンセル処理中にエラーが発生しました。",
         onClose() {
           setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
         },
       });
     },
@@ -610,7 +617,6 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
-
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -676,6 +682,7 @@ const IsCompletedStatusButtons = ({
       alert(error);
     }
     setIsOpen(false);
+    setResultDialog({ ...resultDialog, isOpen: false });
   };
 
   return (
