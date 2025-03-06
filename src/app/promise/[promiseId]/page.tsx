@@ -76,7 +76,7 @@ function ActionModal({
               boxShadow: "none",
             }}
           >
-            もちろん！
+            OK
           </Button>
           <Button
             colorScheme="gray"
@@ -463,7 +463,10 @@ const IsAcceptedStatusButtons = ({
         type: "success",
         title: "リマインドしたよ！",
         message: "相手はあなたが送ったとは気づいていません。",
-        onClose: () => {},
+        onClose: () => {
+          setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
+        },
       });
     } catch (error) {
       setResultDialog({
@@ -471,7 +474,10 @@ const IsAcceptedStatusButtons = ({
         type: "error",
         title: "エラー",
         message: "メッセージ送信中にエラーが発生しました。",
-        onClose: () => {},
+        onClose: () => {
+          setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
+        },
       });
       alert(error);
     }
