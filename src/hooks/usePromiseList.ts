@@ -54,10 +54,20 @@ export const usePromiseList = () => {
     });
   };
 
+  const resolvePromise = (id: string) => {
+    const result = promises.find((promise) => {
+      if (promise.id === id) {
+        return promise;
+      }
+    });
+    return result;
+  };
+
   return {
     promises,
     removePromiseById,
     addPromise,
     filterByCompleted,
+    resolvePromise,
   };
 };

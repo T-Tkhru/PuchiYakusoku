@@ -27,21 +27,21 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     async function initLiff() {
       setLoading(true);
-      if (process.env.NODE_ENV === "development") {
-        const liffModule = await import("@line/liff");
-        liffModule.default.use(new LiffMockPlugin());
-        await liffModule.default.init({
-          liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
-          // @ts-expect-error: mock property is provided by LiffMockPlugin
-          mock: true,
-          withLoginOnExternalBrowser: true,
-        });
-        setLiffObject(liffModule.default);
-        liffModule.liff.login();
-        setUser(exampleUser2);
-        setLoading(false);
-        return;
-      }
+      // if (process.env.NODE_ENV === "development") {
+      //   const liffModule = await import("@line/liff");
+      //   liffModule.default.use(new LiffMockPlugin());
+      //   await liffModule.default.init({
+      //     liffId: process.env.NEXT_PUBLIC_LIFF_ID!,
+      //     // @ts-expect-error: mock property is provided by LiffMockPlugin
+      //     mock: true,
+      //     withLoginOnExternalBrowser: true,
+      //   });
+      //   setLiffObject(liffModule.default);
+      //   liffModule.liff.login();
+      //   setUser(exampleUser2);
+      //   setLoading(false);
+      //   return;
+      // }
       try {
         const liffModule = await import("@line/liff");
         console.log("start liff.init()...");
