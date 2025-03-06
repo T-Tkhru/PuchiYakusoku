@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.35 335.11">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 10px;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-6 {
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-7 {
+        fill: #f9d44b;
+      }
+
+      .cls-3 {
+        opacity: .6;
+        stroke-width: 22.5px;
+      }
+
+      .cls-8 {
+        fill: #f7c407;
+      }
+
+      .cls-4 {
+        stroke-width: 7.5px;
+      }
+
+      .cls-5 {
+        stroke: #f7c407;
+        stroke-miterlimit: 10;
+        stroke-width: 6.37px;
+      }
+
+      .cls-6 {
+        stroke-width: 2.5px;
+      }
+    </style>
+  </defs>
+  <g id="main">
+    <g>
+      <g>
+        <path class="cls-7" d="M32.75,180.78c-16.35,31.71-25.58,70.01-25.44,114.6,67.1,23.38,142.44,36.56,222.12,36.56s155.02-13.18,222.12-36.56c.47-146.33-99.98-224.98-222.12-224.98-84.92,0-159.36,38.02-196.68,110.38Z"/>
+        <path class="cls-5" d="M7.31,295.37c67.1,23.38,142.44,36.56,222.12,36.56s155.02-13.18,222.12-36.56"/>
+        <path class="cls-8" d="M229.43,304.5s113.45-12.09,185.87-90.54c0,0,15.09,31.18,9.05,65.88,0,0-109.22,38.24-194.92,24.66Z"/>
+        <path class="cls-3" d="M62.32,196.71s34.64-69.18,94.98-76.72"/>
+        <polyline class="cls-2" points="306.81 193.45 282.12 158.35 256.03 191.99"/>
+        <polyline class="cls-2" points="201.63 193.45 176.94 158.35 150.85 191.99"/>
+        <g>
+          <path class="cls-4" d="M394.94,187.51s30.24-7.46,34.77-34.59"/>
+          <ellipse class="cls-4" cx="434.18" cy="132.6" rx="22.41" ry="19.33"/>
+        </g>
+        <g>
+          <path class="cls-4" d="M62.32,185.16s-28.14-7.46-31.68-34.59"/>
+          <ellipse class="cls-4" cx="26.16" cy="130.25" rx="22.41" ry="19.33"/>
+        </g>
+        <line class="cls-6" x1="365.37" y1="213.96" x2="360.33" y2="233.96"/>
+        <line class="cls-6" x1="375" y1="213.96" x2="369.96" y2="233.96"/>
+        <line class="cls-6" x1="384.64" y1="213.96" x2="379.6" y2="233.96"/>
+        <line class="cls-6" x1="394.27" y1="213.96" x2="389.23" y2="233.96"/>
+        <line class="cls-6" x1="61.82" y1="213.96" x2="56.78" y2="233.96"/>
+        <line class="cls-6" x1="71.46" y1="213.96" x2="66.42" y2="233.96"/>
+        <line class="cls-6" x1="81.09" y1="213.96" x2="76.05" y2="233.96"/>
+        <line class="cls-6" x1="90.72" y1="213.96" x2="85.68" y2="233.96"/>
+        <path class="cls-2" d="M201.63,260.69s21.72,15.67,50.28,0"/>
+      </g>
+      <g>
+        <polygon class="cls-1" points="395.58 49.11 427.51 25.49 415.63 14.83 395.58 49.11"/>
+        <polygon class="cls-1" points="408.59 66.33 448.07 62.06 443.21 46.87 408.59 66.33"/>
+        <polygon class="cls-1" points="378.6 39.71 393.64 2.95 377.96 0 378.6 39.71"/>
+      </g>
+    </g>
+  </g>
+</svg>
