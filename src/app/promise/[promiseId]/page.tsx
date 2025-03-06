@@ -715,7 +715,7 @@ const IsCompletedStatusButtons = ({
         message={resultDialog.message}
         onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
       />
-      <Button
+      {/* <Button
         rounded="full"
         color="white"
         colorScheme="amber"
@@ -731,7 +731,7 @@ const IsCompletedStatusButtons = ({
         }}
       >
         お礼を言う
-      </Button>
+      </Button> */}
     </React.Fragment>
   );
 };
