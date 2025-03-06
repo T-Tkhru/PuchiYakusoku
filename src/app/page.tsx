@@ -342,37 +342,37 @@ export default function Home() {
                     isMultiple: true,
                   }
                 )
-                .then(function (res) {
+                .then(async function (res) {
                   if (res) {
                     console.log(`[${res.status}] Message sent!`);
+                    // 成功時のみ `setResultDialog()` を実行
+                    setResultDialog({
+                      isOpen: true,
+                      type: "success",
+                      title: "友達に送信しました！",
+                      message: "相手が約束に気づきますように！",
+                      animeComponent: (
+                        <DotLottieReact
+                          src="https://lottie.host/7742fea3-2f40-4632-a879-d5c7fe603a3f/U8GUc469w2.lottie"
+                          loop
+                          autoplay
+                        />
+                      ),
+                    });
                   } else {
-                    promiseId &&
-                      deletePromise({
+                    // 失敗時は `deletePromise()` を実行し、`setResultDialog()` は呼ばない
+                    if (promiseId) {
+                      await deletePromise({
                         variables: {
                           id: promiseId,
                         },
                       });
+                    }
                     console.log("TargetPicker was closed!");
-                    return;
                   }
                 })
                 .catch(function (error) {
                   alert(error);
-                })
-                .finally(() => {
-                  setResultDialog({
-                    isOpen: true,
-                    type: "success",
-                    title: "友達に送信しました！",
-                    message: "相手が約束に気づきますように！",
-                    animeComponent: (
-                      <DotLottieReact
-                        src="https://lottie.host/7742fea3-2f40-4632-a879-d5c7fe603a3f/U8GUc469w2.lottie"
-                        loop
-                        autoplay
-                      />
-                    ),
-                  });
                 });
             }}
           >
