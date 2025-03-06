@@ -98,11 +98,12 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
               color="white"
               fontSize="lg"
               fontWeight={800}
+              minW="13"
             >
               期限
             </Tag>
             {deadline === null ? (
-              <Text fontSize="lg" fontWeight={600}>
+              <Text fontSize="lg" fontWeight={600} color={textColor}>
                 期限なし
               </Text>
             ) : (
@@ -111,12 +112,13 @@ export const PromiseContents: React.FC<PromiseContentsProps> = ({
               </Text>
             )}
           </HStack>
-          <HStack gap="5">
+          <HStack gap="6">
             <Tag
               bgColor={haveBaseColor ? baseColor : "primary"}
               color="white"
               fontSize="lg"
               fontWeight={800}
+              minW="16"
             >
               重要度
             </Tag>
