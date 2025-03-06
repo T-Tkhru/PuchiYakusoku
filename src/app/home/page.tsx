@@ -237,10 +237,10 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       />
       <VStack gap={0} w="auto" overflow="hidden">
         <Text size="sm" fontWeight={500} fontSize="sm">
-          {promise.direction ? receiver : sender}
-          {promise.isShare ? " と " : " から "}
           {promise.direction ? sender : receiver}
-          {promise.isShare ? " で " : " へ "}
+          {promise.isShare ? " と " : " が "}
+          {promise.direction ? receiver : sender}
+          {promise.isShare ? " で " : " に "}
         </Text>
         <Text
           fontWeight={500}
