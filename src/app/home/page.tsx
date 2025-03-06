@@ -4,6 +4,8 @@ import { AlarmClockIcon, CirclePlusIcon } from "@yamada-ui/lucide";
 import {
   Avatar,
   Button,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   Image,
@@ -12,18 +14,32 @@ import {
 } from "@yamada-ui/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
-import { promisesListState, promiseState } from "@/lib/jotai_state";
+import {
+  promisesListState,
+  promiseState,
+  summarizeResultState,
+} from "@/lib/jotai_state";
 import { Promise } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 
+import { Badge } from "../_components/Badge";
+import {
+  ActiveIcon,
+  PuchiIcon,
+  SendIcon,
+  TotalIcon,
+} from "../_components/Icon";
 import { useLiff } from "../providers/LiffProvider";
+
+const ITEMS_PER_PAGE = 5;
 
 export default function Home() {
   const PromiseList = useAtomValue(promisesListState);
   const router = useRouter();
-
+  const summaryResult = useAtomValue(summarizeResultState);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   return (
     <VStack gap={8}>
       <Button
@@ -53,9 +69,72 @@ export default function Home() {
       </Button>
       <VStack w="full" gap={4}>
         <HStack justifyContent="space-between" w="full">
+          <Heading fontSize="xl">最近のウゴキ</Heading>
+        </HStack>
+        <Grid templateColumns="repeat(2, 1fr)" gap="sm">
+          <GridItem colSpan={1}>
+            <Badge
+              icon={TotalIcon}
+              text={summaryResult.completed.toString()}
+              label="達成したプチ約束"
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Badge
+              icon={SendIcon}
+              text={summaryResult.sent.toString()}
+              label="送った約束"
+            />
+          </GridItem>
+
+          <GridItem colSpan={1}>
+            <Badge
+              icon={ActiveIcon}
+              text={summaryResult.active.toString()}
+              label="アクティブな約束"
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Badge
+              icon={PuchiIcon}
+              text={summaryResult.total.toString()}
+              label="全ての約束"
+            />
+          </GridItem>
+          <GridItem
+            colSpan={2}
+            justifyContent="space-between"
+            w="full"
+            px={4}
+            py={2}
+            border="2px solid"
+            borderColor="border"
+            rounded="md"
+            fontSize="sm"
+            fontWeight="bold"
+            gap={0}
+          >
+            <HStack>
+              {summaryResult.friends.map((friend, index) => (
+                <Avatar
+                  key={`friend-${index}`}
+                  src={friend.pictureUrl as string}
+                  size="md"
+                />
+              ))}
+            </HStack>
+            <Text color="gray">
+              {summaryResult.friends.length}人の友達と約束を結んだよ
+            </Text>
+          </GridItem>
+        </Grid>
+      </VStack>
+
+      <VStack w="full" gap={4}>
+        <HStack justifyContent="space-between" w="full">
           <Heading fontSize="xl">手持ちのプチ約束</Heading>
         </HStack>
-        <VStack w="full" gap={4}>
+        <VStack w="full" gap={3}>
           {PromiseList.length === 0 ? (
             <VStack w="full" gap={4} alignItems="center" p="8">
               <Text fontSize="sm" fontWeight={600}>
@@ -63,14 +142,32 @@ export default function Home() {
               </Text>
             </VStack>
           ) : null}
-          {PromiseList.map((promise) => {
-            return (
-              <React.Fragment key={promise.id}>
-                <EachPromiseCard promise={promise} />
-              </React.Fragment>
-            );
-          })}
+          {PromiseList.slice(0, visibleCount).map((promise, index) => (
+            <React.Fragment key={`promise-${index}`}>
+              <EachPromiseCard promise={promise} />
+            </React.Fragment>
+          ))}
         </VStack>
+        {visibleCount < PromiseList.length && (
+          <Button
+            colorScheme="primary"
+            variant="ghost"
+            size="md"
+            fontWeight={800}
+            rounded="lg"
+            onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
+            justifyContent="center"
+            boxShadow="0px 6px #6ac1b7"
+            backgroundColor="blackAlpha.200"
+            _active={{
+              transform: "translateY(2px)",
+              backgroundColor: "pink.800",
+              boxShadow: "none",
+            }}
+          >
+            <Text>もっと見る</Text>
+          </Button>
+        )}
       </VStack>
     </VStack>
   );
@@ -83,15 +180,17 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
   return (
     <Button
       key={promise.id}
-      bgColor="gray.50"
+      bgColor="white"
       size="md"
       rounded="lg"
-      h="20"
+      h="24"
       onClick={() => {
         setPromise(promise);
         router.push(`/promise/${promise.id}`);
       }}
-      boxShadow={"0px 4px #9C9C9CFF"}
+      border="2px solid"
+      borderColor="border"
+      boxShadow={"0px 4px #dcdcde"}
       _active={{
         transform: "translateY(2px)",
         backgroundColor: "gray.50",
