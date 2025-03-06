@@ -70,7 +70,7 @@ export default function Home() {
       </Button>
       <VStack w="full" gap={4}>
         <HStack justifyContent="space-between" w="full">
-          <Heading fontSize="xl">最近のウゴキ</Heading>
+          <Heading fontSize="xl">実績</Heading>
         </HStack>
         <Grid templateColumns="repeat(2, 1fr)" gap="sm">
           <GridItem colSpan={1}>
