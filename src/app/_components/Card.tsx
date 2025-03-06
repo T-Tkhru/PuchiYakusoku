@@ -15,7 +15,7 @@ export const UserCard = ({
 }: CardProps) => {
   return (
     <Tooltip
-      label={user ? `${user.displayName}` : "友達"}
+      label={user ? `${user.displayName}` : "ともだち"}
       isOpen
       boxShadow={"none"}
       border={"none"}
