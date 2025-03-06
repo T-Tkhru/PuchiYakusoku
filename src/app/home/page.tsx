@@ -35,7 +35,7 @@ import { useLiff } from "../providers/LiffProvider";
 const ITEMS_PER_PAGE = 5;
 
 export default function Home() {
-  const { promises, filterByCompleted } = usePromiseList();
+  const { filterByCompleted } = usePromiseList();
   const router = useRouter();
   const summaryResult = useAtomValue(summarizeResultState);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
@@ -198,6 +198,9 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
   const { user } = useLiff();
   const router = useRouter();
   const setPromise = useSetAtom(promiseState);
+  const sender = promise.sender.displayName;
+  const receiver = promise.receiver ? promise.receiver.displayName : "ともだち";
+  const status = promise.completedAt ? "承認済み" : "達成待ち";
   return (
     <Button
       key={promise.id}
@@ -212,6 +215,9 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       border="2px solid"
       borderColor="border"
       boxShadow={"0px 4px #dcdcde"}
+      _hover={{
+        backgroundColor: "blackAlpha.100",
+      }}
       _active={{
         transform: "translateY(2px)",
         backgroundColor: "border",
@@ -236,8 +242,10 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
         )}
         <VStack gap={2}>
           <Text size="sm" h="4" fontWeight={500} fontSize="sm">
-            {promise.receiver ? promise.receiver.displayName : "ともだち"}
-            {promise.isShare ? "と" : promise.direction ? "に" : "から"}
+            {promise.direction ? receiver : sender}
+            {promise.isShare ? " と " : " から "}
+            {promise.direction ? sender : receiver}
+            {promise.isShare ? " で " : " へ "}
           </Text>
           <Text size="md" h="4" fontWeight={500}>
             {promise.content}
@@ -245,12 +253,12 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
           {promise.dueDate ? (
             <HStack gap={1}>
               <AlarmClockIcon fontSize="sm" />
-              <Text fontSize="sm" fontWeight={500}>
+              <Text fontSize="sm" fontWeight={500} overflow="ellipsis">
                 {formatDate(promise.dueDate)}まで
               </Text>
             </HStack>
           ) : (
-            <Text fontSize="sm" fontWeight={600}>
+            <Text fontSize="sm" fontWeight={500}>
               期限なし
             </Text>
           )}
