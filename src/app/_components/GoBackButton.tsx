@@ -20,7 +20,10 @@ export function HomeButton({ color }: HomeButtonProps) {
         p={2}
         variant={"ghost"}
         onClick={handleClick}
-        icon={<Icon as={HouseIcon} color={color ? color : "neutral.500"} />}
+        icon={<Icon as={HouseIcon} color={color ? color : "blackAlpha.500"} />}
+        _hover={{
+          backgroundColor: "blackAlpha.100",
+        }}
         _active={{
           backgroundColor: "blackAlpha.700",
         }}
