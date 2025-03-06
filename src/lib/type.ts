@@ -28,6 +28,7 @@ export const PromiseSchema = z.object({
   content: z.string().nullable(),
   isAccepted: z.boolean().nullable(),
   completedAt: DateTimeSchema.nullable(),
+  canceledAt: DateTimeSchema.nullable(),
   dueDate: DateTimeSchema.nullable(),
   level: LevelEnum,
   sender: UserProfileSchema,
@@ -36,3 +37,13 @@ export const PromiseSchema = z.object({
 });
 
 export type Promise = z.infer<typeof PromiseSchema>;
+
+export const SummarizeResultSchema = z.object({
+  total: z.number(),
+  completed: z.number(),
+  active: z.number(),
+  sent: z.number(),
+  friends: UserProfileSchema.array(),
+});
+
+export type SummarizeResult = z.infer<typeof SummarizeResultSchema>;
