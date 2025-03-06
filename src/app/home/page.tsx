@@ -77,14 +77,14 @@ export default function Home() {
             <Badge
               icon={TotalIcon}
               text={summaryResult.completed.toString()}
-              label="達成したプチ約束"
+              label="達成した"
             />
           </GridItem>
           <GridItem colSpan={1}>
             <Badge
               icon={SendIcon}
               text={summaryResult.sent.toString()}
-              label="送った約束"
+              label="送った"
             />
           </GridItem>
 
@@ -92,14 +92,14 @@ export default function Home() {
             <Badge
               icon={ActiveIcon}
               text={summaryResult.active.toString()}
-              label="アクティブな約束"
+              label="アクティブ"
             />
           </GridItem>
           <GridItem colSpan={1}>
             <Badge
               icon={PuchiIcon}
               text={summaryResult.total.toString()}
-              label="全ての約束"
+              label="全て"
             />
           </GridItem>
           <GridItem
@@ -200,7 +200,6 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
   const setPromise = useSetAtom(promiseState);
   const sender = promise.sender.displayName;
   const receiver = promise.receiver ? promise.receiver.displayName : "ともだち";
-  const status = promise.completedAt ? "承認済み" : "達成待ち";
   return (
     <Button
       key={promise.id}
