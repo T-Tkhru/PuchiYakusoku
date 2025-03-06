@@ -228,7 +228,8 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       <Avatar
         src={
           promise.sender?.displayName === user?.displayName
-            ? promise.receiver?.pictureUrl
+            ? (promise.receiver?.pictureUrl ??
+              "https://i.gyazo.com/e0b8d96b303094a01ebd5fc4aa530ed4.jpg")
             : promise.sender.pictureUrl
         }
         size="lg"
