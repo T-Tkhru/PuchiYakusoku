@@ -69,7 +69,7 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
       statusColors[
         isMyPromise ? StatusEnum.PENDING_SENDER : StatusEnum.PENDING_RECEIVER
       ],
-    textColor: "black",
+    textColor: "white",
   };
 };
 
