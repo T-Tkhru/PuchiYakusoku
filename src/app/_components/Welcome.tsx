@@ -94,8 +94,8 @@ const FirstStory: React.FC = () => {
     <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
       <Image src="/logo_icon.png" alt="loading" width={300} height={300} />
       <VStack gap={4}>
-        <Text>約束で困ったを無くす</Text>
-        <Text>SNSに近いアプリ</Text>
+        <Text>クチ約束の困ったを無くす</Text>
+        <Text>LINEに近いアプリ</Text>
       </VStack>
     </VStack>
   );
@@ -104,7 +104,7 @@ const FirstStory: React.FC = () => {
 const SecondStory: React.FC = () => {
   return (
     <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
-      <Image src="/status/excited.svg" alt="loading" width={300} height={300} />
+      <Image src="/status/welcome.svg" alt="loading" width={300} height={300} />
       <VStack gap={4}>
         <Text>さあ、約束をプチろう</Text>
       </VStack>

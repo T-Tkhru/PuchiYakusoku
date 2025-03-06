@@ -85,6 +85,8 @@ export const headerMessage = (senderName: string, status: Status) => {
       return ["約束を送信しました", "相手の承認を待とう！"];
     case StatusEnum.PENDING_RECEIVER:
       return [`${senderName}さんから`, "約束が届いています！"];
+    case StatusEnum.EXPIRED:
+      return ["約束の期限が切れました", "次こそは..."];
     default:
       return [`${senderName}さんから`, "約束が届いています！"];
   }
@@ -98,6 +100,7 @@ export const imageSource = (status: Status) => {
       return "/character/yellow_wai.svg";
     case StatusEnum.PENDING_RECEIVER:
       return "/status/excited.svg";
+    case StatusEnum.EXPIRED:
     case StatusEnum.CANCELED:
       return "/character/gray_gakkari.svg";
     case StatusEnum.PENDING_SENDER:
