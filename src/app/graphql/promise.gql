@@ -17,6 +17,7 @@ query GetPromises {
     }
     isAccepted
     completedAt
+    canceledAt
     isShare
   }
   receivedPromises {
@@ -37,6 +38,7 @@ query GetPromises {
     }
     isAccepted
     completedAt
+    canceledAt
     isShare
   }
 }
@@ -60,6 +62,7 @@ query GetPromise($id: String!) {
     }
     isAccepted
     completedAt
+    canceledAt
     isShare
   }
 }
