@@ -48,9 +48,9 @@ export const usePromiseList = () => {
   const filterByCompleted = (completed: boolean) => {
     return promises.filter((promise) => {
       if (completed) {
-        return promise.completedAt !== null;
+        return promise.completedAt !== null && promise.canceledAt === null;
       }
-      return promise.completedAt === null;
+      return promise.completedAt === null && promise.canceledAt === null;
     });
   };
 
