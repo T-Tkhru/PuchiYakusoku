@@ -26,8 +26,8 @@ import { ResultDialog } from "@/app/_components/ResultDialog";
 import { useLiff } from "@/app/providers/LiffProvider";
 import {
   useAcceptPromiseMutation,
+  useCancelPromiseMutation,
   useCompletePromiseMutation,
-  useRejectPromiseMutation,
 } from "@/generated/graphql";
 import { usePromiseList } from "@/hooks/usePromiseList";
 import { promiseState } from "@/lib/jotai_state";
@@ -118,10 +118,15 @@ export default function PromiseDetail() {
     );
   }
   const status = defineStatus(promise, user!);
-
+  console.log(promise);
   return (
     <VStack
-      bgColor={status.baseColor || "white"}
+      style={{
+        backgroundImage: status.bgImage ? `url(${status.bgImage})` : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      bgColor={!status.bgImage ? status.baseColor || "white" : undefined}
       px={8}
       py={4}
       minH="100vh"
@@ -129,7 +134,7 @@ export default function PromiseDetail() {
       alignItems="center"
     >
       <VStack gap={0} alignItems="center">
-        <HomeButton color={status.baseColor == null ? "black" : "white"} />
+        <HomeButton color={status.textColor} />
         <Image
           src={imageSource(status)}
           alt="mail icon"
@@ -146,11 +151,7 @@ export default function PromiseDetail() {
           borderColor="white"
         />
         <VStack alignItems="flex-start" gap={2}>
-          <Text
-            fontWeight={600}
-            fontSize="2xl"
-            color={status.baseColor == null ? "black" : "white"}
-          >
+          <Text fontWeight={600} fontSize="2xl" color={status.textColor}>
             {headerMessage(promise.sender.displayName, status).map(
               (line, index) => (
                 <React.Fragment key={index}>
@@ -163,7 +164,11 @@ export default function PromiseDetail() {
         </VStack>
       </HStack>
       <VStack alignItems="center">
-        <Separator orientation="horizontal" size="lg" />
+        <Separator
+          orientation="horizontal"
+          borderWidth="2px"
+          color={status.textColor}
+        />
       </VStack>
       <PromiseContents
         sender={promise.sender}
@@ -172,7 +177,8 @@ export default function PromiseDetail() {
         content={promise.content as string}
         deadline={promise.dueDate}
         level={promise.level as Level}
-        color={status.baseColor == null ? null : `${status.baseColor}.500`}
+        baseColor={status.baseColor == null ? null : `${status.baseColor}.500`}
+        textColor={status.textColor}
         isShare={promise.isShare}
       />
       <VStack w="full">
@@ -203,7 +209,7 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
   const [isOpen, setIsOpen] = useState<"accept" | "cancel" | null>(null);
   const { removePromiseById, addPromise } = usePromiseList();
 
-  const [acceptPromise, { data, error }] = useAcceptPromiseMutation({
+  const [acceptPromise] = useAcceptPromiseMutation({
     onCompleted: () => {
       setResultDialog({
         isOpen: true,
@@ -211,15 +217,16 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title: "成功",
         message: "約束が正常にプチられました！",
         onClose: () => {
-          const updatePromise = PromiseSchema.parse(data?.acceptPromise);
+          const updatePromise = PromiseSchema.parse(promise);
+          updatePromise.isAccepted = true;
           setPromise(updatePromise);
           addPromise(updatePromise);
+          setResultDialog({ ...resultDialog, isOpen: false });
           setIsOpen(null);
         },
       });
     },
     onError: () => {
-      alert(error);
       setResultDialog({
         isOpen: true,
         type: "error",
@@ -704,15 +711,13 @@ const IsCompletedStatusButtons = ({
       />
       <Button
         rounded="full"
-        variant="outline"
         color="white"
-        borderColor="white"
-        colorScheme="blackAlpha"
-        backgroundColor="blackAlpha.300"
+        colorScheme="amber"
+        backgroundColor="amber.500"
         size="lg"
         fontWeight={800}
         onClick={() => {}}
-        boxShadow="0px 6px white"
+        boxShadow="0px 6px #95710f"
         _active={{
           transform: "translateY(2px)",
           backgroundColor: "blackAlpha.400",
