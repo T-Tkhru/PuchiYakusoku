@@ -94,7 +94,7 @@ const FirstStory: React.FC = () => {
     <VStack h="full" gap={32} py={12} fontSize="32" fontWeight="800">
       <Image src="/logo_icon.png" alt="loading" width={300} height={300} />
       <VStack gap={4}>
-        <Text>クチ約束の困ったを無くす</Text>
+        <Text>約束の困ったを無くす</Text>
         <Text>LINEに近いアプリ</Text>
       </VStack>
     </VStack>

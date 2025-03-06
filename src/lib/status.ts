@@ -99,7 +99,7 @@ export const imageSource = (status: Status) => {
     case StatusEnum.IS_COMPLETED:
       return "/character/yellow_wai.svg";
     case StatusEnum.PENDING_RECEIVER:
-      return "/status/excited.svg";
+      return "/character/pink_wkwk.svg";
     case StatusEnum.EXPIRED:
     case StatusEnum.CANCELED:
       return "/character/gray_gakkari.svg";
