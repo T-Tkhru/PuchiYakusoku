@@ -50,7 +50,7 @@ export default function Home() {
         rounded="lg"
         h="32"
         onClick={() => {
-          router.push("/");
+          router.push("/promise/create");
         }}
         justifyContent="center"
         boxShadow="0px 6px #EB777B"
