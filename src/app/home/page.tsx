@@ -240,7 +240,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
           {promise.direction ? sender : receiver}
           {promise.isShare ? " と " : " が "}
           {promise.direction ? receiver : sender}
-          {promise.isShare ? " で " : " に "}
+          {promise.isShare ? " は " : " に "}
         </Text>
         <Text
           fontWeight={500}

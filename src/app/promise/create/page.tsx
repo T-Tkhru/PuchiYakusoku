@@ -146,7 +146,7 @@ export default function Home() {
                 color={isShare ? "secondary" : "primary"}
               />
 
-              <Text fontSize="6xl">{isShare ? "が" : "に"}</Text>
+              <Text fontSize="6xl">{isShare ? "は" : "に"}</Text>
             </HStack>
             <Center pr={16}>
               <IconButton
