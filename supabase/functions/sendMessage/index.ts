@@ -10,6 +10,7 @@ const sendMessage = async (
   imageUrl: string,
 ): Promise<void | Error> => {
   try {
+    console.log("sendMessage: start");
     const response = await fetch(
       `https://api.line.me/v2/bot/message/push`,
       {
@@ -23,8 +24,7 @@ const sendMessage = async (
           messages: [
             {
               type: "template",
-              altText:
-                `${messageFrom.displayName}さんとの約束についてお知らせだよ！`,
+              altText: message,
               template: {
                 type: "buttons",
                 thumbnailImageUrl: imageUrl,
@@ -99,7 +99,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
   } else {
     console.log(receiver);
   }
-  if (promise.isAccepted === false) {
+  if (
+    promise.isAccepted === false && promise.completedAt === null &&
+    promise.canceledAt === null
+  ) {
     sendMessage(
       promise,
       sender,
@@ -107,53 +110,71 @@ Deno.serve(async (req: Request): Promise<Response> => {
       `${receiver.displayName}さんとの約束は成立しなかったよ...`,
       "https://i.gyazo.com/b286511721ae49d4530bea3dee15bc88.jpg",
     );
-  } else if (promise.isAccepted === true && promise.completedAt === null) {
+    console.log("sendMessage: 成立しなかった");
+  }
+  if (
+    promise.isAccepted === true && promise.completedAt === null &&
+    promise.canceledAt === null
+  ) {
     sendMessage(
       promise,
       sender,
       receiver,
-      `${receiver.displayName}さんとの約束が成立したよ！`,
+      `${receiver.displayName}さんとの約束が成立しました！`,
       "https://i.gyazo.com/9353b09650abfb3deb5c50227fc5f56a.jpg",
     );
     sendMessage(
       promise,
       receiver,
       sender,
-      `${sender.displayName}さんとの約束が成立したよ！`,
+      `${sender.displayName}さんとの約束が成立しました！`,
       "https://i.gyazo.com/9353b09650abfb3deb5c50227fc5f56a.jpg",
     );
-  } else if (promise.isAccepted === true && promise.canceledAt !== null) {
+    console.log("sendMessage: 成立しました");
+  }
+  if (
+    promise.isAccepted === true && promise.completedAt === null &&
+    promise.canceledAt !== null
+  ) {
     sendMessage(
       promise,
       sender,
       receiver,
-      `${receiver.displayName}さんとの約束がキャンセルされたよ...`,
+      `${receiver.displayName}さんとの約束は取り消されました...\nまた約束をしてみよう!`,
       "https://i.gyazo.com/b286511721ae49d4530bea3dee15bc88.jpg",
     );
     sendMessage(
       promise,
       receiver,
       sender,
-      `${sender.displayName}さんとの約束がキャンセルされたよ...`,
+      `${sender.displayName}さんとの約束は取り消されました...\nまた約束をしてみよう!`,
       "https://i.gyazo.com/b286511721ae49d4530bea3dee15bc88.jpg",
     );
-  } else if (promise.isAccepted === true && promise.completedAt !== null) {
+    console.log("sendMessage: 取り消されました");
+  }
+  if (
+    promise.isAccepted === true && promise.completedAt !== null &&
+    promise.canceledAt === null
+  ) {
     sendMessage(
       promise,
       sender,
       receiver,
-      `${receiver.displayName}さんとの約束が達成されたよ!`,
+      `${receiver.displayName}さんとの約束を達成しました!`,
       "https://i.gyazo.com/c5997a08e5a40cb849018b50f0d3e3ba.jpg",
     );
     sendMessage(
       promise,
       receiver,
       sender,
-      `${sender.displayName}さんとの約束が達成されたよ!`,
+      `${sender.displayName}さんとの約束を達成しました!`,
       "https://i.gyazo.com/c5997a08e5a40cb849018b50f0d3e3ba.jpg",
     );
+    console.log("sendMessage: 達成しました");
   } else {
+    console.log("sendMessage: 何もしない");
     return new Response("Invalid request payload", { status: 400 });
   }
+  console.log("送信完了");
   return new Response("Message sent successfully", { status: 200 });
 });
