@@ -201,10 +201,11 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
   const sender = promise.sender.displayName;
   const receiver = promise.receiver ? promise.receiver.displayName : "ともだち";
   return (
-    <Button
+    <HStack
+      w="full"
+      p={4}
       key={promise.id}
       bgColor="white"
-      size="md"
       rounded="lg"
       h="24"
       onClick={() => {
@@ -222,47 +223,52 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
         backgroundColor: "border",
         boxShadow: "none",
       }}
+      cursor={"pointer"}
     >
-      <HStack w="full">
-        {promise.sender?.displayName === user?.displayName ? (
-          <Avatar
-            src={promise.receiver?.pictureUrl as string}
-            size="lg"
-            border="2px solid"
-            borderColor={promise.completedAt ? "amber" : "primary"}
-          />
-        ) : (
-          <Avatar
-            src={promise.sender?.pictureUrl as string}
-            size="lg"
-            border="2px solid"
-            borderColor={promise.completedAt ? "amber" : "secondary"}
-          />
-        )}
-        <VStack gap={2}>
-          <Text size="sm" h="4" fontWeight={500} fontSize="sm">
-            {promise.direction ? receiver : sender}
-            {promise.isShare ? " と " : " から "}
-            {promise.direction ? sender : receiver}
-            {promise.isShare ? " で " : " へ "}
-          </Text>
-          <Text size="md" h="4" fontWeight={500}>
-            {promise.content}
-          </Text>
-          {promise.dueDate ? (
-            <HStack gap={1}>
-              <AlarmClockIcon fontSize="sm" />
-              <Text fontSize="sm" fontWeight={500} overflow="ellipsis">
-                {formatDate(promise.dueDate)}まで
-              </Text>
-            </HStack>
-          ) : (
-            <Text fontSize="sm" fontWeight={500}>
-              期限なし
+      <Avatar
+        src={
+          promise.sender?.displayName === user?.displayName
+            ? promise.receiver?.pictureUrl
+            : promise.sender.pictureUrl
+        }
+        size="lg"
+        border="2px solid"
+        borderColor={"primary"}
+      />
+      <VStack gap={0} w="auto" overflow="hidden">
+        <Text size="sm" fontWeight={500} fontSize="sm">
+          {promise.direction ? receiver : sender}
+          {promise.isShare ? " と " : " から "}
+          {promise.direction ? sender : receiver}
+          {promise.isShare ? " で " : " へ "}
+        </Text>
+        <Text
+          fontWeight={500}
+          overflow="hidden"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+        >
+          {promise.content}
+        </Text>
+        {promise.dueDate ? (
+          <HStack gap={1}>
+            <AlarmClockIcon fontSize="sm" />
+            <Text
+              fontSize="sm"
+              fontWeight={500}
+              textOverflow="ellipsis"
+              w="full"
+              whiteSpace="nowrap"
+            >
+              {formatDate(promise.dueDate)}まで
             </Text>
-          )}
-        </VStack>
-      </HStack>
-    </Button>
+          </HStack>
+        ) : (
+          <Text fontSize="sm" fontWeight={500}>
+            期限なし
+          </Text>
+        )}
+      </VStack>
+    </HStack>
   );
 };
