@@ -171,10 +171,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
       "https://i.gyazo.com/c5997a08e5a40cb849018b50f0d3e3ba.jpg",
     );
     console.log("sendMessage: 達成しました");
-  } else {
-    console.log("sendMessage: 何もしない");
-    return new Response("Invalid request payload", { status: 400 });
   }
+
   console.log("送信完了");
   return new Response("Message sent successfully", { status: 200 });
 });
