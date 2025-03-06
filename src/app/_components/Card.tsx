@@ -22,7 +22,11 @@ export const UserCard = ({
       zIndex={1}
     >
       <Avatar
-        src={user ? user.pictureUrl : "https://not-found.com"}
+        src={
+          user
+            ? user.pictureUrl
+            : "https://i.gyazo.com/e0b8d96b303094a01ebd5fc4aa530ed4.jpg"
+        }
         size={size}
         border="4px solid"
         borderColor={color}
