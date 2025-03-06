@@ -7,6 +7,7 @@ import { handle } from "hono/vercel";
 import { schema } from "@/graphql/schema";
 import { prisma } from "@/lib/prisma";
 import { UserSimpleProfileSchema } from "@/lib/type";
+import { Level } from "@prisma/client";
 
 import { auth } from "../auth/[...nextauth]/auth";
 
@@ -26,6 +27,13 @@ interface LineProfileResponse {
 }
 
 const app = new Hono<{ Variables: Variables }>().basePath("/api");
+
+function incrementNumbersInUUID(uuid: string, n: number): string {
+  return uuid.replace(
+    /\d/g,
+    (digit) => ((parseInt(digit) + n) % 10).toString(),
+  );
+}
 
 const validateToken = async (token: string) => {
   try {
@@ -48,8 +56,8 @@ const getUser = async (token: string) => {
       },
     });
 
-    const { userId, displayName, pictureUrl } =
-      response.data as LineProfileResponse;
+    const { userId, displayName, pictureUrl } = response
+      .data as LineProfileResponse;
     return { userId, displayName, pictureUrl };
   } catch (error) {
     console.error("Error fetching user info from LINE:", error);
@@ -74,7 +82,53 @@ const createUser = async (token: string) => {
       pictureUrl,
     },
   });
-  return user;
+  const promise = await prisma.promise.findUnique({
+    where: {
+      id: incrementNumbersInUUID(user.id, 1),
+    },
+  });
+  if (promise) {
+    return user;
+  } else {
+    await prisma.promise.createMany({
+      data: [
+        {
+          id: incrementNumbersInUUID(user.id, 1),
+          content: "ハッカソン優勝する！！🔥🔥🔥",
+          level: Level.MEDIUM,
+          dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1日後
+          direction: true,
+          senderUserId: user.userId,
+          receiverUserId: "Ueeaf4c5146e6f188a5f4a03c129bba16",
+          isAccepted: true,
+          isShare: true,
+        },
+        {
+          id: incrementNumbersInUUID(user.id, 2),
+          content: "終わったら打ち上げじゃい！🍻",
+          level: Level.MEDIUM,
+          dueDate: null,
+          direction: true,
+          senderUserId: user.userId,
+          receiverUserId: "Ueb5d5f269e76bc2e38487ddac3d0b920",
+          isAccepted: true,
+          isShare: true,
+        },
+        {
+          id: incrementNumbersInUUID(user.id, 3),
+          content: "100万円貸してくれ、、🥹",
+          level: Level.HIGH,
+          dueDate: null,
+          direction: false,
+          senderUserId: user.userId,
+          receiverUserId: "U07804dd37802a76aaacd85051d2f3780",
+          isAccepted: true,
+          isShare: false,
+        },
+      ],
+    });
+    return user;
+  }
 };
 
 // ミドルウェアでアクセストークンを検証
@@ -103,7 +157,10 @@ app.post("/login", async (c) => {
   if (!user) {
     return c.json({ message: "Failed to fetch user info" }, 500);
   }
-  return c.json({ name: user.displayName, image: user.pictureUrl, id: user.id }, 200);
+  return c.json(
+    { name: user.displayName, image: user.pictureUrl, id: user.id },
+    200,
+  );
 });
 
 app.use("/userProfile", async (c) => {
@@ -118,7 +175,7 @@ app.use(
   graphqlServer({
     schema,
     graphiql: true,
-  })
+  }),
 );
 
 app.use("/auth/*", authHandler());
