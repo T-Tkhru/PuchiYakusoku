@@ -9,6 +9,8 @@ import {
   Heading,
   HStack,
   Image,
+  SegmentedControl,
+  SegmentedControlButton,
   Text,
   VStack,
 } from "@yamada-ui/react";
@@ -16,11 +18,8 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-import {
-  promisesListState,
-  promiseState,
-  summarizeResultState,
-} from "@/lib/jotai_state";
+import { usePromiseList } from "@/hooks/usePromiseList";
+import { promiseState, summarizeResultState } from "@/lib/jotai_state";
 import { Promise } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 
@@ -36,10 +35,12 @@ import { useLiff } from "../providers/LiffProvider";
 const ITEMS_PER_PAGE = 5;
 
 export default function Home() {
-  const PromiseList = useAtomValue(promisesListState);
+  const { promises, filterByCompleted } = usePromiseList();
   const router = useRouter();
   const summaryResult = useAtomValue(summarizeResultState);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [filetedByCompleted, setFilteredByCompleted] = useState(false);
+
   return (
     <VStack gap={8}>
       <Button
@@ -134,21 +135,41 @@ export default function Home() {
         <HStack justifyContent="space-between" w="full">
           <Heading fontSize="xl">手持ちのプチ約束</Heading>
         </HStack>
+        <SegmentedControl
+          colorScheme={filetedByCompleted ? "amber" : "primary"}
+          border="2px solid"
+          borderColor="border"
+          defaultValue="active"
+          rounded="md"
+          size="sm"
+          h="9"
+          w="full"
+          onChange={(value) => setFilteredByCompleted(value === "completed")}
+        >
+          <SegmentedControlButton value="active">
+            アクティブ
+          </SegmentedControlButton>
+          <SegmentedControlButton value="completed">
+            達成済み
+          </SegmentedControlButton>
+        </SegmentedControl>
         <VStack w="full" gap={3}>
-          {PromiseList.length === 0 ? (
+          {filterByCompleted(filetedByCompleted).length === 0 ? (
             <VStack w="full" gap={4} alignItems="center" p="8">
               <Text fontSize="sm" fontWeight={600}>
                 プチ約束はありません
               </Text>
             </VStack>
           ) : null}
-          {PromiseList.slice(0, visibleCount).map((promise, index) => (
-            <React.Fragment key={`promise-${index}`}>
-              <EachPromiseCard promise={promise} />
-            </React.Fragment>
-          ))}
+          {filterByCompleted(filetedByCompleted)
+            .slice(0, visibleCount)
+            .map((promise, index) => (
+              <React.Fragment key={`promise-${index}`}>
+                <EachPromiseCard promise={promise} />
+              </React.Fragment>
+            ))}
         </VStack>
-        {visibleCount < PromiseList.length && (
+        {visibleCount < filterByCompleted(filetedByCompleted).length && (
           <Button
             colorScheme="primary"
             variant="ghost"
@@ -193,7 +214,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
       boxShadow={"0px 4px #dcdcde"}
       _active={{
         transform: "translateY(2px)",
-        backgroundColor: "gray.50",
+        backgroundColor: "border",
         boxShadow: "none",
       }}
     >
@@ -203,14 +224,14 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
             src={promise.receiver?.pictureUrl as string}
             size="lg"
             border="2px solid"
-            borderColor="primary"
+            borderColor={promise.completedAt ? "amber" : "primary"}
           />
         ) : (
           <Avatar
             src={promise.sender?.pictureUrl as string}
             size="lg"
             border="2px solid"
-            borderColor="secondary"
+            borderColor={promise.completedAt ? "amber" : "secondary"}
           />
         )}
         <VStack gap={2}>
@@ -222,7 +243,7 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
             {promise.content}
           </Text>
           {promise.dueDate ? (
-            <HStack gap={2}>
+            <HStack gap={1}>
               <AlarmClockIcon fontSize="sm" />
               <Text fontSize="sm" fontWeight={500}>
                 {formatDate(promise.dueDate)}まで

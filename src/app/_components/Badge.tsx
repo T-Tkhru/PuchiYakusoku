@@ -1,4 +1,4 @@
-import { Box, HStack, Icon, Text, VStack } from "@yamada-ui/react";
+import { HStack, Icon, Text, VStack } from "@yamada-ui/react";
 
 interface BadgeProps {
   icon: React.ComponentType;
