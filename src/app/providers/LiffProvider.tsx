@@ -56,7 +56,10 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken);
         }
-        // ユーザーがログインしている場合にプロフィール情報を取得
+        if (user) {
+          console.log("User already set, skipping login.");
+          return;
+        }
         if (liffModule.default.isLoggedIn()) {
           const profile = await liffModule.default.getProfile();
           const response = await axios.post(
@@ -90,7 +93,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
     if (typeof window !== "undefined") {
       initLiff();
     }
-  }, []);
+  }, [user]);
 
   return (
     <LiffContext.Provider value={{ liff: liffObject, user, error: liffError }}>
