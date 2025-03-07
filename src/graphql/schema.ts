@@ -82,16 +82,35 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             sender: { userId: userId },
-            isAccepted: !false,
+            canceledAt: null,
             OR: [
-              { completedAt: { not: null } },
               {
-                dueDate: {
-                  gte: new Date(),
-                },
+                isAccepted: true,
+                OR: [
+                  { completedAt: { not: null } },
+                  {
+                    dueDate: {
+                      gte: new Date(),
+                    },
+                  },
+                  {
+                    dueDate: null,
+                  },
+                ],
               },
               {
-                dueDate: null,
+                isAccepted: null,
+                OR: [
+                  { completedAt: { not: null } },
+                  {
+                    dueDate: {
+                      gte: new Date(),
+                    },
+                  },
+                  {
+                    dueDate: null,
+                  },
+                ],
               },
             ],
           },
@@ -106,16 +125,35 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             receiver: { userId: userId },
-            isAccepted: !false,
+            canceledAt: null,
             OR: [
-              { completedAt: { not: null } },
               {
-                dueDate: {
-                  gte: new Date(),
-                },
+                isAccepted: true,
+                OR: [
+                  { completedAt: { not: null } },
+                  {
+                    dueDate: {
+                      gte: new Date(),
+                    },
+                  },
+                  {
+                    dueDate: null,
+                  },
+                ],
               },
               {
-                dueDate: null,
+                isAccepted: null,
+                OR: [
+                  { completedAt: { not: null } },
+                  {
+                    dueDate: {
+                      gte: new Date(),
+                    },
+                  },
+                  {
+                    dueDate: null,
+                  },
+                ],
               },
             ],
           },
