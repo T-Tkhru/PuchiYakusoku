@@ -2,10 +2,12 @@ import datetime
 import random
 
 import google.auth
+from dotenv import load_dotenv
 from google.cloud import scheduler_v1
 
-PROJECT_ID = "your-project-id"
-SCHEDULER_JOB_NAME = "my-job"
+load_dotenv()
+PROJECT_ID = os.getenv("PROJECT_ID")
+SCHEDULER_JOB_NAME = os.getenv("SCHEDULER_JOB_NAME")
 SCHEDULER_LOCATION = "asia-northeast1"
 TIME_ZONE = "Asia/Tokyo"
 
@@ -21,9 +23,6 @@ def random_time():
         datetime.time(hour=first_time // 60, minute=first_time % 60),
         datetime.time(hour=second_time // 60, minute=second_time % 60),
     ]
-
-
-print(random_time())
 
 
 def update_scheduler(event, context):

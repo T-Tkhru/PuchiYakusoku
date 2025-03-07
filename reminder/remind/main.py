@@ -4,7 +4,7 @@ import random
 from dataclasses import dataclass
 
 from dotenv import load_dotenv
-from src.line.send_message import create_button_template_message, send_line_message
+from src.line.send_message import get_promise_status, send_with_probability
 from src.type import Promise, User
 
 from supabase import Client, create_client
@@ -52,21 +52,6 @@ def remind_promises(event, context):
             receiverUserId=row["receiverUserId"],
             senderUserId=row["senderUserId"],
         )
+        status = get_promise_status(promise)
         logging.info(f"result :{promise}")
-        result = send_line_message(
-            user_id=(
-                promise.senderUserId if promise.is_reverse else promise.receiverUserId
-            ),
-            messages=[
-                {
-                    "type": "text",
-                    "text": f"{get_user_name(promise.senderUserId)}と{get_user_name(promise.receiverUserId)}との連絡...忘れてない？",
-                },
-                create_button_template_message(
-                    text="約束の確認はこちらこら！",
-                    image_url="https://i.gyazo.com/9353b09650abfb3deb5c50227fc5f56a.jpg",
-                    liff_url=f"https://example.com/promise/{promise.id}",
-                ),
-            ],
-        )
-        logging.info(f"Message sent result: {result}")
+        send_with_probability(promise, status)
