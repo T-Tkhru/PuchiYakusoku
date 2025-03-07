@@ -449,13 +449,13 @@ const IsAcceptedStatusButtons = ({
 
   const [cancelPromise] = useCancelPromiseMutation({
     onCompleted: () => {
-      removePromiseById(promise.id);
       setResultDialog({
         isOpen: true,
         type: "success",
         title: "キャンセル成功",
         message: "約束がキャンセルされました...",
         onClose: () => {
+          removePromiseById(promise.id);
           router.push("/home");
         },
       });

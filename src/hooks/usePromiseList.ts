@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useLiff } from "@/app/providers/LiffProvider";
 import { useGetPromisesQuery } from "@/generated/graphql";
@@ -9,9 +9,12 @@ import { Promise, PromiseSchema, SummarizeResultSchema } from "@/lib/type";
 
 export const usePromiseList = () => {
   const [promises, setPromises] = useAtom(promisesListState);
+  const [skipUpdateFromServer, setSkipUpdateFromServer] = useState(false);
   const { data } = useGetPromisesQuery({
-    variables: {},
+    skip: false, 
+    fetchPolicy: "cache-first",
   });
+
   const setSummarizeResult = useSetAtom(summarizeResultState);
   const { user } = useLiff();
 
@@ -39,10 +42,12 @@ export const usePromiseList = () => {
 
   const removePromiseById = (id: string) => {
     setPromises((prev) => prev.filter((promise: Promise) => promise.id !== id));
+    setSkipUpdateFromServer(true);
   };
 
   const addPromise = (newPromise: Promise) => {
     setPromises((prev) => [...prev, newPromise]);
+    setSkipUpdateFromServer(true);
   };
 
   const filterByCompleted = (completed: boolean) => {
