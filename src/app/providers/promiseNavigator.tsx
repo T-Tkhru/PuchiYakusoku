@@ -27,9 +27,13 @@ export const PromiseNavigator = ({
   const { data } = useGetPromiseQuery(
     query !== null
       ? {
+          fetchPolicy: "cache-and-network",
           variables: { id: query },
         }
-      : { skip: true }
+      : {
+          fetchPolicy: "cache-and-network",
+          skip: true,
+        }
   );
 
   useEffect(() => {

@@ -21,9 +21,13 @@ export default function HomeLayout({
   const { data } = useGetPromiseQuery(
     promiseId !== undefined
       ? {
+          fetchPolicy: "cache-and-network",
           variables: { id: promiseId },
         }
-      : { skip: true }
+      : {
+          fetchPolicy: "cache-and-network",
+          skip: true,
+        }
   );
 
   useEffect(() => {
