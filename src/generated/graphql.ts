@@ -147,7 +147,7 @@ export type CreatePromiseMutationVariables = Exact<{
 }>;
 
 
-export type CreatePromiseMutation = { __typename?: 'Mutation', createPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
+export type CreatePromiseMutation = { __typename?: 'Mutation', createPromise?: { __typename?: 'Promise', id: string, content: string, level: Level, dueDate?: string | null, direction: boolean, isAccepted?: boolean | null, completedAt?: string | null, canceledAt?: string | null, isShare: boolean, sender: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null }, receiver?: { __typename?: 'User', id: string, displayName: string, pictureUrl?: string | null } | null } | null };
 
 export type AcceptPromiseMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -364,6 +364,7 @@ export const CreatePromiseDocument = gql`
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -374,6 +375,10 @@ export const CreatePromiseDocument = gql`
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
+    canceledAt
+    isShare
   }
 }
     `;

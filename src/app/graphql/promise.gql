@@ -73,6 +73,7 @@ mutation CreatePromise($input: CreatePromiseInput!) {
     content
     level
     dueDate
+    direction
     sender {
       id
       displayName
@@ -83,6 +84,10 @@ mutation CreatePromise($input: CreatePromiseInput!) {
       displayName
       pictureUrl
     }
+    isAccepted
+    completedAt
+    canceledAt
+    isShare
   }
 }
 
