@@ -182,7 +182,7 @@ export default function Home() {
             backgroundColor="blackAlpha.200"
             _active={{
               transform: "translateY(2px)",
-              backgroundColor: "pink.800",
+              backgroundColor: "teal.600",
               boxShadow: "none",
             }}
           >
