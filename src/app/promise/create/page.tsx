@@ -33,8 +33,10 @@ import {
   useCreatePromiseMutation,
   useDeletePromiseMutation,
 } from "@/generated/graphql";
+import { usePromiseList } from "@/hooks/usePromiseList";
 import { createMessageString, getDueDate } from "@/lib/control-form";
 import { gestUser } from "@/lib/mockData";
+import { PromiseSchema } from "@/lib/type";
 
 import { UserCard } from "../../_components/Card";
 import { HomeButton } from "../../_components/GoBackButton";
@@ -89,6 +91,7 @@ export default function Home() {
     },
   });
   const [deletePromise] = useDeletePromiseMutation();
+  const { addPromise } = usePromiseList();
 
   return (
     <React.Fragment>
@@ -367,6 +370,11 @@ export default function Home() {
                           id: promiseId,
                         },
                       });
+                    } else {
+                      const updatedPromise = PromiseSchema.parse(
+                        result.data?.createPromise
+                      );
+                      addPromise(updatedPromise);
                     }
                     console.log("TargetPicker was closed!");
                   }

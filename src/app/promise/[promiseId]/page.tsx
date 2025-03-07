@@ -192,9 +192,6 @@ export default function PromiseDetail() {
         {status.status === StatusEnum.PENDING_SENDER && user && (
           <MyPromiseButtons promise={promise} />
         )}
-        {status.status === StatusEnum.IS_COMPLETED && user && (
-          <IsCompletedStatusButtons promise={promise} user={user} />
-        )}
       </VStack>
     </VStack>
   );
@@ -696,80 +693,5 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
         </Button>
       </VStack>
     </VStack>
-  );
-};
-
-const IsCompletedStatusButtons = ({
-  promise,
-  user,
-}: {
-  promise: TypePromise;
-  user: UserProfile;
-}) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [resultDialog, setResultDialog] = useState<{
-    isOpen: boolean;
-    type: "success" | "error";
-    title: string;
-    message: string;
-  }>({ isOpen: false, type: "success", title: "", message: "" });
-
-  const handleThank = async (user: UserProfile) => {
-    try {
-      await sendMessage(user, promise, "ありがとう！", false);
-      setResultDialog({
-        isOpen: true,
-        type: "success",
-        title: "送信成功",
-        message: "「ありがとう！」が正常に送信されました。",
-      });
-    } catch (error) {
-      setResultDialog({
-        isOpen: true,
-        type: "error",
-        title: "エラー",
-        message: "メッセージ送信中にエラーが発生しました。",
-      });
-      alert(error);
-    }
-    setIsOpen(false);
-    setResultDialog({ ...resultDialog, isOpen: false });
-  };
-
-  return (
-    <React.Fragment>
-      <ActionModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        title="ありがとうを伝える"
-        message="お礼を言います。よろしいですか？"
-        onConfirm={() => handleThank(user)}
-      />
-
-      <ResultDialog
-        isOpen={resultDialog.isOpen}
-        type={resultDialog.type}
-        title={resultDialog.title}
-        message={resultDialog.message}
-        onClose={() => setResultDialog({ ...resultDialog, isOpen: false })}
-      />
-      {/* <Button
-        rounded="full"
-        color="white"
-        colorScheme="amber"
-        backgroundColor="amber.500"
-        size="lg"
-        fontWeight={800}
-        onClick={() => {}}
-        boxShadow="0px 6px #95710f"
-        _active={{
-          transform: "translateY(2px)",
-          backgroundColor: "blackAlpha.400",
-          boxShadow: "none",
-        }}
-      >
-        お礼を言う
-      </Button> */}
-    </React.Fragment>
   );
 };
