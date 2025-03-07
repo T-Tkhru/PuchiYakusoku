@@ -86,7 +86,7 @@ builder.queryType({
               { completedAt: { not: null } },
               {
                 dueDate: {
-                  gte: new Date(),
+                  gte: new Date() || null,
                 },
               },
             ],
@@ -106,7 +106,7 @@ builder.queryType({
               { completedAt: { not: null } },
               {
                 dueDate: {
-                  gte: new Date(),
+                  gte: new Date() || null,
                 },
               },
             ],
