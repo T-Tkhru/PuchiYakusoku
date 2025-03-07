@@ -6,19 +6,21 @@ import { Promise as PromiseType, UserProfile } from "./type";
 const lineToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
 enum PromiseStatus {
+  LIGHT = "light",
   NORMAL = "normal",
   NEAR_DEADLINE = "near_deadline",
   DEADLINE_TODAY = "deadline_today",
 }
 
-const getPromiseStatus = (dueDateStr: string | null): PromiseStatus => {
-  if (!dueDateStr) return PromiseStatus.NORMAL;
+const getPromiseStatus = (promise: PromiseType): PromiseStatus => {
+  if (promise.level == "LOW") return PromiseStatus.LIGHT;
+  if (promise.dueDate == null) return PromiseStatus.NORMAL;
 
   const now = new Date();
-  const dueDate = new Date(dueDateStr);
+  const dueDate = new Date(promise.dueDate);
 
   if (isNaN(dueDate.getTime())) {
-    console.error(`約束の内容が無効かも?: ${dueDateStr}`);
+    console.error(`約束の内容が無効: ${promise.dueDate}`);
     return PromiseStatus.NORMAL;
   }
 
@@ -45,14 +47,13 @@ export const sendRemind = async (
     const sender = await prisma.user.findFirst({
       where: { id: promise.sender?.id },
     });
-
     const messageFrom = user;
     const messageTo = user.id === promise.sender.id ? receiver : sender;
     if (messageTo == null) {
       return;
     }
 
-    const status = getPromiseStatus(promise.dueDate);
+    const status = getPromiseStatus(promise);
 
     let messageText = `${messageFrom?.displayName}さんとの約束、忘れてない…？`;
     let imageUrl = "https://i.gyazo.com/c5f84a06b8a799695d26b20c688ac9a7.jpg";
@@ -66,45 +67,44 @@ export const sendRemind = async (
         messageText += " そろそろ期限が近いみたいだよ！";
         imageUrl = "https://i.gyazo.com/b652e487fdd3c44f4f099c5dd41efd63.jpg";
         break;
+      case PromiseStatus.LIGHT:
+        imageUrl = "https://i.gyazo.com/19053010e8519adfc3e134f44a9c4227.jpg";
       default:
         break;
     }
-
-    const response = await fetch(
-      "https://api.line.me/v2/bot/message/multicast",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${lineToken}`,
-        },
-        body: JSON.stringify({
-          to: [messageTo.id],
-          messages: [
-            {
-              type: "template",
-              altText: messageText,
-              template: {
-                type: "buttons",
-                thumbnailImageUrl: imageUrl,
-                imageAspectRatio: "rectangle",
-                imageSize: "cover",
-                imageBackgroundColor: "#6ac1b7",
-                text: messageText,
-                actions: [
-                  {
-                    type: "uri",
-                    label: "プチ約束を確認する",
-                    uri: `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}/?query=${promise.id}`,
-                  },
-                ],
-              },
+    const response = await fetch(`https://api.line.me/v2/bot/message/push`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${lineToken}`,
+      },
+      body: JSON.stringify({
+        to: messageTo?.userId,
+        messages: [
+          {
+            type: "template",
+            altText: messageText,
+            template: {
+              type: "buttons",
+              thumbnailImageUrl: imageUrl,
+              imageAspectRatio: "rectangle",
+              imageSize: "cover",
+              imageBackgroundColor: "#6ac1b7",
+              text: messageText,
+              actions: [
+                {
+                  type: "uri",
+                  label: "プチ約束を確認する",
+                  uri:
+                    `https://liff.line.me/${process.env.NEXT_PUBLIC_LIFF_ID}` +
+                    `/?query=${promise.id}`,
+                },
+              ],
             },
-          ],
-        }),
-      }
-    );
-
+          },
+        ],
+      }),
+    });
     if (!response.ok) {
       throw new Error(`Error fetching auth user data: ${response.status}`);
     }
@@ -114,3 +114,4 @@ export const sendRemind = async (
       : new Error("An unknown error occurred");
   }
 };
+
