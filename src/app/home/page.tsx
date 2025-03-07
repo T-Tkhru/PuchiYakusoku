@@ -233,8 +233,6 @@ const EachPromiseCard = ({ promise }: { promise: Promise }) => {
             : promise.sender.pictureUrl
         }
         size="lg"
-        border="2px solid"
-        borderColor={"primary"}
       />
       <VStack gap={0} w="auto" overflow="hidden">
         <Text size="sm" fontWeight={500} fontSize="sm">
