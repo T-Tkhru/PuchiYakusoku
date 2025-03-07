@@ -28,6 +28,7 @@ import {
   useAcceptPromiseMutation,
   useCancelPromiseMutation,
   useCompletePromiseMutation,
+  useRejectPromiseMutation,
 } from "@/generated/graphql";
 import { usePromiseList } from "@/hooks/usePromiseList";
 import { promiseState } from "@/lib/jotai_state";
@@ -266,6 +267,33 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
     },
   });
 
+  const [rejectPromise] = useRejectPromiseMutation({
+    onCompleted: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "success",
+        title: "拒否成功",
+        message: "約束が拒否されました...",
+        onClose: () => {
+          removePromiseById(promise.id);
+          router.push("/home");
+        },
+      });
+    },
+    onError: () => {
+      setResultDialog({
+        isOpen: true,
+        type: "error",
+        title: "エラー",
+        message: "拒否しようとしたらエラーが発生しました。",
+        onClose: () => {
+          setIsOpen(null);
+          setResultDialog({ ...resultDialog, isOpen: false });
+        },
+      });
+    },
+  });
+
   const [resultDialog, setResultDialog] = useState<{
     isOpen: boolean;
     type: "success" | "error";
@@ -287,6 +315,9 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
   const handleCancel = async () => {
     await cancelPromise({ variables: { id: promise.id } });
   };
+  const handleReject = async () => {
+    await rejectPromise({ variables: { id: promise.id } });
+  };
 
   return (
     <VStack w="full">
@@ -303,6 +334,13 @@ const UnReadStatusButtons = ({ promise }: ActionButtonProps) => {
         title="キャンセル"
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
+      />
+      <ActionModal
+        isOpen={isOpen === "cancel"}
+        onClose={() => setIsOpen(null)}
+        title="拒否"
+        message="約束を拒否します。よろしいですか？"
+        onConfirm={handleReject}
       />
       <ResultDialog
         isOpen={resultDialog.isOpen}
