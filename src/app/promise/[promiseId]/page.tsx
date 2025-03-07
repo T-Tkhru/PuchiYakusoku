@@ -449,13 +449,13 @@ const IsAcceptedStatusButtons = ({
 
   const [cancelPromise] = useCancelPromiseMutation({
     onCompleted: () => {
+      removePromiseById(promise.id);
       setResultDialog({
         isOpen: true,
         type: "success",
         title: "キャンセル成功",
         message: "約束がキャンセルされました...",
         onClose: () => {
-          removePromiseById(promise.id);
           router.push("/home");
         },
       });
@@ -485,7 +485,7 @@ const IsAcceptedStatusButtons = ({
     setIsOpen(null);
   };
 
-  const handleRemind = async (user: UserProfile, promise: TypePromise) => {
+  const handleRemind = async () => {
     try {
       await sendMessage(
         user,
@@ -528,6 +528,13 @@ const IsAcceptedStatusButtons = ({
         message="キャンセルします。よろしいですか？"
         onConfirm={handleCancel}
       />
+      <ActionModal
+        isOpen={isOpen === "remind"}
+        onClose={() => setIsOpen(null)}
+        title="リマインド"
+        message="リマインドします。よろしいですか？"
+        onConfirm={handleRemind}
+      />
       <ResultDialog
         isOpen={resultDialog.isOpen}
         type={resultDialog.type}
@@ -545,7 +552,7 @@ const IsAcceptedStatusButtons = ({
           backgroundColor="blackAlpha.300"
           size="lg"
           fontWeight={800}
-          onClick={() => handleRemind(user, promise)}
+          onClick={() => setIsOpen("remind")}
           boxShadow="0px 6px white"
           _active={{
             transform: "translateY(2px)",
@@ -606,14 +613,15 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
   const { removePromiseById } = usePromiseList();
   const [cancelPromise] = useCancelPromiseMutation({
     onCompleted: () => {
+      removePromiseById(promise.id);
       setResultDialog({
         isOpen: true,
         type: "success",
         title: "キャンセル成功",
         message: "約束がキャンセルされました。",
         onClose() {
-          removePromiseById(promise.id);
           setIsOpen(null);
+          router.push("/home");
           setResultDialog({ ...resultDialog, isOpen: false });
         },
       });
@@ -651,9 +659,6 @@ const MyPromiseButtons = ({ promise }: { promise: TypePromise }) => {
         id: promise.id,
       },
     });
-    removePromiseById(promise.id);
-    setIsOpen(null);
-    router.push("/home");
   };
 
   return (
