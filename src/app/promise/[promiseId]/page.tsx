@@ -32,7 +32,7 @@ import {
 } from "@/generated/graphql";
 import { usePromiseList } from "@/hooks/usePromiseList";
 import { promiseState } from "@/lib/jotai_state";
-import { sendMessage } from "@/lib/request";
+import { sendRemind } from "@/lib/remaind";
 import {
   defineStatus,
   headerMessage,
@@ -487,12 +487,7 @@ const IsAcceptedStatusButtons = ({
 
   const handleRemind = async () => {
     try {
-      await sendMessage(
-        user,
-        promise,
-        "もしかしたら約束...忘れてない...?",
-        true
-      );
+      await sendRemind(user, promise);
       setResultDialog({
         isOpen: true,
         type: "success",
