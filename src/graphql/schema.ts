@@ -196,11 +196,16 @@ builder.mutationType({
       args: {
         id: t.arg.id({ required: true }),
       },
-      resolve: (_, args) =>
-        prisma.promise.update({
+      resolve: (_, args, context: any) => {
+        const userId = context.get("user").userId;
+        return prisma.promise.update({
           where: { id: args.id },
-          data: { receiver: { disconnect: true }, isAccepted: false },
-        }),
+          data: {
+            receiver: { connect: { userId: userId } },
+            isAccepted: false,
+          },
+        });
+      },
     }),
     completePromise: t.field({
       type: promise,
