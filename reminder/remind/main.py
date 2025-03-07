@@ -63,7 +63,7 @@ def remind_promises(event, context):
                     "text": f"{get_user_name(promise.senderUserId)}と{get_user_name(promise.receiverUserId)}との連絡...忘れてない？",
                 },
                 create_button_template_message(
-                    text="約束を確認はこちらこら！",
+                    text="約束の確認はこちらこら！",
                     image_url="https://i.gyazo.com/9353b09650abfb3deb5c50227fc5f56a.jpg",
                     liff_url=f"https://example.com/promise/{promise.id}",
                 ),
