@@ -356,7 +356,7 @@ export default function Home() {
                       message: "相手が約束に気づきますように！",
                       animeComponent: (
                         <DotLottieReact
-                          src="https://lottie.host/7742fea3-2f40-4632-a879-d5c7fe603a3f/U8GUc469w2.lottie"
+                          src="https://lottie.host/7a47b0a7-46d5-4ed7-be85-021d2183fb03/0snzZ7MWjb.lottie"
                           loop
                           autoplay
                         />
