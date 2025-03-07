@@ -45,7 +45,7 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
     };
   }
 
-  if (promise.canceledAt) {
+  if (promise.canceledAt || promise.isAccepted === false) {
     return {
       status: StatusEnum.CANCELED,
       baseColor: statusColors[StatusEnum.CANCELED],
