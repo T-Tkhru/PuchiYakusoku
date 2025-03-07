@@ -53,7 +53,7 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
     };
   }
 
-  if (promise.isAccepted || promise.isAccepted === false) {
+  if (promise.isAccepted) {
     return {
       status: StatusEnum.IS_ACCEPTED,
       baseColor: statusColors[StatusEnum.IS_ACCEPTED],
@@ -65,10 +65,9 @@ export const defineStatus = (promise: Promise, user: UserProfile): Status => {
     status: isMyPromise
       ? StatusEnum.PENDING_SENDER
       : StatusEnum.PENDING_RECEIVER,
-    baseColor:
-      statusColors[
-        isMyPromise ? StatusEnum.PENDING_SENDER : StatusEnum.PENDING_RECEIVER
-      ],
+    baseColor: statusColors[
+      isMyPromise ? StatusEnum.PENDING_SENDER : StatusEnum.PENDING_RECEIVER
+    ],
     textColor: isMyPromise ? "black" : "white",
   };
 };
