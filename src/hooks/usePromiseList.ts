@@ -11,8 +11,8 @@ export const usePromiseList = () => {
   const [promises, setPromises] = useAtom(promisesListState);
   const [skipUpdateFromServer, setSkipUpdateFromServer] = useState(false);
   const { data } = useGetPromisesQuery({
-    skip: false, 
-    fetchPolicy: "cache-first",
+    skip: false,
+    fetchPolicy: "cache-and-network",
   });
 
   const setSummarizeResult = useSetAtom(summarizeResultState);
@@ -25,7 +25,7 @@ export const usePromiseList = () => {
         (promise: any) => {
           const promiseData = PromiseSchema.parse(promise);
           return promiseData;
-        }
+        },
       );
       if (promisesList.length === 0) {
         setPromises([]);
