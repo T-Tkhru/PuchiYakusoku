@@ -82,6 +82,7 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             sender: { userId: userId },
+            canceledAt: null,
             OR: [
               {
                 isAccepted: true,
@@ -124,6 +125,7 @@ builder.queryType({
         return prisma.promise.findMany({
           where: {
             receiver: { userId: userId },
+            canceledAt: null,
             OR: [
               {
                 isAccepted: true,
