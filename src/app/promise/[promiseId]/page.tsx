@@ -152,7 +152,7 @@ export default function PromiseDetail() {
           borderColor="white"
         />
         <VStack alignItems="flex-start" gap={2}>
-          <Text fontWeight={600} fontSize="2xl" color={status.textColor}>
+          <Text fontWeight={600} fontSize="1xl" color={status.textColor}>
             {headerMessage(promise.sender.displayName, status).map(
               (line, index) => (
                 <React.Fragment key={index}>
