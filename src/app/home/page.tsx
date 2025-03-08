@@ -14,7 +14,6 @@ import {
   Text,
   Tooltip,
   VStack,
-  useOutsideClick,
 } from "@yamada-ui/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
@@ -43,11 +42,6 @@ export default function Home() {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [filetedByCompleted, setFilteredByCompleted] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const friendContainerRef = useRef(null);
-  useOutsideClick({
-    friendContainerRef,
-    handler: () => setActiveIndex(null),
-  });
 
   return (
     <VStack gap={8}>
@@ -123,7 +117,7 @@ export default function Home() {
             fontWeight="bold"
             gap={0}
           >
-            <HStack overflow="scroll" w="full" ref={friendContainerRef}>
+            <HStack overflow="scroll" w="full">
               {summaryResult.friends.map((friend, index) => (
                 <Tooltip
                   key={`tooltip-${index}`}
