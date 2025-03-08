@@ -115,7 +115,7 @@ export default function Home() {
             fontWeight="bold"
             gap={0}
           >
-            <HStack>
+            <HStack overflow="scroll" w="full">
               {summaryResult.friends.map((friend, index) => (
                 <Avatar
                   key={`friend-${index}`}
