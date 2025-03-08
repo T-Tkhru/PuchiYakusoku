@@ -13,7 +13,7 @@ export default function HomeLayout({
   const { user } = useLiff();
   return (
     <React.Fragment>
-      <VStack px={8} py={4} minH="100vh" gap={8} alignItems="center">
+      <VStack px={8} pt={4} pb={12} minH="100vh" gap={8} alignItems="center">
         <HStack justifyContent="space-between" w="full">
           <Heading py={4}>ホーム</Heading>
           <Avatar src={user?.pictureUrl} />

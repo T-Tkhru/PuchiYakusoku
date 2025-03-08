@@ -129,7 +129,8 @@ export default function PromiseDetail() {
       }}
       bgColor={!status.bgImage ? status.baseColor || "white" : undefined}
       px={8}
-      py={4}
+      pt={4}
+      pb={12}
       minH="100vh"
       gap={8}
       alignItems="center"
