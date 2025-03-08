@@ -127,7 +127,6 @@ export default function Home() {
                 >
                   <Avatar
                     src={friend.pictureUrl}
-                    size={activeIndex === index ? "lg" : "md"}
                     border={activeIndex === index ? "2px solid" : "none"}
                     borderColor="secondary"
                     onMouseDown={() => setActiveIndex(index)}
