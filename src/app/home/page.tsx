@@ -127,16 +127,12 @@ export default function Home() {
                 >
                   <Avatar
                     src={friend.pictureUrl}
+                    size={activeIndex === index ? "lg" : "md"}
                     border={activeIndex === index ? "2px solid" : "none"}
-                    borderColor="secondary"
-                    onMouseDown={() => setActiveIndex(index)}
-                    onMouseUp={() => setActiveIndex(null)}
-                    onMouseLeave={() => setActiveIndex(null)}
-                    onTouchStart={() => setActiveIndex(index)}
-                    onTouchEnd={() => setActiveIndex(null)}
-                    cursor="pointer"
+                    onClick={() =>
+                      setActiveIndex(activeIndex === index ? null : index)
+                    }
                     draggable={false}
-                    onDragStart={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
                   />
                 </Tooltip>
