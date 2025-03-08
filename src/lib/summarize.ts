@@ -11,27 +11,18 @@ export const summarize = (
   ).length;
   const sent = promiseList.filter((p) => p.sender.id === userId).length;
 
-  const friendsId = new Set(
-    promiseList
-      .map((promise) => promise.receiver)
-      .filter(
-        (promise): promise is UserProfile =>
-          promise !== null && promise.id !== userId
-      )
-      .map((promise) => promise.id)
-  );
+  const friendsMap = new Map<string, UserProfile>();
 
-  const friends = promiseList
-    .map((promise) => promise.receiver)
-    .filter(
-      (promise): promise is UserProfile =>
-        promise !== null && promise.id !== userId && friendsId.has(promise.id)
-    )
-    .filter(
-      (promise, index, self) =>
-        self.findIndex((user) => user.id === promise.id) === index
-    ); 
+  promiseList.forEach((promise) => {
+    [promise.sender, promise.receiver].forEach((user) => {
+      if (user !== null && user.id !== userId) {
+        friendsMap.set(user.id, user);
+      }
+    });
+  });
 
+  const friends = Array.from(friendsMap.values());
+  
   const result: SummarizeResult = {
     total,
     completed,
