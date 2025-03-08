@@ -128,9 +128,11 @@ export default function Home() {
                   <Avatar
                     src={friend.pictureUrl}
                     size={activeIndex === index ? "xl" : "md"}
-                    onClick={() =>
-                      setActiveIndex(activeIndex === index ? null : index)
-                    }
+                    onMouseDown={() => setActiveIndex(index)}
+                    onMouseUp={() => setActiveIndex(null)}
+                    onMouseLeave={() => setActiveIndex(null)}
+                    onTouchStart={() => setActiveIndex(index)}
+                    onTouchEnd={() => setActiveIndex(null)}
                     cursor="pointer"
                   />
                 </Tooltip>
