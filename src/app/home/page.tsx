@@ -12,6 +12,7 @@ import {
   SegmentedControl,
   SegmentedControlButton,
   Text,
+  Tooltip,
   VStack,
 } from "@yamada-ui/react";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -40,6 +41,7 @@ export default function Home() {
   const summaryResult = useAtomValue(summarizeResultState);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [filetedByCompleted, setFilteredByCompleted] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
     <VStack gap={8}>
@@ -117,11 +119,21 @@ export default function Home() {
           >
             <HStack overflow="scroll" w="full">
               {summaryResult.friends.map((friend, index) => (
-                <Avatar
-                  key={`friend-${index}`}
-                  src={friend.pictureUrl as string}
-                  size="md"
-                />
+                <Tooltip
+                  key={`tooltip-${index}`}
+                  label={friend.displayName}
+                  isOpen={activeIndex === index}
+                  placement="top"
+                >
+                  <Avatar
+                    src={friend.pictureUrl}
+                    size={activeIndex === index ? "xl" : "md"}
+                    onClick={() =>
+                      setActiveIndex(activeIndex === index ? null : index)
+                    }
+                    cursor="pointer"
+                  />
+                </Tooltip>
               ))}
             </HStack>
             <Text color="gray">
