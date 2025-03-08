@@ -136,6 +136,9 @@ export default function Home() {
                     onTouchStart={() => setActiveIndex(index)}
                     onTouchEnd={() => setActiveIndex(null)}
                     cursor="pointer"
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </Tooltip>
               ))}
